@@ -1,119 +1,340 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Morning Brief — {{DATE}}</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --paper: #f7f4ed;
-    --ink: #1b1815;
-    --muted: #6b6258;
-    --accent: #8c2b22;
-    --rule: #d8d0c2;
-    --up: #1f6f4a;
-    --down: #a83232;
-  }
-  * { box-sizing: border-box; }
-  body {
-    margin: 0;
-    background: var(--paper);
-    color: var(--ink);
-    font-family: "Newsreader", Georgia, serif;
-    font-size: 19px;
-    line-height: 1.62;
-    -webkit-font-smoothing: antialiased;
-  }
-  .wrap { max-width: 720px; margin: 0 auto; padding: 56px 24px 96px; }
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Morning Brief — {{DATE}}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fraunces:opsz,wght@9..144,600;9..144,900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    /* ─── Design tokens ──────────────────────────────────────────────── */
+    :root {
+      --bg:        #0f1117;
+      --surface:   #181c24;
+      --border:    #252a36;
+      --muted:     #4a5168;
+      --subtle:    #8892a4;
+      --body:      #c8d0de;
+      --heading:   #eef0f4;
+      --accent:    #4f8ef7;
+      --accent-dim:#1e3358;
+      --up:        #34c77b;
+      --down:      #e05c5c;
+      --tag-bg:    #1a2233;
+      --tag-fg:    #4f8ef7;
+      --radius:    8px;
+      --radius-lg: 14px;
+    }
 
-  /* Masthead */
-  .masthead { border-bottom: 3px double var(--ink); padding-bottom: 18px; margin-bottom: 8px; }
-  .kicker {
-    font-family: "IBM Plex Mono", monospace;
-    font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase;
-    color: var(--accent); margin: 0 0 6px;
-  }
-  .title {
-    font-family: "Fraunces", serif; font-weight: 900;
-    font-size: clamp(40px, 8vw, 64px); line-height: 0.95;
-    margin: 0; letter-spacing: -0.01em;
-  }
-  .dateline {
-    font-family: "IBM Plex Mono", monospace; font-size: 13px;
-    color: var(--muted); margin-top: 12px;
-    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 6px;
-  }
+    /* ─── Reset & base ───────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; }
+    body {
+      background: var(--bg);
+      color: var(--body);
+      font-family: "Inter", system-ui, sans-serif;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
 
-  /* Macro strip */
-  .macro-grid {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 1px; background: var(--rule); border: 1px solid var(--rule);
-    margin: 28px 0 4px;
-  }
-  .macro-card { background: var(--paper); padding: 12px 14px; }
-  .macro-label {
-    font-family: "IBM Plex Mono", monospace; font-size: 10px;
-    letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted);
-  }
-  .macro-value {
-    font-family: "Fraunces", serif; font-weight: 600; font-size: 24px;
-    margin-top: 2px;
-  }
-  .macro-date { font-family: "IBM Plex Mono", monospace; font-size: 10px; color: var(--muted); }
-  .up { color: var(--up); font-size: 14px; }
-  .down { color: var(--down); font-size: 14px; }
+    /* ─── Layout ─────────────────────────────────────────────────────── */
+    .page { max-width: 860px; margin: 0 auto; padding: 40px 20px 80px; }
 
-  /* Brief body */
-  .brief { margin-top: 36px; }
-  .brief h2 {
-    font-family: "Fraunces", serif; font-weight: 600; font-size: 15px;
-    letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent);
-    border-bottom: 1px solid var(--rule); padding-bottom: 8px;
-    margin: 44px 0 18px;
-  }
-  .brief h2:first-child { margin-top: 0; }
-  .brief h3 {
-    font-family: "Fraunces", serif; font-weight: 600; font-size: 22px;
-    margin: 26px 0 6px;
-  }
-  .brief p { margin: 0 0 14px; }
-  .brief ul { margin: 0 0 18px; padding-left: 22px; }
-  .brief li { margin-bottom: 10px; }
-  .brief strong { font-weight: 600; }
-  .ticker {
-    font-family: "IBM Plex Mono", monospace; font-weight: 600; font-size: 0.82em;
-    background: rgba(140,43,34,0.08); color: var(--accent);
-    padding: 1px 6px; border-radius: 3px; letter-spacing: 0.02em;
-  }
+    /* ─── Masthead ───────────────────────────────────────────────────── */
+    .masthead {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      gap: 12px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 32px;
+    }
+    .masthead-left {}
+    .masthead-eyebrow {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 6px;
+    }
+    .masthead-title {
+      font-family: "Fraunces", serif;
+      font-weight: 900;
+      font-size: clamp(32px, 6vw, 52px);
+      line-height: 1;
+      color: var(--heading);
+      letter-spacing: -0.02em;
+    }
+    .masthead-right {
+      text-align: right;
+    }
+    .masthead-date {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--heading);
+    }
+    .masthead-generated {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 3px;
+    }
 
-  footer {
-    margin-top: 64px; padding-top: 18px; border-top: 1px solid var(--rule);
-    font-family: "IBM Plex Mono", monospace; font-size: 11px; color: var(--muted);
-    line-height: 1.6;
-  }
-</style>
+    /* ─── Section wrapper ────────────────────────────────────────────── */
+    .section { margin-bottom: 40px; }
+    .section-label {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section-label::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ─── Macro cards ────────────────────────────────────────────────── */
+    .macro-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 10px;
+    }
+    .macro-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px 16px;
+      transition: border-color 0.15s;
+    }
+    .macro-card:hover { border-color: var(--accent); }
+    .macro-card-label {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+    .macro-card-value {
+      font-family: "Fraunces", serif;
+      font-weight: 600;
+      font-size: 22px;
+      color: var(--heading);
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .macro-card-date {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 10px;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+    .up   { color: var(--up);   font-size: 12px; }
+    .down { color: var(--down); font-size: 12px; }
+
+    /* ─── Brief body (Claude output) ─────────────────────────────────── */
+    /*
+     * FUTURE — CLAUDE SUMMARY SECTION
+     * Claude writes HTML into {{BRIEF}} using these classes.
+     * When Claude is disabled, this section will be empty.
+     * To re-enable: set ANTHROPIC_API_KEY secret and uncomment in build_brief.py.
+     */
+    .brief h2 {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 36px 0 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .brief h2::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .brief h3 {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--heading);
+      margin: 22px 0 8px;
+    }
+    .brief p  { margin-bottom: 12px; font-size: 15px; }
+    .brief ul { padding-left: 18px; margin-bottom: 16px; }
+    .brief li { margin-bottom: 8px; font-size: 15px; }
+    .brief strong { color: var(--heading); font-weight: 600; }
+
+    /* ─── Ticker tag ─────────────────────────────────────────────────── */
+    .ticker {
+      display: inline-block;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 11px;
+      font-weight: 500;
+      background: var(--tag-bg);
+      color: var(--tag-fg);
+      border: 1px solid var(--accent-dim);
+      padding: 1px 7px;
+      border-radius: 4px;
+      letter-spacing: 0.04em;
+    }
+
+    /* ─── News feed cards ────────────────────────────────────────────── */
+    /*
+     * FUTURE — TICKER NEWS SECTION
+     * Each ticker gets a .ticker-block. Articles are .news-item cards.
+     * Connect additional data sources (earnings, options flow, etc.) here.
+     */
+    .ticker-block { margin-bottom: 28px; }
+    .ticker-block-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .ticker-block-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--heading);
+    }
+    .news-list { display: flex; flex-direction: column; gap: 8px; }
+    .news-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 12px 14px;
+      transition: border-color 0.15s;
+    }
+    .news-item:hover { border-color: var(--accent); }
+    .news-item-source {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 10px;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+    .news-item-headline {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--heading);
+      line-height: 1.45;
+    }
+    .news-item-headline a { color: inherit; }
+    .news-item-headline a:hover { color: var(--accent); text-decoration: none; }
+    .news-item-summary {
+      font-size: 13px;
+      color: var(--subtle);
+      margin-top: 5px;
+      line-height: 1.5;
+    }
+
+    /* ─── Footer ─────────────────────────────────────────────────────── */
+    /*
+     * FUTURE — NEWSLETTER / SUBSCRIPTION INPUT
+     * Add an email signup form here for daily delivery.
+     */
+    .footer {
+      margin-top: 60px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .footer-disclaimer {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    .footer-build {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 11px;
+      color: var(--muted);
+      text-align: right;
+    }
+
+    /* ─── Mobile ─────────────────────────────────────────────────────── */
+    @media (max-width: 600px) {
+      .page { padding: 24px 16px 60px; }
+      .masthead { flex-direction: column; align-items: flex-start; }
+      .masthead-right { text-align: left; }
+      .macro-grid { grid-template-columns: repeat(2, 1fr); }
+      .footer { flex-direction: column; }
+      .footer-build { text-align: left; }
+    }
+  </style>
 </head>
 <body>
-  <div class="wrap">
+  <div class="page">
+
+    <!-- ── Masthead ──────────────────────────────────────────────────── -->
     <header class="masthead">
-      <p class="kicker">Private Daily Brief</p>
-      <h1 class="title">Morning Brief</h1>
-      <div class="dateline"><span>{{DATE}}</span><span>Generated {{GENERATED}}</span></div>
+      <div class="masthead-left">
+        <div class="masthead-eyebrow">Private Daily Brief</div>
+        <h1 class="masthead-title">Morning Brief</h1>
+      </div>
+      <div class="masthead-right">
+        <div class="masthead-date">{{DATE}}</div>
+        <div class="masthead-generated">Generated {{GENERATED}}</div>
+      </div>
     </header>
 
-    {{MACRO}}
+    <!-- ── Economic indicators ───────────────────────────────────────── -->
+    <!--
+      FUTURE — ADDITIONAL MACRO DATA
+      Add more FRED series IDs to FRED_SERIES in build_brief.py.
+      Each entry auto-generates a new card here.
+    -->
+    <section class="section">
+      <div class="section-label">Economic Indicators</div>
+      {{MACRO}}
+    </section>
 
-    <main class="brief">
+    <!-- ── Claude AI summary ─────────────────────────────────────────── -->
+    <!--
+      FUTURE — CLAUDE SUMMARY
+      This section is populated by Claude when ANTHROPIC_API_KEY is set.
+      Claude writes structured HTML (h2/h3/ul/li) into {{BRIEF}}.
+      To disable: remove ANTHROPIC_API_KEY from GitHub secrets.
+    -->
+    <section class="section brief">
       {{BRIEF}}
-    </main>
+    </section>
 
-    <footer>
-      Auto-generated from public news feeds and FRED economic data.
-      For personal use only &mdash; not investment advice.
+    <!-- ── Footer ────────────────────────────────────────────────────── -->
+    <!--
+      FUTURE — NEWSLETTER INPUT
+      Replace the static disclaimer with a subscribe form here.
+    -->
+    <footer class="footer">
+      <div class="footer-disclaimer">
+        Auto-generated from public news feeds and FRED economic data.<br>
+        For personal use only &mdash; not investment advice.
+      </div>
+      <div class="footer-build">
+        morning-brief &middot; {{DATE}}
+      </div>
     </footer>
+
   </div>
 </body>
 </html>
