@@ -85,6 +85,32 @@
       color: var(--muted);
       margin-top: 3px;
     }
+    .market-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 11px;
+      margin-top: 6px;
+    }
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .stale-badge {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 9px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: rgba(240,180,41,0.15);
+      color: #f0b429;
+      border: 1px solid rgba(240,180,41,0.3);
+      padding: 1px 5px;
+      border-radius: 3px;
+      margin-left: 4px;
+    }
 
     /* ─── Section wrapper ────────────────────────────────────────────── */
     .section { margin-bottom: 40px; }
@@ -295,6 +321,7 @@
       <div class="masthead-right">
         <div class="masthead-date">{{DATE}}</div>
         <div class="masthead-generated">Generated {{GENERATED}}</div>
+        <div>{{MARKET_STATUS}}</div>
       </div>
     </header>
 

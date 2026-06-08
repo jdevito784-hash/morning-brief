@@ -1,7 +1,7 @@
 """
 Morning Brief — build_brief.py
 
-Fetches market news and economic data, optionally runs it through Claude,
+Fetches market news and economic data, runs it through Claude,
 and renders index.html from template.html.
 
 Runs automatically via GitHub Actions every weekday morning.
@@ -11,11 +11,11 @@ Only edit the CONFIG block below to customize your brief.
 import os
 import re
 import datetime
+import zoneinfo
 import requests
 import anthropic
 
 # ─── CONFIG ──────────────────────────────────────────────────────────────────
-# Edit this section to personalize your brief.
 
 # Watchlist — ticker symbols to pull news for.
 TICKERS = ["VOO", "RDW", "MSFT", "AVGO", "NOW"]
@@ -23,17 +23,17 @@ TICKERS = ["VOO", "RDW", "MSFT", "AVGO", "NOW"]
 # Economic indicators — FRED series ID -> display label.
 # Find more series at https://fred.stlouisfed.org (ID is in the page URL).
 FRED_SERIES = {
-    "UNRATE":   "Unemployment Rate (%)",
-    "FEDFUNDS": "Fed Funds Rate (%)",
-    "DGS10":    "10-Yr Treasury (%)",
-    "CPIAUCSL": "CPI Index",
-    "GDP":      "GDP ($B)",
+    "UNRATE":   "Unemployment Rate",
+    "FEDFUNDS": "Fed Funds Rate",
+    "DGS10":    "10-Yr Treasury",
+    "CPIAUCSL": "CPI (YoY %)",
+    "GDP":      "GDP",
 }
 
 # How many days back to look for news, and article limits per section.
-LOOKBACK_DAYS          = 2
+LOOKBACK_DAYS           = 2
 MAX_ARTICLES_PER_TICKER = 8
-MAX_GENERAL_ARTICLES   = 15
+MAX_GENERAL_ARTICLES    = 15
 
 # Claude model to use for the AI summary.
 # claude-haiku-4-5-20251001  → cheapest, fast (~$0.01/run)
@@ -41,13 +41,68 @@ MAX_GENERAL_ARTICLES   = 15
 CLAUDE_MODEL = "claude-haiku-4-5-20251001"
 
 # ─── KEYS ────────────────────────────────────────────────────────────────────
-# All secrets are read from environment variables set as GitHub repo Secrets.
-# Never paste keys directly into this file.
 
 FINNHUB_KEY = os.environ["FINNHUB_API_KEY"]
 FRED_KEY    = os.environ["FRED_API_KEY"]
-# Anthropic SDK reads ANTHROPIC_API_KEY automatically from the environment.
-claude = anthropic.Anthropic()
+claude_client = anthropic.Anthropic()
+
+# US Eastern timezone (handles EST/EDT automatically)
+ET = zoneinfo.ZoneInfo("America/New_York")
+
+
+# ─── MARKET STATUS ────────────────────────────────────────────────────────────
+
+# US market holidays 2026 (add years as needed)
+MARKET_HOLIDAYS = {
+    datetime.date(2026, 1, 1),   # New Year's Day
+    datetime.date(2026, 1, 19),  # MLK Day
+    datetime.date(2026, 2, 16),  # Presidents Day
+    datetime.date(2026, 4, 3),   # Good Friday
+    datetime.date(2026, 5, 25),  # Memorial Day
+    datetime.date(2026, 7, 3),   # Independence Day (observed)
+    datetime.date(2026, 9, 7),   # Labor Day
+    datetime.date(2026, 11, 26), # Thanksgiving
+    datetime.date(2026, 11, 27), # Black Friday (early close — treated as full close)
+    datetime.date(2026, 12, 25), # Christmas
+}
+
+def get_market_status():
+    """
+    Return a dict with market status info for the masthead.
+    Keys: status ('open'|'premarket'|'closed'|'holiday'|'weekend'),
+          label (display string), color ('green'|'yellow'|'red')
+    """
+    now_et   = datetime.datetime.now(ET)
+    today    = now_et.date()
+    weekday  = today.weekday()  # 0=Mon, 6=Sun
+    t        = now_et.time()
+    open_t   = datetime.time(9, 30)
+    close_t  = datetime.time(16, 0)
+    pre_t    = datetime.time(4, 0)
+
+    if today in MARKET_HOLIDAYS:
+        return {"status": "holiday", "label": "Market Holiday", "color": "red"}
+    if weekday >= 5:
+        # Find next Monday (or skip holiday)
+        days_ahead = 7 - weekday  # days until Monday
+        next_open  = today + datetime.timedelta(days=days_ahead)
+        while next_open in MARKET_HOLIDAYS or next_open.weekday() >= 5:
+            next_open += datetime.timedelta(days=1)
+        return {"status": "weekend", "label": f"Weekend — opens {next_open.strftime('%a %b %-d')}", "color": "red"}
+    if open_t <= t < close_t:
+        closes_at = now_et.replace(hour=16, minute=0, second=0, microsecond=0)
+        diff      = closes_at - now_et
+        h, rem    = divmod(int(diff.total_seconds()), 3600)
+        m         = rem // 60
+        return {"status": "open", "label": f"Market Open — closes in {h}h {m:02d}m ET", "color": "green"}
+    if pre_t <= t < open_t:
+        opens_at = now_et.replace(hour=9, minute=30, second=0, microsecond=0)
+        diff     = opens_at - now_et
+        h, rem   = divmod(int(diff.total_seconds()), 3600)
+        m        = rem // 60
+        return {"status": "premarket", "label": f"Pre-Market — opens in {h}h {m:02d}m ET", "color": "yellow"}
+    # After close
+    return {"status": "closed", "label": "Market Closed", "color": "red"}
 
 
 # ─── DATA FETCHING ────────────────────────────────────────────────────────────
@@ -78,7 +133,7 @@ def fetch_general_news():
     """Pull general market headlines from Finnhub."""
     # FUTURE — X ACCOUNT TRACKING
     # Add a second source here (e.g. curated X/Twitter accounts via a
-    # social API) and merge the results before passing to Claude.
+    # social API) and merge results before passing to Claude.
     try:
         r = requests.get(
             "https://finnhub.io/api/v1/news",
@@ -128,32 +183,67 @@ def fetch_all():
         result = fetch_fred(series_id)
         if result:
             latest, prior, date = result
-            macro_rows.append((label, latest, prior, date))
+            macro_rows.append((series_id, label, latest, prior, date))
 
     return company_news, general_news, macro_rows
 
 
+# ─── MACRO FORMATTING ─────────────────────────────────────────────────────────
+
+def format_macro_value(series_id, label, latest, prior):
+    """
+    Format a raw FRED value into a human-readable string with units.
+    CPI is converted to YoY % change vs prior reading.
+    GDP is shown in trillions.
+    """
+    if series_id == "GDP":
+        return f"${latest / 1000:.1f}T"
+    if series_id == "CPIAUCSL":
+        if prior and prior > 0:
+            yoy = ((latest - prior) / prior) * 100
+            return f"{yoy:.1f}%"
+        return f"{latest:.1f}"
+    if series_id in ("UNRATE", "FEDFUNDS", "DGS10"):
+        return f"{latest:.2f}%"
+    return f"{latest:,.3f}"
+
+
+def is_stale(date_str, threshold_days=45):
+    """Return True if the data date is older than threshold_days."""
+    try:
+        data_date = datetime.date.fromisoformat(date_str)
+        return (datetime.date.today() - data_date).days > threshold_days
+    except Exception:
+        return False
+
+
 # ─── HTML COMPONENTS ──────────────────────────────────────────────────────────
-# Each function returns an HTML string for one UI component.
-# Add new components here and reference them in render_page().
 
 def render_macro_grid(macro_rows):
-    """Render the row of economic indicator cards."""
+    """Render the economic indicator cards strip."""
     if not macro_rows:
         return ""
     cards = []
-    for label, latest, prior, date in macro_rows:
+    for series_id, label, latest, prior, date in macro_rows:
+        value_str = format_macro_value(series_id, label, latest, prior)
+
         trend = ""
         if prior is not None:
             if latest > prior:
                 trend = '<span class="up">&#9650;</span>'
             elif latest < prior:
                 trend = '<span class="down">&#9660;</span>'
+
+        stale_badge = (
+            '<span class="stale-badge">stale</span>'
+            if is_stale(date) else ""
+        )
+
         cards.append(
             f'<div class="macro-card">'
             f'  <div class="macro-card-label">{label}</div>'
-            f'  <div class="macro-card-value">{latest} {trend}</div>'
-            f'  <div class="macro-card-date">{date}</div>'
+            f'  <div class="macro-card-value">{value_str} {trend}</div>'
+            f'  <div class="macro-card-date">{date} {stale_badge}</div>'
             f'</div>'
         )
     return '<div class="macro-grid">' + "".join(cards) + "</div>"
@@ -213,25 +303,23 @@ def render_ticker_block(symbol, articles):
 
 def render_news_feed(company_news, general_news):
     """
-    Render the full news feed section (watchlist + general market news).
+    Render the full raw news feed section below the Claude summary.
 
     FUTURE — ADDITIONAL NEWS SOURCES
-    Add more blocks here (e.g. earnings calendar, options flow, X posts).
-    Each block is just a render_ticker_block() or a new component function.
+    Add more blocks here (earnings calendar, options flow, X posts).
+    Each block is just a render_ticker_block() call or a new component.
     """
     parts = []
 
-    # Watchlist news
     watchlist_blocks = [
         render_ticker_block(sym, articles)
         for sym, articles in company_news.items()
         if articles
     ]
     if watchlist_blocks:
-        parts.append('<div class="section-label">Watchlist News<span style="flex:1;height:1px;background:var(--border);margin-left:10px;display:inline-block;vertical-align:middle"></span></div>')
+        parts.append('<div class="section-label">Watchlist News</div>')
         parts.extend(watchlist_blocks)
 
-    # General market news
     if general_news:
         seen  = set()
         items = []
@@ -244,7 +332,7 @@ def render_news_feed(company_news, general_news):
             if card:
                 items.append(card)
         if items:
-            parts.append('<div class="section-label" style="margin-top:32px">General Market News<span style="flex:1;height:1px;background:var(--border);margin-left:10px;display:inline-block;vertical-align:middle"></span></div>')
+            parts.append('<div class="section-label" style="margin-top:32px">General Market News</div>')
             parts.append('<div class="news-list">' + "".join(items) + "</div>")
 
     return "\n".join(parts)
@@ -253,7 +341,7 @@ def render_news_feed(company_news, general_news):
 # ─── CLAUDE AI SUMMARY ────────────────────────────────────────────────────────
 
 def build_source_text(company_news, general_news, macro_rows):
-    """Flatten all fetched data into a plain-text block for Claude's prompt."""
+    """Flatten all fetched data into plain text for Claude's prompt."""
     chunks = ["=== COMPANY NEWS (watchlist) ==="]
     for sym, articles in company_news.items():
         if not articles:
@@ -272,7 +360,7 @@ def build_source_text(company_news, general_news, macro_rows):
         chunks.append(f"- [{source}] {headline}")
 
     chunks.append("\n=== ECONOMIC INDICATORS ===")
-    for label, latest, prior, date in macro_rows:
+    for series_id, label, latest, prior, date in macro_rows:
         delta = ""
         if prior is not None:
             diff  = latest - prior
@@ -288,18 +376,18 @@ def write_claude_brief(company_news, general_news, macro_rows):
     Ask Claude to write the analyst summary section.
 
     FUTURE — PROMPT TUNING
-    Edit the prompt below to change Claude's tone, focus areas, or output format.
-    You can also add extra context (e.g. user's portfolio size, risk tolerance).
+    Edit the prompt to change tone, focus, or output format.
+    Add extra context here (e.g. portfolio size, risk tolerance, sector focus).
     """
     source_text = build_source_text(company_news, general_news, macro_rows)
-    prompt = f"""You are a sharp markets analyst writing a private morning brief for an active equities and options trader.
+    prompt = f"""You are a sharp markets analyst writing a private morning brief for an active retail investor who trades equities and options.
 
 Write a tight, no-fluff brief from the raw data below. Rules:
-- Lead with "What matters most today" — 3 to 5 bullets, only genuinely market-moving items.
-- Then a short per-ticker section. ONLY include tickers with something material. Skip PR noise and duplicate headlines.
-- End with a "Macro read" — 2-3 sentences tying the economic data together.
-- Note sentiment (bullish/bearish) in plain terms where useful.
-- Be direct. No filler.
+- Lead with "What matters most today" — 3 to 5 bullets of genuinely market-moving items only.
+- Then a per-ticker section. ONLY include tickers with something material and actionable. If a ticker has no meaningful news, do NOT include it at all — not even a "nothing to report" line.
+- End with a "Macro read" — 2 to 3 sentences tying the economic indicators together.
+- Note sentiment (bullish/bearish) in plain terms where it adds value.
+- Be direct. No filler. No promotional content. No duplicate stories.
 
 Output ONLY clean HTML using: <h2>, <h3>, <p>, <ul>, <li>, <strong>.
 Wrap ticker symbols in <span class="ticker">SYMBOL</span>.
@@ -308,7 +396,7 @@ Do not include <html>, <head>, <body>, or markdown code fences.
 RAW DATA:
 {source_text}
 """
-    resp = claude.messages.create(
+    resp = claude_client.messages.create(
         model=CLAUDE_MODEL,
         max_tokens=2500,
         messages=[{"role": "user", "content": prompt}],
@@ -320,33 +408,42 @@ RAW DATA:
 
 # ─── PAGE RENDERER ────────────────────────────────────────────────────────────
 
-def render_page(macro_rows, brief_html, news_html):
+def render_page(macro_rows, brief_html, news_html, market_status):
     """
     Slot all components into template.html and return the final page string.
 
     template.html placeholders:
-      {{DATE}}      — formatted date string
-      {{GENERATED}} — UTC generation time
-      {{MACRO}}     — macro indicator cards
-      {{BRIEF}}     — Claude AI summary (or empty string)
+      {{DATE}}           — formatted date (ET)
+      {{GENERATED}}      — generation time (ET)
+      {{MARKET_STATUS}}  — status badge HTML
+      {{MACRO}}          — macro indicator cards
+      {{BRIEF}}          — Claude summary + raw news feed
     """
-    now      = datetime.datetime.now(datetime.timezone.utc)
-    date_str = now.strftime("%A, %B %-d, %Y")
-    gen_str  = now.strftime("%H:%M UTC")
+    now_et   = datetime.datetime.now(ET)
+    date_str = now_et.strftime("%A, %B %-d, %Y")
+    gen_str  = now_et.strftime("%-I:%M %p ET")
+
+    color_map = {"green": "#34c77b", "yellow": "#f0b429", "red": "#e05c5c"}
+    color     = color_map.get(market_status["color"], "#8892a4")
+    status_html = (
+        f'<span class="market-status" style="color:{color}">'
+        f'<span class="status-dot" style="background:{color}"></span>'
+        f'{market_status["label"]}'
+        f'</span>'
+    )
 
     with open("template.html", "r", encoding="utf-8") as f:
         template = f.read()
 
-    # Combine Claude summary + raw news feed into the {{BRIEF}} slot.
-    # When Claude is disabled, brief_html is empty and only news_html shows.
     combined_brief = "\n".join(filter(None, [brief_html, news_html]))
 
     return (
         template
-        .replace("{{DATE}}",      date_str)
-        .replace("{{GENERATED}}", gen_str)
-        .replace("{{MACRO}}",     render_macro_grid(macro_rows))
-        .replace("{{BRIEF}}",     combined_brief)
+        .replace("{{DATE}}",          date_str)
+        .replace("{{GENERATED}}",     gen_str)
+        .replace("{{MARKET_STATUS}}", status_html)
+        .replace("{{MACRO}}",         render_macro_grid(macro_rows))
+        .replace("{{BRIEF}}",         combined_brief)
     )
 
 
@@ -357,8 +454,8 @@ def main():
     company_news, general_news, macro_rows = fetch_all()
 
     # FUTURE — X ACCOUNT TRACKING
-    # Fetch curated X posts here and pass them into write_claude_brief() as
-    # an additional data source alongside company_news and general_news.
+    # Fetch curated X posts here and merge into company_news / general_news
+    # before passing to write_claude_brief().
 
     print("Asking Claude to write the brief...")
     brief_html = write_claude_brief(company_news, general_news, macro_rows)
@@ -367,7 +464,8 @@ def main():
     news_html = render_news_feed(company_news, general_news)
 
     print("Rendering page...")
-    page = render_page(macro_rows, brief_html, news_html)
+    market_status = get_market_status()
+    page = render_page(macro_rows, brief_html, news_html, market_status)
 
     with open("index.html", "w", encoding="utf-8") as f:
         f.write(page)
