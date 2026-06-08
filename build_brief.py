@@ -16,7 +16,7 @@ import requests
 # ----------------------------------------------------------------------
 
 # The stocks you want covered. Use ticker symbols.
-TICKERS = ["NVDA", "AMD", "MSFT", "AVGO", "EXE"]
+TICKERS = ["VOO", "RDW", "MSFT", "AVGO", "NOW"]
 
 # Economic indicators (FRED series IDs -> friendly label).
 # Find more at https://fred.stlouisfed.org  (the ID is in the page URL)
