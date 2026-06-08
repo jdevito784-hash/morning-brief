@@ -408,29 +408,19 @@ RAW DATA:
 
 # ─── PAGE RENDERER ────────────────────────────────────────────────────────────
 
-def render_page(macro_rows, brief_html, news_html, market_status):
+def render_page(macro_rows, brief_html, news_html):
     """
     Slot all components into template.html and return the final page string.
 
     template.html placeholders:
-      {{DATE}}           — formatted date (ET)
-      {{GENERATED}}      — generation time (ET)
-      {{MARKET_STATUS}}  — status badge HTML
-      {{MACRO}}          — macro indicator cards
-      {{BRIEF}}          — Claude summary + raw news feed
+      {{DATE}}      — formatted date (ET)
+      {{GENERATED}} — generation time (ET)
+      {{MACRO}}     — macro indicator cards
+      {{BRIEF}}     — Claude summary + raw news feed
     """
     now_et   = datetime.datetime.now(ET)
     date_str = now_et.strftime("%A, %B %-d, %Y")
     gen_str  = now_et.strftime("%-I:%M %p ET")
-
-    color_map = {"green": "#34c77b", "yellow": "#f0b429", "red": "#e05c5c"}
-    color     = color_map.get(market_status["color"], "#8892a4")
-    status_html = (
-        f'<span class="market-status" style="color:{color}">'
-        f'<span class="status-dot" style="background:{color}"></span>'
-        f'{market_status["label"]}'
-        f'</span>'
-    )
 
     with open("template.html", "r", encoding="utf-8") as f:
         template = f.read()
@@ -439,11 +429,10 @@ def render_page(macro_rows, brief_html, news_html, market_status):
 
     return (
         template
-        .replace("{{DATE}}",          date_str)
-        .replace("{{GENERATED}}",     gen_str)
-        .replace("{{MARKET_STATUS}}", status_html)
-        .replace("{{MACRO}}",         render_macro_grid(macro_rows))
-        .replace("{{BRIEF}}",         combined_brief)
+        .replace("{{DATE}}",      date_str)
+        .replace("{{GENERATED}}", gen_str)
+        .replace("{{MACRO}}",     render_macro_grid(macro_rows))
+        .replace("{{BRIEF}}",     combined_brief)
     )
 
 
@@ -464,8 +453,7 @@ def main():
     news_html = render_news_feed(company_news, general_news)
 
     print("Rendering page...")
-    market_status = get_market_status()
-    page = render_page(macro_rows, brief_html, news_html, market_status)
+    page = render_page(macro_rows, brief_html, news_html)
 
     with open("index.html", "w", encoding="utf-8") as f:
         f.write(page)

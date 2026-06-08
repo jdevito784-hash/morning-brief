@@ -321,7 +321,7 @@
       <div class="masthead-right">
         <div class="masthead-date">{{DATE}}</div>
         <div class="masthead-generated">Generated {{GENERATED}}</div>
-        <div>{{MARKET_STATUS}}</div>
+        <div id="market-status-live" class="market-status"></div>
       </div>
     </header>
 
@@ -363,5 +363,60 @@
     </footer>
 
   </div>
+
+  <script>
+    // US market holidays 2026 — update each year
+    const HOLIDAYS = new Set([
+      "2026-01-01","2026-01-19","2026-02-16","2026-04-03",
+      "2026-05-25","2026-07-03","2026-09-07","2026-11-26",
+      "2026-11-27","2026-12-25"
+    ]);
+
+    function pad(n) { return String(n).padStart(2, "0"); }
+
+    function getMarketStatus() {
+      const now = new Date();
+      // Convert to US/Eastern
+      const et = new Date(now.toLocaleString("en-US", { timeZone: "America/New_York" }));
+      const h = et.getHours(), m = et.getMinutes(), s = et.getSeconds();
+      const dow = et.getDay(); // 0=Sun, 6=Sat
+      const dateStr = et.toISOString().slice(0, 10);
+
+      const totalSec = h * 3600 + m * 60 + s;
+      const openSec  = 9 * 3600 + 30 * 60;
+      const closeSec = 16 * 3600;
+      const preSec   = 4 * 3600;
+
+      function countdown(targetSec) {
+        const diff = targetSec - totalSec;
+        const hh = Math.floor(diff / 3600);
+        const mm = Math.floor((diff % 3600) / 60);
+        const ss = diff % 60;
+        return `${hh}h ${pad(mm)}m ${pad(ss)}s`;
+      }
+
+      if (HOLIDAYS.has(dateStr))
+        return { label: "Market Holiday", color: "var(--down)" };
+      if (dow === 0 || dow === 6)
+        return { label: "Weekend — market closed", color: "var(--down)" };
+      if (totalSec >= openSec && totalSec < closeSec)
+        return { label: `Market Open — closes in ${countdown(closeSec)}`, color: "var(--up)" };
+      if (totalSec >= preSec && totalSec < openSec)
+        return { label: `Pre-Market — opens in ${countdown(openSec)}`, color: "#f0b429" };
+      return { label: "Market Closed", color: "var(--down)" };
+    }
+
+    function tick() {
+      const el = document.getElementById("market-status-live");
+      if (!el) return;
+      const { label, color } = getMarketStatus();
+      el.innerHTML =
+        `<span class="status-dot" style="background:${color}"></span>${label}`;
+      el.style.color = color;
+    }
+
+    tick();
+    setInterval(tick, 1000);
+  </script>
 </body>
 </html>
