@@ -1,17 +1,15 @@
 """
 Morning Brief builder.
 
-Pulls news for your watchlist + key economic indicators, asks Claude to
-distill it into a concise brief, and writes index.html (your web page).
+Pulls news for your watchlist + key economic indicators and writes
+index.html (your web page).
 
 Runs automatically via GitHub Actions. You only edit the CONFIG block below.
 """
 
 import os
-import re
 import datetime
 import requests
-from anthropic import Anthropic
 
 # ----------------------------------------------------------------------
 # CONFIG  --  this is the only part you need to edit
@@ -30,12 +28,6 @@ FRED_SERIES = {
     "GDP":      "GDP ($B)",
 }
 
-# Which Claude model writes the brief.
-#   claude-sonnet-4-6          -> good balance (default)
-#   claude-haiku-4-5-20251001  -> cheapest
-#   claude-opus-4-8            -> best synthesis, pricier
-MODEL = "claude-sonnet-4-6"
-
 # How far back to look for company news, and how many articles per ticker.
 LOOKBACK_DAYS = 2
 MAX_ARTICLES_PER_TICKER = 8
@@ -47,9 +39,6 @@ MAX_GENERAL_ARTICLES = 15
 # ----------------------------------------------------------------------
 FINNHUB_KEY = os.environ["FINNHUB_API_KEY"]
 FRED_KEY = os.environ["FRED_API_KEY"]
-# The Anthropic SDK reads ANTHROPIC_API_KEY automatically.
-
-client = Anthropic()
 
 
 # ----------------------------------------------------------------------
@@ -117,74 +106,66 @@ def fetch_fred(series_id):
 
 
 # ----------------------------------------------------------------------
-# Assemble the raw material for Claude
+# Fetch all data
 # ----------------------------------------------------------------------
-def build_source_text():
-    chunks = []
-
-    chunks.append("=== COMPANY NEWS (watchlist) ===")
-    for sym in TICKERS:
-        articles = fetch_company_news(sym)
-        if not articles:
-            continue
-        chunks.append(f"\n## {sym}")
-        for a in articles:
-            headline = a.get("headline", "").strip()
-            summary = a.get("summary", "").strip()
-            source = a.get("source", "")
-            chunks.append(f"- [{source}] {headline}\n  {summary}")
-
-    chunks.append("\n=== GENERAL MARKET NEWS ===")
-    for a in fetch_general_news():
-        headline = a.get("headline", "").strip()
-        source = a.get("source", "")
-        chunks.append(f"- [{source}] {headline}")
-
-    chunks.append("\n=== ECONOMIC INDICATORS (latest) ===")
+def fetch_all():
+    company_news = {sym: fetch_company_news(sym) for sym in TICKERS}
+    general_news = fetch_general_news()
     macro_rows = []
     for series_id, label in FRED_SERIES.items():
         result = fetch_fred(series_id)
         if not result:
             continue
         latest, prior, date = result
-        delta = ""
-        if prior is not None:
-            diff = latest - prior
-            arrow = "up" if diff > 0 else ("down" if diff < 0 else "flat")
-            delta = f" ({arrow} {abs(diff):.2f} from prior)"
-        chunks.append(f"- {label}: {latest}{delta}  [{date}]")
         macro_rows.append((label, latest, prior, date))
-
-    return "\n".join(chunks), macro_rows
+    return company_news, general_news, macro_rows
 
 
 # ----------------------------------------------------------------------
-# Ask Claude to write the brief
+# Format raw data into HTML without an AI API
 # ----------------------------------------------------------------------
-def write_brief(source_text):
-    prompt = f"""You are a sharp markets analyst writing a private morning brief for an active equities and options trader. Below is today's raw news for their watchlist, general market news, and the latest economic indicators.
+def write_brief(company_news, general_news, macro_rows):
+    parts = []
 
-Write a tight, no-fluff brief. Rules:
-- Lead with a section "What matters most today" — 3 to 5 bullets, only genuinely market-moving items.
-- Then a short per-ticker section, but ONLY include tickers that have something material. Skip tickers with nothing but PR noise or repeated headlines.
-- End with a brief "Macro read" — 2-3 sentences tying the economic data together.
-- Strip promotional content, clickbait, and duplicate stories. Be direct.
-- Where useful, note sentiment (bullish/bearish) in plain terms.
+    # Per-ticker sections
+    tickers_with_news = [(sym, articles) for sym, articles in company_news.items() if articles]
+    if tickers_with_news:
+        parts.append("<h2>Watchlist News</h2>")
+        for sym, articles in tickers_with_news:
+            parts.append(f'<h3><span class="ticker">{sym}</span></h3><ul>')
+            seen = set()
+            for a in articles:
+                headline = a.get("headline", "").strip()
+                if not headline or headline in seen:
+                    continue
+                seen.add(headline)
+                source = a.get("source", "")
+                summary = a.get("summary", "").strip()
+                url = a.get("url", "")
+                line = f'<strong>[{source}]</strong> '
+                line += f'<a href="{url}" target="_blank">{headline}</a>' if url else headline
+                if summary and summary != headline:
+                    line += f"<br><small>{summary[:200]}{'…' if len(summary) > 200 else ''}</small>"
+                parts.append(f"<li>{line}</li>")
+            parts.append("</ul>")
 
-Output ONLY clean HTML using these tags: <h2>, <h3>, <p>, <ul>, <li>, <strong>. Wrap ticker symbols in <span class="ticker">SYMBOL</span>. Do not include <html>, <head>, <body>, or markdown code fences.
+    # General market news
+    if general_news:
+        parts.append("<h2>General Market News</h2><ul>")
+        seen = set()
+        for a in general_news:
+            headline = a.get("headline", "").strip()
+            if not headline or headline in seen:
+                continue
+            seen.add(headline)
+            source = a.get("source", "")
+            url = a.get("url", "")
+            line = f'<strong>[{source}]</strong> '
+            line += f'<a href="{url}" target="_blank">{headline}</a>' if url else headline
+            parts.append(f"<li>{line}</li>")
+        parts.append("</ul>")
 
-RAW MATERIAL:
-{source_text}
-"""
-    resp = client.messages.create(
-        model=MODEL,
-        max_tokens=2500,
-        messages=[{"role": "user", "content": prompt}],
-    )
-    html = "".join(b.text for b in resp.content if b.type == "text").strip()
-    # strip accidental code fences
-    html = re.sub(r"^```(?:html)?\s*|\s*```$", "", html).strip()
-    return html
+    return "\n".join(parts)
 
 
 # ----------------------------------------------------------------------
@@ -229,9 +210,9 @@ def render_page(brief_html, macro_rows):
 
 def main():
     print("Gathering sources...")
-    source_text, macro_rows = build_source_text()
-    print("Asking Claude to write the brief...")
-    brief_html = write_brief(source_text)
+    company_news, general_news, macro_rows = fetch_all()
+    print("Building brief...")
+    brief_html = write_brief(company_news, general_news, macro_rows)
     print("Rendering page...")
     page = render_page(brief_html, macro_rows)
     with open("index.html", "w", encoding="utf-8") as f:
