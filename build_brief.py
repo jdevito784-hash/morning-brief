@@ -5,7 +5,7 @@ Fetches market news and economic data, runs it through Claude,
 and renders index.html from template.html.
 
 Runs automatically via GitHub Actions every weekday morning.
-Only edit the CONFIG block below to customize your brief.
+Only edit the CONFIG block to customize your brief.
 """
 
 import os
@@ -20,8 +20,17 @@ import anthropic
 # Watchlist — ticker symbols to pull news for.
 TICKERS = ["VOO", "RDW", "MSFT", "AVGO", "NOW"]
 
+# Company/fund names matched to tickers — shown in ticker cards.
+TICKER_NAMES = {
+    "VOO":  "Vanguard S&P 500 ETF",
+    "RDW":  "Redwire Corp",
+    "MSFT": "Microsoft Corp",
+    "AVGO": "Broadcom Inc",
+    "NOW":  "ServiceNow Inc",
+}
+
 # Economic indicators — FRED series ID -> display label.
-# Find more series at https://fred.stlouisfed.org (ID is in the page URL).
+# Find more at https://fred.stlouisfed.org (ID is in the page URL).
 FRED_SERIES = {
     "UNRATE":   "Unemployment Rate",
     "FEDFUNDS": "Fed Funds Rate",
@@ -36,90 +45,29 @@ MAX_ARTICLES_PER_TICKER = 8
 MAX_GENERAL_ARTICLES    = 15
 
 # Claude model to use for the AI summary.
-# claude-haiku-4-5-20251001  → cheapest, fast (~$0.01/run)
-# claude-sonnet-4-6          → better synthesis, ~10x cost
+# claude-haiku-4-5-20251001 → cheapest, fast (~$0.01/run)
+# claude-sonnet-4-6         → better synthesis, ~10x cost
 CLAUDE_MODEL = "claude-haiku-4-5-20251001"
 
 # ─── KEYS ────────────────────────────────────────────────────────────────────
 
-FINNHUB_KEY = os.environ["FINNHUB_API_KEY"]
-FRED_KEY    = os.environ["FRED_API_KEY"]
+FINNHUB_KEY   = os.environ["FINNHUB_API_KEY"]
+FRED_KEY      = os.environ["FRED_API_KEY"]
 claude_client = anthropic.Anthropic()
 
-# US Eastern timezone (handles EST/EDT automatically)
 ET = zoneinfo.ZoneInfo("America/New_York")
-
-
-# ─── MARKET STATUS ────────────────────────────────────────────────────────────
-
-# US market holidays 2026 (add years as needed)
-MARKET_HOLIDAYS = {
-    datetime.date(2026, 1, 1),   # New Year's Day
-    datetime.date(2026, 1, 19),  # MLK Day
-    datetime.date(2026, 2, 16),  # Presidents Day
-    datetime.date(2026, 4, 3),   # Good Friday
-    datetime.date(2026, 5, 25),  # Memorial Day
-    datetime.date(2026, 7, 3),   # Independence Day (observed)
-    datetime.date(2026, 9, 7),   # Labor Day
-    datetime.date(2026, 11, 26), # Thanksgiving
-    datetime.date(2026, 11, 27), # Black Friday (early close — treated as full close)
-    datetime.date(2026, 12, 25), # Christmas
-}
-
-def get_market_status():
-    """
-    Return a dict with market status info for the masthead.
-    Keys: status ('open'|'premarket'|'closed'|'holiday'|'weekend'),
-          label (display string), color ('green'|'yellow'|'red')
-    """
-    now_et   = datetime.datetime.now(ET)
-    today    = now_et.date()
-    weekday  = today.weekday()  # 0=Mon, 6=Sun
-    t        = now_et.time()
-    open_t   = datetime.time(9, 30)
-    close_t  = datetime.time(16, 0)
-    pre_t    = datetime.time(4, 0)
-
-    if today in MARKET_HOLIDAYS:
-        return {"status": "holiday", "label": "Market Holiday", "color": "red"}
-    if weekday >= 5:
-        # Find next Monday (or skip holiday)
-        days_ahead = 7 - weekday  # days until Monday
-        next_open  = today + datetime.timedelta(days=days_ahead)
-        while next_open in MARKET_HOLIDAYS or next_open.weekday() >= 5:
-            next_open += datetime.timedelta(days=1)
-        return {"status": "weekend", "label": f"Weekend — opens {next_open.strftime('%a %b %-d')}", "color": "red"}
-    if open_t <= t < close_t:
-        closes_at = now_et.replace(hour=16, minute=0, second=0, microsecond=0)
-        diff      = closes_at - now_et
-        h, rem    = divmod(int(diff.total_seconds()), 3600)
-        m         = rem // 60
-        return {"status": "open", "label": f"Market Open — closes in {h}h {m:02d}m ET", "color": "green"}
-    if pre_t <= t < open_t:
-        opens_at = now_et.replace(hour=9, minute=30, second=0, microsecond=0)
-        diff     = opens_at - now_et
-        h, rem   = divmod(int(diff.total_seconds()), 3600)
-        m        = rem // 60
-        return {"status": "premarket", "label": f"Pre-Market — opens in {h}h {m:02d}m ET", "color": "yellow"}
-    # After close
-    return {"status": "closed", "label": "Market Closed", "color": "red"}
 
 
 # ─── DATA FETCHING ────────────────────────────────────────────────────────────
 
 def fetch_company_news(symbol):
-    """Pull recent news headlines for a single ticker from Finnhub."""
     today = datetime.date.today()
     start = today - datetime.timedelta(days=LOOKBACK_DAYS)
     try:
         r = requests.get(
             "https://finnhub.io/api/v1/company-news",
-            params={
-                "symbol": symbol,
-                "from":   start.isoformat(),
-                "to":     today.isoformat(),
-                "token":  FINNHUB_KEY,
-            },
+            params={"symbol": symbol, "from": start.isoformat(),
+                    "to": today.isoformat(), "token": FINNHUB_KEY},
             timeout=30,
         )
         r.raise_for_status()
@@ -130,10 +78,8 @@ def fetch_company_news(symbol):
 
 
 def fetch_general_news():
-    """Pull general market headlines from Finnhub."""
     # FUTURE — X ACCOUNT TRACKING
-    # Add a second source here (e.g. curated X/Twitter accounts via a
-    # social API) and merge results before passing to Claude.
+    # Merge curated X/Twitter posts here before passing to Claude.
     try:
         r = requests.get(
             "https://finnhub.io/api/v1/news",
@@ -148,17 +94,11 @@ def fetch_general_news():
 
 
 def fetch_fred(series_id):
-    """Return (latest_value, prior_value, date) for a FRED series, or None."""
     try:
         r = requests.get(
             "https://api.stlouisfed.org/fred/series/observations",
-            params={
-                "series_id":  series_id,
-                "api_key":    FRED_KEY,
-                "file_type":  "json",
-                "sort_order": "desc",
-                "limit":      2,
-            },
+            params={"series_id": series_id, "api_key": FRED_KEY,
+                    "file_type": "json", "sort_order": "desc", "limit": 2},
             timeout=30,
         )
         r.raise_for_status()
@@ -174,34 +114,25 @@ def fetch_fred(series_id):
 
 
 def fetch_all():
-    """Fetch all data sources and return structured results."""
     company_news = {sym: fetch_company_news(sym) for sym in TICKERS}
     general_news = fetch_general_news()
-
-    macro_rows = []
+    macro_rows   = []
     for series_id, label in FRED_SERIES.items():
         result = fetch_fred(series_id)
         if result:
             latest, prior, date = result
             macro_rows.append((series_id, label, latest, prior, date))
-
     return company_news, general_news, macro_rows
 
 
 # ─── MACRO FORMATTING ─────────────────────────────────────────────────────────
 
-def format_macro_value(series_id, label, latest, prior):
-    """
-    Format a raw FRED value into a human-readable string with units.
-    CPI is converted to YoY % change vs prior reading.
-    GDP is shown in trillions.
-    """
+def format_macro_value(series_id, latest, prior):
     if series_id == "GDP":
         return f"${latest / 1000:.1f}T"
     if series_id == "CPIAUCSL":
         if prior and prior > 0:
-            yoy = ((latest - prior) / prior) * 100
-            return f"{yoy:.1f}%"
+            return f"{((latest - prior) / prior * 100):.1f}%"
         return f"{latest:.1f}"
     if series_id in ("UNRATE", "FEDFUNDS", "DGS10"):
         return f"{latest:.2f}%"
@@ -209,10 +140,8 @@ def format_macro_value(series_id, label, latest, prior):
 
 
 def is_stale(date_str, threshold_days=45):
-    """Return True if the data date is older than threshold_days."""
     try:
-        data_date = datetime.date.fromisoformat(date_str)
-        return (datetime.date.today() - data_date).days > threshold_days
+        return (datetime.date.today() - datetime.date.fromisoformat(date_str)).days > threshold_days
     except Exception:
         return False
 
@@ -220,125 +149,118 @@ def is_stale(date_str, threshold_days=45):
 # ─── HTML COMPONENTS ──────────────────────────────────────────────────────────
 
 def render_macro_grid(macro_rows):
-    """Render the economic indicator cards strip."""
+    """Economic indicator cards strip — Python-generated, no Claude needed."""
     if not macro_rows:
         return ""
     cards = []
     for series_id, label, latest, prior, date in macro_rows:
-        value_str = format_macro_value(series_id, label, latest, prior)
-
+        value_str = format_macro_value(series_id, latest, prior)
         trend = ""
         if prior is not None:
-            if latest > prior:
-                trend = '<span class="up">&#9650;</span>'
-            elif latest < prior:
-                trend = '<span class="down">&#9660;</span>'
-
-        stale_badge = (
-            '<span class="stale-badge">stale</span>'
-            if is_stale(date) else ""
-        )
-
+            trend = ('<span class="up">&#9650;</span>' if latest > prior
+                     else '<span class="down">&#9660;</span>' if latest < prior else "")
+        stale = '<span class="stale-badge">stale</span>' if is_stale(date) else ""
         cards.append(
             f'<div class="macro-card">'
-            f'  <div class="macro-card-label">{label}</div>'
-            f'  <div class="macro-card-value">{value_str} {trend}</div>'
-            f'  <div class="macro-card-date">{date} {stale_badge}</div>'
+            f'<div class="macro-card-label">{label}</div>'
+            f'<div class="macro-card-value">{value_str} {trend}</div>'
+            f'<div class="macro-card-date">{date}{stale}</div>'
             f'</div>'
         )
     return '<div class="macro-grid">' + "".join(cards) + "</div>"
 
 
 def render_news_item(article):
-    """Render a single news article as a card."""
+    """Single news article card."""
     headline = article.get("headline", "").strip()
     if not headline:
         return ""
     source  = article.get("source", "")
     summary = article.get("summary", "").strip()
     url     = article.get("url", "")
-
-    headline_html = (
-        f'<a href="{url}" target="_blank" rel="noopener">{headline}</a>'
-        if url else headline
-    )
-    summary_html = (
-        f'<div class="news-item-summary">'
-        f'{summary[:220]}{"…" if len(summary) > 220 else ""}'
-        f'</div>'
-        if summary and summary != headline else ""
-    )
-    return (
-        f'<div class="news-item">'
-        f'  <div class="news-item-source">{source}</div>'
-        f'  <div class="news-item-headline">{headline_html}</div>'
-        f'  {summary_html}'
-        f'</div>'
-    )
+    hl_html = (f'<a href="{url}" target="_blank" rel="noopener">{headline}</a>'
+               if url else headline)
+    sm_html = (f'<div class="news-item-summary">{summary[:220]}{"…" if len(summary) > 220 else ""}</div>'
+               if summary and summary != headline else "")
+    return (f'<div class="news-item">'
+            f'<div class="news-item-source">{source}</div>'
+            f'<div class="news-item-headline">{hl_html}</div>'
+            f'{sm_html}</div>')
 
 
 def render_ticker_block(symbol, articles):
-    """Render one ticker's news as a labeled card group."""
+    """One ticker's raw news as a labeled card group."""
     seen  = set()
     items = []
     for a in articles:
-        headline = a.get("headline", "").strip()
-        if not headline or headline in seen:
+        hl = a.get("headline", "").strip()
+        if not hl or hl in seen:
             continue
-        seen.add(headline)
+        seen.add(hl)
         card = render_news_item(a)
         if card:
             items.append(card)
     if not items:
         return ""
-    return (
-        f'<div class="ticker-block">'
-        f'  <div class="ticker-block-header">'
-        f'    <span class="ticker">{symbol}</span>'
-        f'  </div>'
-        f'  <div class="news-list">{"".join(items)}</div>'
-        f'</div>'
-    )
+    return (f'<div class="ticker-block">'
+            f'<div class="ticker-block-header"><span class="ticker">{symbol}</span></div>'
+            f'<div class="news-list">{"".join(items)}</div>'
+            f'</div>')
 
 
 def render_news_feed(company_news, general_news):
     """
-    Render the full raw news feed section below the Claude summary.
+    Full raw news feed — watchlist articles + general market headlines.
+    Rendered separately from the Claude brief so the two don't mix.
 
-    FUTURE — ADDITIONAL NEWS SOURCES
-    Add more blocks here (earnings calendar, options flow, X posts).
-    Each block is just a render_ticker_block() call or a new component.
+    FUTURE — ADDITIONAL SOURCES
+    Add earnings calendar, options flow, or X post blocks here.
     """
     parts = []
 
-    watchlist_blocks = [
-        render_ticker_block(sym, articles)
-        for sym, articles in company_news.items()
-        if articles
-    ]
-    if watchlist_blocks:
+    watchlist = [render_ticker_block(sym, arts)
+                 for sym, arts in company_news.items() if arts]
+    if any(watchlist):
         parts.append('<div class="section-label">Watchlist News</div>')
-        parts.extend(watchlist_blocks)
+        parts.extend(w for w in watchlist if w)
 
     if general_news:
         seen  = set()
         items = []
         for a in general_news:
-            headline = a.get("headline", "").strip()
-            if not headline or headline in seen:
+            hl = a.get("headline", "").strip()
+            if not hl or hl in seen:
                 continue
-            seen.add(headline)
+            seen.add(hl)
             card = render_news_item(a)
             if card:
                 items.append(card)
         if items:
-            parts.append('<div class="section-label" style="margin-top:32px">General Market News</div>')
+            parts.append('<div class="section-label" style="margin-top:24px">General Market News</div>')
             parts.append('<div class="news-list">' + "".join(items) + "</div>")
 
     return "\n".join(parts)
 
 
-# ─── CLAUDE AI SUMMARY ────────────────────────────────────────────────────────
+# ─── SOURCE PLACEHOLDER HELPER ────────────────────────────────────────────────
+
+def source_placeholder(name="", url="", date="", fresh=""):
+    """
+    Render a source attribution block.
+    All fields are optional — fill them in when real data is connected.
+
+    FUTURE — SOURCE CONNECTIONS
+    When a live news API provides article metadata, pass the values here:
+      source_placeholder(name="WSJ", url="https://...", date="2026-06-08", fresh="today")
+    """
+    value = name if name else "— pending"
+    return (f'<div class="source-placeholder">'
+            f'<span class="source-label">Source</span>'
+            f'<span class="source-value">{value}</span>'
+            f'</div>')
+
+
+# ─── CLAUDE AI CONTENT ────────────────────────────────────────────────────────
 
 def build_source_text(company_news, general_news, macro_rows):
     """Flatten all fetched data into plain text for Claude's prompt."""
@@ -346,18 +268,16 @@ def build_source_text(company_news, general_news, macro_rows):
     for sym, articles in company_news.items():
         if not articles:
             continue
-        chunks.append(f"\n## {sym}")
+        chunks.append(f"\n## {sym} — {TICKER_NAMES.get(sym, '')}")
         for a in articles:
-            headline = a.get("headline", "").strip()
-            summary  = a.get("summary", "").strip()
-            source   = a.get("source", "")
-            chunks.append(f"- [{source}] {headline}\n  {summary}")
+            hl  = a.get("headline", "").strip()
+            sm  = a.get("summary", "").strip()
+            src = a.get("source", "")
+            chunks.append(f"- [{src}] {hl}\n  {sm}")
 
     chunks.append("\n=== GENERAL MARKET NEWS ===")
     for a in general_news:
-        headline = a.get("headline", "").strip()
-        source   = a.get("source", "")
-        chunks.append(f"- [{source}] {headline}")
+        chunks.append(f"- [{a.get('source','')}] {a.get('headline','').strip()}")
 
     chunks.append("\n=== ECONOMIC INDICATORS ===")
     for series_id, label, latest, prior, date in macro_rows:
@@ -371,52 +291,149 @@ def build_source_text(company_news, general_news, macro_rows):
     return "\n".join(chunks)
 
 
-def write_claude_brief(company_news, general_news, macro_rows):
+def write_claude_content(company_news, general_news, macro_rows):
     """
-    Ask Claude to write the analyst summary section.
+    Single Claude call that generates both the Market Mood card and the
+    main brief (signal cards + ticker cards + macro read).
+
+    Returns (mood_html, brief_html). Falls back to ("", "") on failure.
 
     FUTURE — PROMPT TUNING
-    Edit the prompt to change tone, focus, or output format.
-    Add extra context here (e.g. portfolio size, risk tolerance, sector focus).
+    Edit the prompt below to adjust tone, add portfolio context,
+    risk tolerance, sector focus, or time horizon.
     """
-    source_text = build_source_text(company_news, general_news, macro_rows)
-    prompt = f"""You are a sharp markets analyst writing a private morning brief for an active retail investor who trades equities and options.
+    source_text  = build_source_text(company_news, general_news, macro_rows)
+    ticker_names = "\n".join(f"- {sym}: {name}" for sym, name in TICKER_NAMES.items()
+                             if sym in TICKERS)
 
-Write a tight, no-fluff brief from the raw data below. Rules:
-- Lead with "What matters most today" — 3 to 5 bullets of genuinely market-moving items only.
-- Then a per-ticker section. ONLY include tickers with something material and actionable. If a ticker has no meaningful news, do NOT include it at all — not even a "nothing to report" line.
-- End with a "Macro read" — 2 to 3 sentences tying the economic indicators together.
-- Note sentiment (bullish/bearish) in plain terms where it adds value.
-- Be direct. No filler. No promotional content. No duplicate stories.
+    prompt = f"""You are a private markets research assistant generating a structured daily brief for a retail investor. Use only research-focused language. Never use "buy", "sell", or direct trading instructions. Instead use phrases like: "research candidate", "worth monitoring", "possible setup", "risk to verify", "needs confirmation", "worth watching".
 
-Output ONLY clean HTML using: <h2>, <h3>, <p>, <ul>, <li>, <strong>.
-Wrap ticker symbols in <span class="ticker">SYMBOL</span>.
-Do not include <html>, <head>, <body>, or markdown code fences.
+OUTPUT STRUCTURE — output exactly two XML sections, no other text:
 
-RAW DATA:
+<mood>
+[MOOD CARD HTML — see format below]
+</mood>
+
+<brief>
+[BRIEF HTML — see format below]
+</brief>
+
+━━━ MOOD CARD FORMAT ━━━
+One div with class "mood-card" plus ONE of: mood-bullish, mood-cautious, mood-mixed, mood-risk-off, mood-neutral.
+Inside it:
+<div class="mood-card mood-[label]">
+  <div class="mood-top">
+    <div class="mood-label-group">
+      <span class="mood-eyebrow">Market Mood</span>
+      <span class="mood-indicator">[Bullish|Cautious|Mixed|Risk-Off|Neutral]</span>
+    </div>
+    <span class="mood-disclaimer">Research only — not investment advice</span>
+  </div>
+  <div class="mood-summary">[One sentence capturing today's overall tone]</div>
+  <ul class="mood-drivers">
+    <li class="mood-driver"><span class="driver-dot"></span>[Driver 1]</li>
+    <li class="mood-driver"><span class="driver-dot"></span>[Driver 2]</li>
+    <li class="mood-driver"><span class="driver-dot"></span>[Driver 3]</li>
+  </ul>
+</div>
+
+━━━ BRIEF FORMAT ━━━
+Section 1 — Signal cards. Use this exact wrapper and card structure:
+<div class="section-label">What Matters Most Today</div>
+<div class="signal-grid">
+  [3–5 signal-card divs, one per major development]
+</div>
+
+Each signal card:
+<div class="signal-card">
+  <div class="signal-meta">
+    <span class="impact-badge impact-[high|medium|low]">[High|Medium|Low] Impact</span>
+    <div class="signal-cats">
+      <span class="signal-cat">[Category]</span>
+      [more signal-cat spans as needed — use: Rates, Tech, Semis, Oil, Economy, Watchlist, Macro, IPO]
+    </div>
+  </div>
+  <div class="signal-headline">[Short punchy headline]</div>
+  <div class="signal-explanation">[2–3 sentences. Research language only. No trading instructions.]</div>
+  <div class="source-placeholder"><span class="source-label">Source</span><span class="source-value">— pending</span></div>
+</div>
+
+Section 2 — Ticker analysis cards. ONLY include tickers with material, actionable information. Skip tickers with no relevant news — do not include a "nothing to report" card.
+<div class="section-label">Ticker Watch</div>
+<div class="ticker-analysis-grid">
+  [ticker-card divs]
+</div>
+
+Each ticker card — use tone-bullish, tone-bearish, tone-mixed, tone-neutral, or tone-watch:
+<div class="ticker-card tone-[label]">
+  <div class="ticker-card-header">
+    <div class="ticker-card-id">
+      <span class="ticker">[SYMBOL]</span>
+      <span class="ticker-fullname">[Full company name]</span>
+    </div>
+    <span class="tone-badge tone-[label]">[Bullish|Bearish|Mixed|Neutral|Watch]</span>
+  </div>
+  <div class="ticker-card-body">
+    <div class="ticker-why">[1 sentence: why this ticker matters today]</div>
+    <div class="ticker-factors">
+      <div class="ticker-factor">
+        <span class="factor-label bull-label">Possible Setup</span>
+        <span class="factor-text">[Bullish angle or potential upside factor]</span>
+      </div>
+      <div class="ticker-factor">
+        <span class="factor-label bear-label">Risk to Verify</span>
+        <span class="factor-text">[Bearish angle or downside risk]</span>
+      </div>
+      <div class="ticker-factor">
+        <span class="factor-label verify-label">Worth Monitoring</span>
+        <span class="factor-text">[What to watch next — catalyst, confirmation, data point]</span>
+      </div>
+    </div>
+    <div class="ticker-source"><div class="source-placeholder"><span class="source-label">Source</span><span class="source-value">— pending</span></div></div>
+  </div>
+</div>
+
+Section 3 — Macro read:
+<div class="section-label">Macro Read</div>
+<div class="macro-read"><p>[2–3 sentences tying economic indicators together. Research tone only.]</p></div>
+
+━━━ TICKER NAMES ━━━
+{ticker_names}
+
+━━━ RAW DATA ━━━
 {source_text}
 """
+
     resp = claude_client.messages.create(
         model=CLAUDE_MODEL,
-        max_tokens=2500,
+        max_tokens=3500,
         messages=[{"role": "user", "content": prompt}],
     )
-    html = "".join(b.text for b in resp.content if b.type == "text").strip()
-    html = re.sub(r"^```(?:html)?\s*|\s*```$", "", html).strip()
-    return html
+    raw = "".join(b.text for b in resp.content if b.type == "text").strip()
+    raw = re.sub(r"^```(?:html)?\s*|\s*```$", "", raw, flags=re.MULTILINE).strip()
+
+    mood_match  = re.search(r'<mood>(.*?)</mood>',   raw, re.DOTALL)
+    brief_match = re.search(r'<brief>(.*?)</brief>', raw, re.DOTALL)
+
+    mood_html  = mood_match.group(1).strip()  if mood_match  else ""
+    brief_html = brief_match.group(1).strip() if brief_match else raw
+
+    return mood_html, brief_html
 
 
 # ─── PAGE RENDERER ────────────────────────────────────────────────────────────
 
-def render_page(macro_rows, brief_html, news_html):
+def render_page(macro_rows, mood_html, brief_html, news_html):
     """
-    Slot all components into template.html and return the final page string.
+    Slot all components into template.html.
 
-    template.html placeholders:
+    Placeholders:
       {{DATE}}      — formatted date (ET)
       {{GENERATED}} — generation time (ET)
-      {{MACRO}}     — macro indicator cards
-      {{BRIEF}}     — Claude summary + raw news feed
+      {{MOOD}}      — Market Mood card (Claude)
+      {{MACRO}}     — Economic indicator cards (Python)
+      {{BRIEF}}     — Signal cards + Ticker cards + Macro read (Claude)
+      {{NEWS}}      — Raw news feed (Python)
     """
     now_et   = datetime.datetime.now(ET)
     date_str = now_et.strftime("%A, %B %-d, %Y")
@@ -425,14 +442,14 @@ def render_page(macro_rows, brief_html, news_html):
     with open("template.html", "r", encoding="utf-8") as f:
         template = f.read()
 
-    combined_brief = "\n".join(filter(None, [brief_html, news_html]))
-
     return (
         template
         .replace("{{DATE}}",      date_str)
         .replace("{{GENERATED}}", gen_str)
+        .replace("{{MOOD}}",      mood_html)
         .replace("{{MACRO}}",     render_macro_grid(macro_rows))
-        .replace("{{BRIEF}}",     combined_brief)
+        .replace("{{BRIEF}}",     brief_html)
+        .replace("{{NEWS}}",      news_html)
     )
 
 
@@ -443,17 +460,21 @@ def main():
     company_news, general_news, macro_rows = fetch_all()
 
     # FUTURE — X ACCOUNT TRACKING
-    # Fetch curated X posts here and merge into company_news / general_news
-    # before passing to write_claude_brief().
+    # Fetch curated X posts and merge into company_news / general_news
+    # before calling write_claude_content().
+
+    # FUTURE — LIVE PRICE DATA
+    # Call a price API here and pass prices into write_claude_content()
+    # so Claude can reference actual % moves in its analysis.
 
     print("Asking Claude to write the brief...")
-    brief_html = write_claude_brief(company_news, general_news, macro_rows)
+    mood_html, brief_html = write_claude_content(company_news, general_news, macro_rows)
 
     print("Rendering news feed...")
     news_html = render_news_feed(company_news, general_news)
 
     print("Rendering page...")
-    page = render_page(macro_rows, brief_html, news_html)
+    page = render_page(macro_rows, mood_html, brief_html, news_html)
 
     with open("index.html", "w", encoding="utf-8") as f:
         f.write(page)
