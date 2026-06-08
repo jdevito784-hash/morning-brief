@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Morning Brief — {{DATE}}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #f7f4ed;
+    --ink: #1b1815;
+    --muted: #6b6258;
+    --accent: #8c2b22;
+    --rule: #d8d0c2;
+    --up: #1f6f4a;
+    --down: #a83232;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Newsreader", Georgia, serif;
+    font-size: 19px;
+    line-height: 1.62;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 56px 24px 96px; }
+
+  /* Masthead */
+  .masthead { border-bottom: 3px double var(--ink); padding-bottom: 18px; margin-bottom: 8px; }
+  .kicker {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--accent); margin: 0 0 6px;
+  }
+  .title {
+    font-family: "Fraunces", serif; font-weight: 900;
+    font-size: clamp(40px, 8vw, 64px); line-height: 0.95;
+    margin: 0; letter-spacing: -0.01em;
+  }
+  .dateline {
+    font-family: "IBM Plex Mono", monospace; font-size: 13px;
+    color: var(--muted); margin-top: 12px;
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 6px;
+  }
+
+  /* Macro strip */
+  .macro-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 1px; background: var(--rule); border: 1px solid var(--rule);
+    margin: 28px 0 4px;
+  }
+  .macro-card { background: var(--paper); padding: 12px 14px; }
+  .macro-label {
+    font-family: "IBM Plex Mono", monospace; font-size: 10px;
+    letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted);
+  }
+  .macro-value {
+    font-family: "Fraunces", serif; font-weight: 600; font-size: 24px;
+    margin-top: 2px;
+  }
+  .macro-date { font-family: "IBM Plex Mono", monospace; font-size: 10px; color: var(--muted); }
+  .up { color: var(--up); font-size: 14px; }
+  .down { color: var(--down); font-size: 14px; }
+
+  /* Brief body */
+  .brief { margin-top: 36px; }
+  .brief h2 {
+    font-family: "Fraunces", serif; font-weight: 600; font-size: 15px;
+    letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent);
+    border-bottom: 1px solid var(--rule); padding-bottom: 8px;
+    margin: 44px 0 18px;
+  }
+  .brief h2:first-child { margin-top: 0; }
+  .brief h3 {
+    font-family: "Fraunces", serif; font-weight: 600; font-size: 22px;
+    margin: 26px 0 6px;
+  }
+  .brief p { margin: 0 0 14px; }
+  .brief ul { margin: 0 0 18px; padding-left: 22px; }
+  .brief li { margin-bottom: 10px; }
+  .brief strong { font-weight: 600; }
+  .ticker {
+    font-family: "IBM Plex Mono", monospace; font-weight: 600; font-size: 0.82em;
+    background: rgba(140,43,34,0.08); color: var(--accent);
+    padding: 1px 6px; border-radius: 3px; letter-spacing: 0.02em;
+  }
+
+  footer {
+    margin-top: 64px; padding-top: 18px; border-top: 1px solid var(--rule);
+    font-family: "IBM Plex Mono", monospace; font-size: 11px; color: var(--muted);
+    line-height: 1.6;
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="masthead">
+      <p class="kicker">Private Daily Brief</p>
+      <h1 class="title">Morning Brief</h1>
+      <div class="dateline"><span>{{DATE}}</span><span>Generated {{GENERATED}}</span></div>
+    </header>
+
+    {{MACRO}}
+
+    <main class="brief">
+      {{BRIEF}}
+    </main>
+
+    <footer>
+      Auto-generated from public news feeds and FRED economic data, summarized by Claude.
+      For personal use only &mdash; not investment advice.
+    </footer>
+  </div>
+</body>
+</html>

@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(New-Item -ItemType Directory -Force \"C:\\\\Users\\\\Gamer\\\\Desktop\\\\CursiveAi\\\\morningnews\\\\.github\\\\workflows\")"
+    ]
+  }
+}
