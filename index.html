@@ -6,124 +6,60 @@
   <title>Morning Brief — Monday, June 8, 2026</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fraunces:opsz,wght@9..144,600;9..144,900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Fraunces:opsz,wght@9..144,700;9..144,900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
-    /* ─── Design tokens ──────────────────────────────────────────────── */
+
+    /* ─── Design tokens ─────────────────────────────────────────────── */
     :root {
-      --bg:        #0f1117;
-      --surface:   #181c24;
-      --border:    #252a36;
-      --muted:     #4a5168;
-      --subtle:    #8892a4;
-      --body:      #c8d0de;
-      --heading:   #eef0f4;
-      --accent:    #4f8ef7;
-      --accent-dim:#1e3358;
-      --up:        #34c77b;
-      --down:      #e05c5c;
-      --tag-bg:    #1a2233;
-      --tag-fg:    #4f8ef7;
-      --radius:    8px;
-      --radius-lg: 14px;
+      --bg:          #0d1117;
+      --surface:     #161b22;
+      --surface-2:   #1c2230;
+      --border:      #21262d;
+      --border-2:    #30363d;
+      --muted:       #484f58;
+      --subtle:      #7d8590;
+      --body:        #b1bac4;
+      --heading:     #e6edf3;
+      --accent:      #4493f8;
+      --accent-dim:  #1f3a5c;
+      --up:          #3fb950;
+      --up-dim:      #1a3a22;
+      --down:        #f85149;
+      --down-dim:    #3a1c1c;
+      --warn:        #d29922;
+      --warn-dim:    #3a2f0a;
+      --purple:      #bc8cff;
+      --purple-dim:  #2a1f3d;
+      --radius:      6px;
+      --radius-lg:   10px;
     }
 
-    /* ─── Reset & base ───────────────────────────────────────────────── */
+    /* ─── Reset ─────────────────────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { font-size: 16px; }
     body {
       background: var(--bg);
       color: var(--body);
       font-family: "Inter", system-ui, sans-serif;
-      line-height: 1.65;
+      font-size: 14px;
+      line-height: 1.6;
       -webkit-font-smoothing: antialiased;
     }
     a { color: var(--accent); text-decoration: none; }
     a:hover { text-decoration: underline; }
 
-    /* ─── Layout ─────────────────────────────────────────────────────── */
-    .page { max-width: 860px; margin: 0 auto; padding: 40px 20px 80px; }
-
-    /* ─── Masthead ───────────────────────────────────────────────────── */
-    .masthead {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      flex-wrap: wrap;
-      gap: 12px;
-      padding-bottom: 24px;
-      border-bottom: 1px solid var(--border);
-      margin-bottom: 32px;
-    }
-    .masthead-left {}
-    .masthead-eyebrow {
-      font-family: "IBM Plex Mono", monospace;
-      font-size: 11px;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 6px;
-    }
-    .masthead-title {
-      font-family: "Fraunces", serif;
-      font-weight: 900;
-      font-size: clamp(32px, 6vw, 52px);
-      line-height: 1;
-      color: var(--heading);
-      letter-spacing: -0.02em;
-    }
-    .masthead-right {
-      text-align: right;
-    }
-    .masthead-date {
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--heading);
-    }
-    .masthead-generated {
-      font-family: "IBM Plex Mono", monospace;
-      font-size: 11px;
-      color: var(--muted);
-      margin-top: 3px;
-    }
-    .market-status {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-family: "IBM Plex Mono", monospace;
-      font-size: 11px;
-      margin-top: 6px;
-    }
-    .status-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
-    .stale-badge {
-      font-family: "IBM Plex Mono", monospace;
-      font-size: 9px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      background: rgba(240,180,41,0.15);
-      color: #f0b429;
-      border: 1px solid rgba(240,180,41,0.3);
-      padding: 1px 5px;
-      border-radius: 3px;
-      margin-left: 4px;
-    }
-
-    /* ─── Section wrapper ────────────────────────────────────────────── */
-    .section { margin-bottom: 40px; }
+    /* ─── Layout ────────────────────────────────────────────────────── */
+    .page { max-width: 900px; margin: 0 auto; padding: 32px 20px 80px; }
+    .section { margin-bottom: 28px; }
     .section-label {
       font-family: "IBM Plex Mono", monospace;
       font-size: 10px;
-      letter-spacing: 0.2em;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
       color: var(--muted);
-      margin-bottom: 14px;
+      margin-bottom: 12px;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
     }
     .section-label::after {
       content: "";
@@ -132,216 +68,494 @@
       background: var(--border);
     }
 
-    /* ─── Macro cards ────────────────────────────────────────────────── */
-    .macro-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-      gap: 10px;
+    /* ─── Masthead ───────────────────────────────────────────────────── */
+    .masthead {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 12px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 24px;
     }
-    .macro-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 14px 16px;
-      transition: border-color 0.15s;
-    }
-    .macro-card:hover { border-color: var(--accent); }
-    .macro-card-label {
+    .masthead-eyebrow {
       font-family: "IBM Plex Mono", monospace;
-      font-size: 9px;
-      letter-spacing: 0.12em;
+      font-size: 10px;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
       color: var(--muted);
-      margin-bottom: 8px;
+      margin-bottom: 4px;
     }
-    .macro-card-value {
+    .masthead-title {
       font-family: "Fraunces", serif;
-      font-weight: 600;
-      font-size: 22px;
+      font-weight: 900;
+      font-size: clamp(28px, 5vw, 44px);
       color: var(--heading);
+      letter-spacing: -0.02em;
       line-height: 1;
-      display: flex;
-      align-items: center;
-      gap: 6px;
     }
-    .macro-card-date {
-      font-family: "IBM Plex Mono", monospace;
-      font-size: 10px;
-      color: var(--muted);
-      margin-top: 6px;
-    }
-    .up   { color: var(--up);   font-size: 12px; }
-    .down { color: var(--down); font-size: 12px; }
-
-    /* ─── Brief body (Claude output) ─────────────────────────────────── */
-    /*
-     * FUTURE — CLAUDE SUMMARY SECTION
-     * Claude writes HTML into <h2>What Matters Most Today</h2>
-
-<ul>
-<li><strong>Semiconductor sector in freefall:</strong> <span class="ticker">AVGO</span> down ~20% after Q2 guidance miss; <span class="ticker">SOX</span> dropped 10%+ Friday on profit-taking fears and weaker-than-expected earnings. Asian chip stocks (Samsung, KOSPI) plunged 4–6% overnight. This is a potential capitulation signal or deeper demand concern—watch for follow-through selling.</li>
-
-<li><strong>Rate-hike risk suddenly elevated:</strong> Blowout jobs report (172k adds, 4 of last 5 months positive) has wiped out Fed cut expectations for 2026. Gold hit 2-month lows; <span class="ticker">NOW</span> fell 5% on rate fears. Higher rates hit multiple valuations hard, especially unprofitable SaaS and AI plays.</li>
-
-<li><strong>Geopolitical oil tail-risk:</strong> Iran retaliatory strikes on Israel; Brent crude up 3% toward $100/bbl. Middle East escalation is live. OPEC+ output boost insufficient to calm nerves. Watch for energy volatility to seep into broader risk sentiment.</li>
-
-<li><strong>Mega-cap IPO capital drain:</strong> SpaceX listing Friday at $1.75T valuation; OpenAI, others queued. Brokers flagging liquidity concerns—retail money may rotate out of established holdings into new issues, creating dislocation risk.</li>
-
-<li><strong>Tech earnings credibility cracked:</strong> <span class="ticker">MSFT</span> noted for Azure strength ($75B+ revenue, $37B AI run-rate), but broader SaaS cohort sentiment has soured. <span class="ticker">NOW</span> flagged as "great entry" but market says otherwise. Sentiment shift from growth-at-any-price to profitable growth only.</li>
-</ul>
-
-<h2>Per-Ticker Analysis</h2>
-
-<h3><span class="ticker">AVGO</span> (Broadcom)</h3>
-<p><strong>Bearish near-term, structural hold.</strong> Down ~20% post-Q2 on guidance optics, but underlying story intact: record profitability, massive AI backlog, multi-year hyperscaler commitments through 2028. Market overreacted on near-term optics. However, Friday's 10%+ chip-sector selloff on profit-taking and sector overextension concerns is real—support levels critical today. Watch for institutional capitulation as hedge funds de-gross.</p>
-
-<h3><span class="ticker">MSFT</span> (Microsoft)</h3>
-<p><strong>Hold on strength; hedge geopolitical / rate risk.</strong> Azure at $75B+ revenue, AI run-rate at $37B demonstrate durability. OpenAI overhaul (shift to agents, coding tools) is positive longer-term. However, Billionaire David Tepper trimmed Appaloosa's MSFT stake significantly and rotated into AI memory plays—early signal that mega-cap AI optionality may be getting priced in. Rate-hike scenario is headwind; watch quarterly guidance for enterprise spend slowdown signals.</p>
-
-<h3><span class="ticker">NOW</span> (ServiceNow)</h3>
-<p><strong>Bearish on rate shock; avoid bottom-fishing.</strong> Fell 5% on jobs-report-driven rate-hike bets. Positioned as "critical control tower" in AI future and called a "strong buy" on valuation, but market is punishing SaaS multiples in higher-rate regime. Enterprise budget caution incoming as CFOs reassess capex. Better entry points likely if rate expectations stabilize or earnings accelerate visibly.</p>
-
-<h2>Macro Read</h2>
-
-<p>Unemployment flat at 4.3% with 172k job adds last month has killed Fed-cut narratives entirely. Strong labor data + CPI still running (up 2.11% YoY) means rates stay sticky higher for longer. 10-Yr Treasury still at 4.47% is a ceiling on growth-stock multiples, particularly unprofitable SaaS and pre-revenue AI plays. Iran escalation (oil creeping toward $100/bbl) adds macro tail-risk and volatility premium; if geopolitical fears spike or supply shocks materialize, energy rallies and growth rotates uglier. Mega-IPO calendar (SpaceX $1.75T Friday, OpenAI TBD) will absorb significant retail/institutional capital and may exacerbate dislocation in mature tech. Semiconductor sector correction now appears structural (profit-taking + demand rationality check), not cyclical.</p>
-<div class="section-label">Watchlist News</div>
-<div class="ticker-block">  <div class="ticker-block-header">    <span class="ticker">VOO</span>  </div>  <div class="news-list"><div class="news-item">  <div class="news-item-source">SeekingAlpha</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=9b26f1068dd9fb66f18d13f55f2d8210b0d86e570e86df3b68cfe4c17b96b2f9" target="_blank" rel="noopener">Monthly Macro Monitor: Nothing To See Here</a></div>  <div class="news-item-summary">The employment report last week was also fairly positive, with the economy adding 172k jobs. That makes 4 of the last 5 months positive.</div></div><div class="news-item">  <div class="news-item-source">Yahoo</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=35911a9b3fd1a2059a75aac81214b7ba312ded6eca14a2116e3a00c3956bb340" target="_blank" rel="noopener">VOO vs. SPY: Which ETF Is the Best Way to Buy the S&P 500?</a></div>  <div class="news-item-summary">These ETFs will never beat the S&P 500 -- instead, they let you buy it.</div></div><div class="news-item">  <div class="news-item-source">Yahoo</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=7a38b1217760b5d5e04d63a8f6e880000c3064547802970514f9023b88dd68c0" target="_blank" rel="noopener">Investors: This Might Be the Easiest Way to Buy SpaceX, OpenAI, and Anthropic After Their IPOs</a></div>  <div class="news-item-summary">You can check off multiple boxes with one investment by going this route.</div></div><div class="news-item">  <div class="news-item-source">SeekingAlpha</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=f59db508576fedf0ea9d5fcccafe19d79069d23471bd16217a55c0bbadce709d" target="_blank" rel="noopener">A Critical Week For The Markets Ahead</a></div>  <div class="news-item-summary">Semiconductors, previously market leaders, saw the SOX drop over 10% Friday amid concerns of overextension and profit taking. Read why markets face a pivotal week.</div></div><div class="news-item">  <div class="news-item-source">SeekingAlpha</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=a1a17a90c7d1f89ad3122b675f535b3613ae48af2c73396e8846a052fde207ea" target="_blank" rel="noopener">What Do ETFs In Asia Mean For Investors In Today's Markets?</a></div>  <div class="news-item-summary">ETFs are no longer just entry points into markets. They're becoming tools investors are using to build portfolios, manage risk, and navigate increasingly complex conditions.</div></div><div class="news-item">  <div class="news-item-source">Yahoo</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=c58c40d42b582cceeeacdfa62f20df577b5f39c2a62878dc9dee35ad1b320dad" target="_blank" rel="noopener">1 Costly Mistake Too Many Investors Make With the Vanguard S&P 500 ETF (VOO)</a></div>  <div class="news-item-summary">Investors in the S&P 500 might not be getting quite what they think they are.</div></div><div class="news-item">  <div class="news-item-source">Yahoo</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=367f65f287a9e630bdcef5187b972b9932d17298364278f440bf481c4a413cda" target="_blank" rel="noopener">Is VEA the Smartest Investment You Can Make Right Now?</a></div>  <div class="news-item-summary">Your best long-term investment may not include U.S. stocks.</div></div><div class="news-item">  <div class="news-item-source">Yahoo</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=8ed7babe7184c506f8d3b4d73305781b68ea8d0717105b364e90e5255bb56f20" target="_blank" rel="noopener">This Vanguard ETF Just Made Stock Market History. Here's Why It's Still a Fantastic Investment in 2026.</a></div>  <div class="news-item-summary">Instead of trying to beat the market, this trillion-dollar ETF offers the same returns as the S&P 500 index.</div></div></div></div>
-<div class="ticker-block">  <div class="ticker-block-header">    <span class="ticker">RDW</span>  </div>  <div class="news-list"><div class="news-item">  <div class="news-item-source">Benzinga</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=cbfc451bc648fb0ad552105e2abb48802288bde0fc64541cdbfc8d18cb095060" target="_blank" rel="noopener">Benzinga's 'Stock Whisper' Index: 5 Stocks Investors Secretly Monitor But Don't Talk About Yet</a></div>  <div class="news-item-summary">The Benzinga Stock Whisper Index highlights five stocks seeing increased investor interest during the week and looks at the catalysts driving attention.</div></div><div class="news-item">  <div class="news-item-source">Benzinga</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=c43a3bf00396f51b8e93e372e37fbebb8d6382863b29ae59ae704e72349bac73" target="_blank" rel="noopener">Benzinga Bulls And Bears: Dell, GameStop, Lululemon — And Stocks Take A Hit On Interest Rate Hike Fears</a></div>  <div class="news-item-summary">Benzinga examined the prospects for many investors&#39; favorite stocks over the last week — here&#39;s a look at some of our top stories.</div></div></div></div>
-<div class="ticker-block">  <div class="ticker-block-header">    <span class="ticker">MSFT</span>  </div>  <div class="news-list"><div class="news-item">  <div class="news-item-source">Yahoo</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=1a00782186f9db882a57fb50a7cb22a225ae79825326f3a46ad2a83f369f0728" target="_blank" rel="noopener">Market Chatter: Microsoft-Backed OpenAI Plans Major ChatGPT Overhaul as It Expands Focus Beyond Chatbots</a></div>  <div class="news-item-summary">Microsoft-backed (MSFT) OpenAI is preparing to shift its focus toward AI agents, coding tools and bu</div></div><div class="news-item">  <div class="news-item-source">Yahoo</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=5d96c4dcd4d171cc0bb93ea551ca202ebda993cb614a136b4b2cf23436701310" target="_blank" rel="noopener">SOXQ Semiconductor ETF Surges 181.74% as AI Chip Boom Lifts NVIDIA, Broadcom, AMD</a></div>  <div class="news-item-summary">The Invesco PHLX Semiconductor ETF (NASDAQ:SOXQ) has emerged as one of the cleanest, lowest-cost vehicles for direct semiconductor exposure during the AI capex cycle. The fund tracks the PHLX Semiconductor Sector Index, …</div></div><div class="news-item">  <div class="news-item-source">Yahoo</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=b8a1e4b3760a0aa3165e926ef8b89e2aa62316c9abe25375b85fe799f94a4c42" target="_blank" rel="noopener">Billionaire David Tepper Sold Most of Appaloosa's Position in Microsoft and Initiated a New Stake in an Artificial Intelligence (AI) Memory Stock Up Over 4,100% in the Past Year</a></div>  <div class="news-item-summary">Tepper is considered one of the best hedge fund managers and investors ever.</div></div><div class="news-item">  <div class="news-item-source">SeekingAlpha</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=c407ca52afb4c552a50c2c8387daa63fd3f54fca92d08a2c558be6fba9cb3e63" target="_blank" rel="noopener">3 AI Bottleneck Stocks I'm Buying As Markets Sell Off</a></div>  <div class="news-item-summary">AI infrastructure demand remains robust, driving hyperscalers to increase capex and fueling bottlenecks in CPUs, memory, and energy supply. Read what investors need to know.</div></div><div class="news-item">  <div class="news-item-source">SeekingAlpha</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=7a32764fb4acf1d498da125b42b132e0f0997704d3bc990fd8a9d65d7101b189" target="_blank" rel="noopener">Microsoft: The $37 Billion AI Question Investors Can't Ignore</a></div>  <div class="news-item-summary">Microsoft is well-positioned in the AI era, with Azure surpassing $75B annual revenue and an AI run rate at $37B. Learn why MSFT stock is a hold.</div></div><div class="news-item">  <div class="news-item-source">SeekingAlpha</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=ff7bc405867f5d2d57afcfe438453133658c30769539900c2f89015433e6159e" target="_blank" rel="noopener">Top 50 High-Quality Dividend Growth Stocks For June 2026</a></div>  <div class="news-item-summary">A curated universe of 50 high-quality dividend growth stocks identifies attractive entry points based on valuation and forward return potential. Check out the list here.</div></div><div class="news-item">  <div class="news-item-source">SeekingAlpha</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=43d2b746b07d37f09f750598fe01ec802ad1a7840036e1a14b559f5cf32c5a4c" target="_blank" rel="noopener">Alger AI Enablers & Adopters ETF Q1 2026 Portfolio Update</a></div>  <div class="news-item-summary">The Alger AI Enablers & Adopters ETF reported Q1 2026 performance, highlighting Western Digital and Nebius Group. Read the full analysis for more details.</div></div><div class="news-item">  <div class="news-item-source">Yahoo</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=25c969635d079f0a72345686832eaca2c49dcb7cf867b635974204d0bce38521" target="_blank" rel="noopener">Why Is NBIS Stock Rising Over 1% In Overnight Trading?</a></div>  <div class="news-item-summary">A few months ago, Nebius announced a $10 billion data center project in Finland that, when completed, would be Europe's largest.</div></div></div></div>
-<div class="ticker-block">  <div class="ticker-block-header">    <span class="ticker">AVGO</span>  </div>  <div class="news-list"><div class="news-item">  <div class="news-item-source">Yahoo</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=5d96c4dcd4d171cc0bb93ea551ca202ebda993cb614a136b4b2cf23436701310" target="_blank" rel="noopener">SOXQ Semiconductor ETF Surges 181.74% as AI Chip Boom Lifts NVIDIA, Broadcom, AMD</a></div>  <div class="news-item-summary">The Invesco PHLX Semiconductor ETF (NASDAQ:SOXQ) has emerged as one of the cleanest, lowest-cost vehicles for direct semiconductor exposure during the AI capex cycle. The fund tracks the PHLX Semiconductor Sector Index, …</div></div><div class="news-item">  <div class="news-item-source">Yahoo</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=ebf3755cac05d616ad578edaaa36a00a51e179e79a0c015216283d208bba309b" target="_blank" rel="noopener">SMCX Sank 67% in a Year While the Underlying Stock Rose 2%</a></div>  <div class="news-item-summary">A 2x daily leveraged ETF that owns nothing but swaps on a single AI server stock did what 2x daily leveraged ETFs on single AI server stocks do when the AI server trade breaks. Defiance Daily Target 2X Long SMCI ETF (NAS…</div></div><div class="news-item">  <div class="news-item-source">SeekingAlpha</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=c4e77ef6fc77c187ee6495ec405bde8032673f93f157878f574e214cda0f7455" target="_blank" rel="noopener">Broadcom's Selloff Misses The Bigger Story</a></div>  <div class="news-item-summary">Broadcom combines record profitability, a massive AI backlog, multi-year hyperscaler commitments, and visibility through 2028. Learn more about AVGO stock here.</div></div><div class="news-item">  <div class="news-item-source">ChartMill</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=fea71b83251297a46139608a57760cb1c4bf2df6536777aa7809d8e2e2d37fef" target="_blank" rel="noopener">The Nasdaq Just Had Its Worst Day In Over A Year. The Jobs Market Lit The Fuse.</a></div>  <div class="news-item-summary">The Nasdaq lost 4.2% in its worst day since April 2025 after a blowout jobs report doubled rate hike odds. Chips got crushed, Meta reportedly eyes a massive equity raise, and SpaceX's record $75B IPO is days away.</div></div><div class="news-item">  <div class="news-item-source">Yahoo</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=2321e595e6e4e4e36fd0def90d23e4b2e4bd55de84fe4a202bf3d239e6682518" target="_blank" rel="noopener">‘Yet another way in which 2026 is looking like 1999’: Top analyst fears bubble popping with investors and Wall Street out over their skis</a></div>  <div class="news-item-summary">The Nasdaq's sudden lurch lower on Friday looked like a crack in a story that had seemed, until recently, almost bulletproof.</div></div><div class="news-item">  <div class="news-item-source">Yahoo</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=d7ebf57cdeac048add122273f15f98794b2cd49f536b4fd309b73833ebcc2f02" target="_blank" rel="noopener">Stocks tumble, oil jumps amid tech rout, Iran tensions</a></div>  <div class="news-item-summary">STORY: Asian stocks plunged on Monday morning as investors hit the brakes on the red-hot AI rally.South Korea’s tech-heavy KOSPI index took the heaviest beating.It was down around 6% by late-morning after volatile trade …</div></div><div class="news-item">  <div class="news-item-source">SeekingAlpha</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=ebefca251ba3d629699c8f044dba2bd160be0df8e140f92135c1f47c9cba3ade" target="_blank" rel="noopener">Broadcom: The Market Overreacted To The AI Guidance Optics</a></div>  <div class="news-item-summary">Broadcom is down ~20% after Q2, creating a potential buy-the-dip setup as AI revenue surged. Click here to read on the AVGO stock.</div></div><div class="news-item">  <div class="news-item-source">Yahoo</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=1bbce07cd5a3f7c50e88e3da67142ddaf3ffc84a9dafb4399cba3ca920cd8a80" target="_blank" rel="noopener">MRVL Vs AVGO: Which Custom AI Chipmaker Has Bigger Upside Potential?</a></div>  <div class="news-item-summary">Broadcom and Marvell are both key AI infrastructure chipmakers in the market, but Broadcom operates on a much larger scale.</div></div></div></div>
-<div class="ticker-block">  <div class="ticker-block-header">    <span class="ticker">NOW</span>  </div>  <div class="news-list"><div class="news-item">  <div class="news-item-source">SeekingAlpha</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=cdbdcb37b51facc06f37b23c7d6d383b154305c49350f6a9a4477a8b2d78f576" target="_blank" rel="noopener">ServiceNow: SaaS Fears Have Created A Great Entry Point</a></div>  <div class="news-item-summary">ServiceNow's deep enterprise integration and trusted workflow position it as a critical control tower in an AI-augmented future. See why NOW stock is a strong buy.</div></div><div class="news-item">  <div class="news-item-source">Yahoo</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=fdc305a23976f8d22daeb078aec750df50f28e92eeb03b50057f1d59198522f7" target="_blank" rel="noopener">AI stock mania is taking over the markets in 2026</a></div>  <div class="news-item-summary">It was a mind-blowing week for the AI trade, with only one reasonable conclusion.</div></div><div class="news-item">  <div class="news-item-source">Yahoo</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=0bae35ff05844523e801f8c640c03551df37f2caa40d4290b61a67cd95608c29" target="_blank" rel="noopener">Is Salesforce or ServiceNow a Better Stock to Buy Right Now?</a></div>  <div class="news-item-summary">Both enterprise software stocks have been beaten down this year, but only one pairs that discount with accelerating growth</div></div><div class="news-item">  <div class="news-item-source">Benzinga</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=c43a3bf00396f51b8e93e372e37fbebb8d6382863b29ae59ae704e72349bac73" target="_blank" rel="noopener">Benzinga Bulls And Bears: Dell, GameStop, Lululemon — And Stocks Take A Hit On Interest Rate Hike Fears</a></div>  <div class="news-item-summary">Benzinga examined the prospects for many investors&#39; favorite stocks over the last week — here&#39;s a look at some of our top stories.</div></div><div class="news-item">  <div class="news-item-source">Yahoo</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=0914cce1db9050cbb452b2368e9a23da822e547bb33f8ba91a79449b0be8c0a0" target="_blank" rel="noopener">Why ServiceNow (NOW) Shares Are Falling Today</a></div>  <div class="news-item-summary">Shares of enterprise workflow automation company ServiceNow (NYSE:NOW) fell 5% in the afternoon session after a stronger-than-expected jobs report signaled that the Federal Reserve may keep interest rates higher for long…</div></div></div></div>
-<div class="section-label" style="margin-top:32px">General Market News</div>
-<div class="news-list"><div class="news-item">  <div class="news-item-source">CNBC</div>  <div class="news-item-headline"><a href="https://www.cnbc.com/2026/06/08/usaa-to-return-nearly-1-billion-to-florida-members-as-legal-reforms-help-lower-insurance-costs.html" target="_blank" rel="noopener">USAA to return nearly $1 billion to Florida members as legal reforms help lower insurance costs</a></div>  <div class="news-item-summary">USAA said it will deliver nearly $1 billion in combined savings and returns to eligible Florida members, including a $500 million dividend, CNBC can exclusively report.</div></div><div class="news-item">  <div class="news-item-source">CNBC</div>  <div class="news-item-headline"><a href="https://www.cnbc.com/2026/06/08/weight-loss-drug-stock-zealand-pharma-data-ada.html" target="_blank" rel="noopener">Weight loss drug maker sinks 25% after new safety data spooks investors</a></div>  <div class="news-item-summary">While the experimental drug met its key targets, analysts are concerned over the commercial opportunity due to side effects.</div></div><div class="news-item">  <div class="news-item-source">Reuters</div>  <div class="news-item-headline"><a href="https://news.google.com/rss/articles/CBMisAFBVV95cUxOMWJFcGZpeExSNGRHQXFXUmtzZ3RfVWg1Wnp5VDROODRub2JGVnpQNWRaeFN1dkdTTl9FZUc0RUNWOXkxWWRtY0Mxb20yYzBQdFcyWVlYc0FnQUZwVExYaGpLM0lQeGM4VDVTTkJ0bjZMV0xBR3JXZjRMeW4wNUE2NFpYWFJlSVJ5dHRhdE9pSjdzZ1I1Nld1UnVnaUxrZ0FmRW91bmRSSVg4OVMyR0NKdQ?oc=5" target="_blank" rel="noopener">Private jet market defies Iran war gloom as rich flock to Monaco GP, Cannes - Reuters</a></div>  <div class="news-item-summary">Private jet market defies Iran war gloom as rich flock to Monaco GP, Cannes  Reuters</div></div><div class="news-item">  <div class="news-item-source">Reuters</div>  <div class="news-item-headline"><a href="https://news.google.com/rss/articles/CBMipAFBVV95cUxNZWhTUXlxMHY0ZC1tTERXbkpUZ2NWUlRjSDVWQlBtVEw3SHV5S2RhV2sxakpIUWUzNzVZZnpBcUhaWjVvVnNZWXQtaFBkNXBSVldCNG9OTW5DdHo0c2tKR0VLWlVTbTJ0dHVZbzVLa0VMR2dha0ZDc0pLQkY0UWtMMnVoM29raUI4ZURlLUh3b1ZkN0xxZVQ1WGFxN1dhWFMzZHNiZQ?oc=5" target="_blank" rel="noopener">Iran blames US for latest exchanges of fire with Israel - Reuters</a></div>  <div class="news-item-summary">Iran blames US for latest exchanges of fire with Israel  Reuters</div></div><div class="news-item">  <div class="news-item-source">Reuters</div>  <div class="news-item-headline"><a href="https://news.google.com/rss/articles/CBMipwFBVV95cUxOY3Q3T2xKWFI3bFdfMUZtUTBjVmlKT3B3elNTaWlpNGtfUFFQWW92RDBsRjh2NndOMjhBVWc2TGZHeTlQNkR4Z0FHMDlIWVVVd2w4eEJ2RUFMVjAzV0RGV3FBdVpXUjdacFc5UHdWaVdPTExIN3hfeHZVdl92ektkbGY2YmtINFltQ0s1NE9ZWjNDVmxJbjc1YVJIWmZRQ0pVdng4dV9uMA?oc=5" target="_blank" rel="noopener">Oil market calm masks a host of unknowns - Reuters</a></div>  <div class="news-item-summary">Oil market calm masks a host of unknowns  Reuters</div></div><div class="news-item">  <div class="news-item-source">Reuters</div>  <div class="news-item-headline"><a href="https://news.google.com/rss/articles/CBMizAFBVV95cUxPVGtkUzZLTTYtZTBCYkJxWnBRc19MTXFOUDEwZ0FqclJuM3lyOHBkZjE5SXgtWkYxTjVBRlhoQ2FidTlRNEZDQnRRaTF6NXB2bWZpRVRubkFZX29qWHJ4MUtUbnprVVZRNmtxb0NPYW0yVE01SDdKR21idUFlV2FHdXBJMXlycTNxalVGVU1ucDZsZ3V6bi0zb3psaTRFRlZQeW1SS0RtQVpIQnc2MkFpN1dFVDh1QVRsUXFKb2pPZ3pzcWZwUFA0Q3FFWVk?oc=5" target="_blank" rel="noopener">Vietnam cbank vice governor says country will lean towards fiscal policy to meet growth target - Reuters</a></div>  <div class="news-item-summary">Vietnam cbank vice governor says country will lean towards fiscal policy to meet growth target  Reuters</div></div><div class="news-item">  <div class="news-item-source">Reuters</div>  <div class="news-item-headline"><a href="https://news.google.com/rss/articles/CBMirgFBVV95cUxQbXVNMEwtRjhrdXRXX1dQZXhzVklwR0gycXdSM1plSUxBa1Fkb0hlRlBMbURlYVhqUzBUN3Zaa3NZNVF4eGliYjgxQlJJZXZfdFBjX210c1BnVGJqdUh0eW5VOFVQZ3NHXzJkZGk1b2ZUVWRHTWJ1RlBKWjFJOTZLN1pTSGpydU9IaWFTS2lrNW9fcFg3SWRpdzNzcjZyT1RqeFFZNEs1a3hrTml0bkE?oc=5" target="_blank" rel="noopener">Bank of England's Taylor sees rates on hold barring worst-case scenario - Reuters</a></div>  <div class="news-item-summary">Bank of England's Taylor sees rates on hold barring worst-case scenario  Reuters</div></div><div class="news-item">  <div class="news-item-source">Reuters</div>  <div class="news-item-headline"><a href="https://news.google.com/rss/articles/CBMivgFBVV95cUxNZjVSOTNvREwzVnhncmx3eVFGWTFBNU1ocGtIbmhOSXhDdTVqNVNLek0xaS1EWVhfNURyU0lXSWRUV0ZfZ0RJSVhNaTdOc2V6SlNrQll2SkpNZHBGYWtObkdTOHdpRmRhMGVXdmdGejZ4clNoQlBYbVJqbTBsTGMwNFhwMTlpZ1ZSZ2ZIdm5hQ0t1VUo1cWxSeFdITU9lV1ZXLS10SEh2elREdDNTUkMwTTBMdDdMR0hqVlNYVDhn?oc=5" target="_blank" rel="noopener">Hormuz strait will be open but with transit fees, Iran envoy to Moscow quoted - Reuters</a></div>  <div class="news-item-summary">Hormuz strait will be open but with transit fees, Iran envoy to Moscow quoted  Reuters</div></div><div class="news-item">  <div class="news-item-source">Reuters</div>  <div class="news-item-headline"><a href="https://news.google.com/rss/articles/CBMi1AFBVV95cUxPMVVScGhlUWlOQl9KZk9nY2dHdV96RG9VWFVPSW9jaU80R3ZxQnlXTV84OVNldmtSQWpIZEFaNGhvYzljWVB1ajdWV01ueWVEY2JyaURkNnVxc0RBQl9NN2c5X2o1RWlGdzhiS1o2VVNnSzJ3a0lLYjQ3clRySG9pczJLLWg5WnFzOFZNbld1ZGZHYkFmNUFYVE9RazZxVTZXaDJrMU9aeDdxTUJqeXpKb1RVS01pdkI2OXM3NkcyNzNNZlJDU09aVkt2ai1UMTkxa3pWLQ?oc=5" target="_blank" rel="noopener">China's global e-commerce push stalls as Iran war lifts costs, dampens demand - Reuters</a></div>  <div class="news-item-summary">China's global e-commerce push stalls as Iran war lifts costs, dampens demand  Reuters</div></div><div class="news-item">  <div class="news-item-source">Reuters</div>  <div class="news-item-headline"><a href="https://news.google.com/rss/articles/CBMisAFBVV95cUxNRVc2R0NiNjh6dTIxSmR0OFdMaE1MRXAteVZWRVRRWXo2M1RnVHZRSFRPTEh5aXhreHlHZmdGeWRCRThLTUs1MWhGcUhJSmQxYjU2dWlGcmtzNEVxU1lDRVZlNUNHdG9VTDBFTEJkYkdpU2ZiZGdmUnhRYy1RNnN6U2lYMkFyOVYxdVpqWkFOQjFydFgzRi1ZTmNoLXFzUWpVTUJjNU1wU01VUVpPc0JaTw?oc=5" target="_blank" rel="noopener">Rupee slumps as elevated crude, Treasury yields support dollar - Reuters</a></div>  <div class="news-item-summary">Rupee slumps as elevated crude, Treasury yields support dollar  Reuters</div></div><div class="news-item">  <div class="news-item-source">Reuters</div>  <div class="news-item-headline"><a href="https://news.google.com/rss/articles/CBMitAFBVV95cUxQamkxU3JDUHZmTU8tdE05NUJXUFNyNm5WaWZJNFlLLUYxWjhyVXg1XzI2ZnRkZTFKV0IwVXBzR1JKdmVmX3BySVktZnlmVW5SeTE1Y0RaZW1rV2tuX3M4ZkMwVlA2SWcxck9ObkdPLTQweHNvRW53dnZhZlAwMHlvMGIwMHM0UG00UUxXdThMektUUHNBdFFlZXl1bjFNUGYyNmhzeS1mY04tZ25oMFAzM1l0eWE?oc=5" target="_blank" rel="noopener">Israeli military says it struck targets in western and central Iran - Reuters</a></div>  <div class="news-item-summary">Israeli military says it struck targets in western and central Iran  Reuters</div></div><div class="news-item">  <div class="news-item-source">Reuters</div>  <div class="news-item-headline"><a href="https://news.google.com/rss/articles/CBMimwFBVV95cUxPVjd4bHo0Sk1fN3U4OWtieHFoRkgxT0Y4OGxpa3lyc1RGb0MtaVNXVFlmRW1OQlNPaEZpVGFvUEtxUlFhUDJnMVNhNkpOOE52YmJQTUZNYjktTGk2R0FMc0VNTHpmNTFDbUk0RC1iUzVLMzR4eElLQk9icU1nWGRRRU8wYlgwMEpoQ1VKSTdyd185cWJ2cUlXdFpvOA?oc=5" target="_blank" rel="noopener">Gold hits over two-month low as strong US jobs data boosts rate-hike bets - Reuters</a></div>  <div class="news-item-summary">Gold hits over two-month low as strong US jobs data boosts rate-hike bets  Reuters</div></div><div class="news-item">  <div class="news-item-source">Reuters</div>  <div class="news-item-headline"><a href="https://news.google.com/rss/articles/CBMisAFBVV95cUxNbTR6aGlfWGhCWWdKS05SWUxZSDk0RU0zcVRxSDEzM3dYcWVubTExaTE4cTRpb3VnS2IxVFoyRUpqLTVhMEhXWkpCUjNDTmpCZUpra1lVMWY2X0xjel9xQmtIdnhMX1hWRmk1d09oZHd2MnlBNDhfaktHNEFRa1RqWmFZaW1aTlo1Sk8yM3NMaFYzeFNkRHU0aHlMRTU3RVBPOUlLVW9ydGY1ZEdxaHg5ZQ?oc=5" target="_blank" rel="noopener">Trump says Israel, Iran must 'stop shooting' after flurry of attacks - Reuters</a></div>  <div class="news-item-summary">Trump says Israel, Iran must 'stop shooting' after flurry of attacks  Reuters</div></div><div class="news-item">  <div class="news-item-source">Reuters</div>  <div class="news-item-headline"><a href="https://news.google.com/rss/articles/CBMirwFBVV95cUxOVTFEdmNLQllMX21mYlVVMTNLMG9rbWVPczRLT0REWFB5QUtFMXpRNnJaVXZ4T2JObXBMMXV6OXI4V09hOHdGdVpKT0RIZF8yX1RBN09QanpnNWYzaEZrSjYzWno0MW53aGszamNEM2ctZGdkYVlCekFhLU0zUVQzVXhHZVpRdmFHbTRvbVFTaWNGV2xyN19PdVB0N1hLbEdlQ05xREdDYVNXdHJHejRJ?oc=5" target="_blank" rel="noopener">India Inc hikes prices, shrinks packs as Iran war squeezes margins - Reuters</a></div>  <div class="news-item-summary">India Inc hikes prices, shrinks packs as Iran war squeezes margins  Reuters</div></div><div class="news-item">  <div class="news-item-source">CNBC</div>  <div class="news-item-headline"><a href="https://www.cnbc.com/2026/06/07/cramer-hyperscalers-are-now-the-epicenter-of-a-bear-case-for-stocks.html" target="_blank" rel="noopener">Why AI hyperscalers are now the epicenter of a bear case for stocks</a></div>  <div class="news-item-summary">In the near term, there are many mouths to feed and not enough to eat.</div></div></div> using these classes.
-     * When Claude is disabled, this section will be empty.
-     * To re-enable: set ANTHROPIC_API_KEY secret and uncomment in build_brief.py.
-     */
-    .brief h2 {
-      font-family: "IBM Plex Mono", monospace;
-      font-size: 10px;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin: 36px 0 14px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .brief h2::after {
-      content: "";
-      flex: 1;
-      height: 1px;
-      background: var(--border);
-    }
-    .brief h3 {
-      font-size: 15px;
-      font-weight: 600;
+    .masthead-right { text-align: right; }
+    .masthead-date {
+      font-size: 13px;
+      font-weight: 500;
       color: var(--heading);
-      margin: 22px 0 8px;
     }
-    .brief p  { margin-bottom: 12px; font-size: 15px; }
-    .brief ul { padding-left: 18px; margin-bottom: 16px; }
-    .brief li { margin-bottom: 8px; font-size: 15px; }
-    .brief strong { color: var(--heading); font-weight: 600; }
-
-    /* ─── Ticker tag ─────────────────────────────────────────────────── */
-    .ticker {
-      display: inline-block;
+    .masthead-generated {
       font-family: "IBM Plex Mono", monospace;
       font-size: 11px;
-      font-weight: 500;
-      background: var(--tag-bg);
-      color: var(--tag-fg);
-      border: 1px solid var(--accent-dim);
-      padding: 1px 7px;
-      border-radius: 4px;
-      letter-spacing: 0.04em;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+    .market-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 11px;
+      margin-top: 5px;
+    }
+    .status-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
     }
 
-    /* ─── News feed cards ────────────────────────────────────────────── */
+    /* ─── Market Mood card ───────────────────────────────────────────── */
     /*
-     * FUTURE — TICKER NEWS SECTION
-     * Each ticker gets a .ticker-block. Articles are .news-item cards.
-     * Connect additional data sources (earnings, options flow, etc.) here.
+     * COMPONENT: mood-card
+     * Modifier classes: mood-bullish | mood-cautious | mood-mixed |
+     *                   mood-risk-off | mood-neutral
+     * Claude generates the inner HTML; Python slots it into <div class="mood-card mood-cautious">
+  <div class="mood-top">
+    <div class="mood-label-group">
+      <span class="mood-eyebrow">Market Mood</span>
+      <span class="mood-indicator">Cautious</span>
+    </div>
+    <span class="mood-disclaimer">Research only — not investment advice</span>
+  </div>
+  <div class="mood-summary">Tech and semiconductor sectors face near-term headwinds from rate hike expectations and profit-taking, despite robust AI demand fundamentals and record backlog visibility.</div>
+  <ul class="mood-drivers">
+    <li class="mood-driver"><span class="driver-dot"></span>Stronger-than-expected jobs data (172k adds) signals Federal Reserve may extend higher rate regime, pressuring growth equities and rate-sensitive valuations</li>
+    <li class="mood-driver"><span class="driver-dot"></span>Semiconductor sector correction (SOX down >10% Friday) suggests overextension concerns amid peak AI capex cycle positioning</li>
+    <li class="mood-driver"><span class="driver-dot"></span>Geopolitical volatility (Iran-Israel tensions, Hormuz strait transit concerns) adding risk premium to oil and broad equities; SpaceX IPO and potential mega-listings creating portfolio reallocation pressure</li>
+  </ul>
+</div>.
      */
-    .ticker-block { margin-bottom: 28px; }
-    .ticker-block-header {
+    .mood-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 18px 20px;
+      margin-bottom: 28px;
+      position: relative;
+      overflow: hidden;
+    }
+    .mood-card::before {
+      content: "";
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+    }
+    .mood-bullish  { background: color-mix(in srgb, var(--up-dim) 40%, var(--surface)); }
+    .mood-bullish::before  { background: var(--up); }
+    .mood-cautious { background: color-mix(in srgb, var(--warn-dim) 40%, var(--surface)); }
+    .mood-cautious::before { background: var(--warn); }
+    .mood-mixed    { background: color-mix(in srgb, var(--accent-dim) 40%, var(--surface)); }
+    .mood-mixed::before    { background: var(--accent); }
+    .mood-risk-off { background: color-mix(in srgb, var(--down-dim) 40%, var(--surface)); }
+    .mood-risk-off::before { background: var(--down); }
+    .mood-neutral  { background: var(--surface); }
+    .mood-neutral::before  { background: var(--muted); }
+
+    .mood-top {
       display: flex;
-      align-items: center;
-      gap: 10px;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 8px;
       margin-bottom: 10px;
     }
-    .ticker-block-name {
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--heading);
+    .mood-label-group { display: flex; align-items: center; gap: 10px; }
+    .mood-eyebrow {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 9px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
     }
-    .news-list { display: flex; flex-direction: column; gap: 8px; }
-    .news-item {
+    .mood-indicator {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+    }
+    .mood-bullish  .mood-indicator { color: var(--up); }
+    .mood-cautious .mood-indicator { color: var(--warn); }
+    .mood-mixed    .mood-indicator { color: var(--accent); }
+    .mood-risk-off .mood-indicator { color: var(--down); }
+    .mood-neutral  .mood-indicator { color: var(--subtle); }
+
+    .mood-disclaimer {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 9px;
+      color: var(--muted);
+    }
+    .mood-summary {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--heading);
+      margin-bottom: 12px;
+      line-height: 1.5;
+    }
+    .mood-drivers { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+    .mood-driver {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--body);
+    }
+    .driver-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--muted);
+      flex-shrink: 0;
+      margin-top: 6px;
+    }
+
+    /* ─── Economic indicator cards ───────────────────────────────────── */
+    /*
+     * FUTURE — ADDITIONAL MACRO DATA
+     * Add FRED series IDs to FRED_SERIES in build_brief.py.
+     * Each entry auto-generates a new card here.
+     */
+    .macro-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 8px;
+    }
+    .macro-card {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius);
       padding: 12px 14px;
       transition: border-color 0.15s;
     }
-    .news-item:hover { border-color: var(--accent); }
-    .news-item-source {
+    .macro-card:hover { border-color: var(--border-2); }
+    .macro-card-label {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    .macro-card-value {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--heading);
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .macro-card-date {
       font-family: "IBM Plex Mono", monospace;
       font-size: 10px;
       color: var(--muted);
-      margin-bottom: 4px;
+      margin-top: 5px;
     }
-    .news-item-headline {
-      font-size: 14px;
+    .up   { color: var(--up);   font-size: 11px; }
+    .down { color: var(--down); font-size: 11px; }
+    .stale-badge {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 9px;
+      background: var(--warn-dim);
+      color: var(--warn);
+      border: 1px solid rgba(210,153,34,0.3);
+      padding: 1px 5px;
+      border-radius: 3px;
+      margin-left: 3px;
+    }
+
+    /* ─── Signal cards (What Matters Most) ──────────────────────────── */
+    /*
+     * COMPONENT: signal-card
+     * Claude fills each card with: headline, impact, categories,
+     * explanation, and a source-placeholder block.
+     */
+    .signal-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 10px;
+    }
+    .signal-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      transition: border-color 0.15s;
+    }
+    .signal-card:hover { border-color: var(--border-2); }
+    .signal-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .impact-badge {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 9px;
       font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 2px 7px;
+      border-radius: 3px;
+    }
+    .impact-high   { background: var(--down-dim);   color: var(--down);   border: 1px solid rgba(248,81,73,0.25); }
+    .impact-medium { background: var(--warn-dim);   color: var(--warn);   border: 1px solid rgba(210,153,34,0.25); }
+    .impact-low    { background: var(--accent-dim); color: var(--accent); border: 1px solid rgba(68,147,248,0.25); }
+
+    .signal-cats { display: flex; flex-wrap: wrap; gap: 4px; }
+    .signal-cat {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 9px;
+      background: var(--surface-2);
+      color: var(--subtle);
+      border: 1px solid var(--border);
+      padding: 1px 6px;
+      border-radius: 3px;
+    }
+    .signal-headline {
+      font-size: 13px;
+      font-weight: 600;
       color: var(--heading);
+      line-height: 1.4;
+    }
+    .signal-explanation {
+      font-size: 13px;
+      color: var(--body);
+      line-height: 1.55;
+    }
+    /* FUTURE — SOURCE CONNECTIONS
+     * Replace .source-placeholder content with real source data.
+     * Structure: source-name + source-url + source-date + source-fresh label.
+     * See build_brief.py render_source_placeholder() when ready to connect. */
+    .source-placeholder {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 2px;
+      padding-top: 8px;
+      border-top: 1px solid var(--border);
+    }
+    .source-label {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .source-value {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 10px;
+      color: var(--subtle);
+    }
+
+    /* ─── Ticker analysis cards ──────────────────────────────────────── */
+    /*
+     * COMPONENT: ticker-card
+     * Tone modifier classes: tone-bullish | tone-bearish |
+     *                        tone-mixed | tone-neutral | tone-watch
+     *
+     * FUTURE — LIVE PRICE DATA
+     * Add .ticker-price and .ticker-change spans to .ticker-card-header
+     * once a price API is connected. See fetch_prices() placeholder
+     * in build_brief.py.
+     */
+    .ticker-analysis-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+      gap: 10px;
+    }
+    .ticker-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: border-color 0.15s;
+    }
+    .ticker-card:hover { border-color: var(--border-2); }
+
+    .ticker-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      gap: 10px;
+    }
+    .ticker-card-id { display: flex; align-items: center; gap: 10px; }
+    .ticker {
+      display: inline-block;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 12px;
+      font-weight: 500;
+      background: var(--accent-dim);
+      color: var(--accent);
+      border: 1px solid rgba(68,147,248,0.2);
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+    .ticker-fullname {
+      font-size: 12px;
+      color: var(--subtle);
+    }
+    .tone-badge {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 3px;
+      white-space: nowrap;
+    }
+    .tone-bullish { background: var(--up-dim);     color: var(--up);     border: 1px solid rgba(63,185,80,0.25); }
+    .tone-bearish { background: var(--down-dim);   color: var(--down);   border: 1px solid rgba(248,81,73,0.25); }
+    .tone-mixed   { background: var(--warn-dim);   color: var(--warn);   border: 1px solid rgba(210,153,34,0.25); }
+    .tone-neutral { background: var(--surface-2);  color: var(--subtle); border: 1px solid var(--border); }
+    .tone-watch   { background: var(--purple-dim); color: var(--purple); border: 1px solid rgba(188,140,255,0.25); }
+
+    .ticker-card-body { padding: 12px 16px; display: flex; flex-direction: column; gap: 10px; }
+    .ticker-why {
+      font-size: 13px;
+      color: var(--heading);
+      font-weight: 500;
       line-height: 1.45;
     }
-    .news-item-headline a { color: inherit; }
-    .news-item-headline a:hover { color: var(--accent); text-decoration: none; }
-    .news-item-summary {
+    .ticker-factors { display: flex; flex-direction: column; gap: 6px; }
+    .ticker-factor {
+      display: grid;
+      grid-template-columns: 90px 1fr;
+      gap: 8px;
+      align-items: baseline;
+    }
+    .factor-label {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 9px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .bull-label   { color: var(--up); }
+    .bear-label   { color: var(--down); }
+    .verify-label { color: var(--purple); }
+    .factor-text  { font-size: 12px; color: var(--body); line-height: 1.5; }
+
+    .ticker-source {
+      padding-top: 8px;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ─── Macro read (Claude text block) ────────────────────────────── */
+    .macro-read {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 18px;
+    }
+    .macro-read p {
       font-size: 13px;
+      color: var(--body);
+      line-height: 1.65;
+      margin: 0;
+    }
+
+    /* ─── Raw news feed ──────────────────────────────────────────────── */
+    /*
+     * FUTURE — ADDITIONAL NEWS SOURCES
+     * Add more render_ticker_block() calls in render_news_feed()
+     * for earnings calendars, options flow, or X posts.
+     */
+    .ticker-block        { margin-bottom: 20px; }
+    .ticker-block-header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+    .news-list           { display: flex; flex-direction: column; gap: 6px; }
+    .news-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 10px 13px;
+      transition: border-color 0.15s;
+    }
+    .news-item:hover { border-color: var(--border-2); }
+    .news-item-source {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 9px;
+      color: var(--muted);
+      margin-bottom: 3px;
+    }
+    .news-item-headline {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--heading);
+      line-height: 1.4;
+    }
+    .news-item-headline a { color: inherit; }
+    .news-item-headline a:hover { color: var(--accent); }
+    .news-item-summary {
+      font-size: 12px;
       color: var(--subtle);
-      margin-top: 5px;
+      margin-top: 4px;
       line-height: 1.5;
     }
 
     /* ─── Footer ─────────────────────────────────────────────────────── */
     /*
-     * FUTURE — NEWSLETTER / SUBSCRIPTION INPUT
-     * Add an email signup form here for daily delivery.
+     * FUTURE — NEWSLETTER SIGNUP
+     * Add an email input form here for daily delivery.
      */
     .footer {
-      margin-top: 60px;
-      padding-top: 20px;
+      margin-top: 48px;
+      padding-top: 16px;
       border-top: 1px solid var(--border);
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      gap: 12px;
+      gap: 10px;
     }
     .footer-disclaimer {
       font-family: "IBM Plex Mono", monospace;
-      font-size: 11px;
+      font-size: 10px;
       color: var(--muted);
-      line-height: 1.6;
+      line-height: 1.7;
     }
     .footer-build {
       font-family: "IBM Plex Mono", monospace;
-      font-size: 11px;
+      font-size: 10px;
       color: var(--muted);
       text-align: right;
     }
 
     /* ─── Mobile ─────────────────────────────────────────────────────── */
-    @media (max-width: 600px) {
-      .page { padding: 24px 16px 60px; }
+    @media (max-width: 640px) {
+      .page { padding: 20px 14px 60px; }
       .masthead { flex-direction: column; align-items: flex-start; }
       .masthead-right { text-align: left; }
       .macro-grid { grid-template-columns: repeat(2, 1fr); }
+      .signal-grid { grid-template-columns: 1fr; }
+      .ticker-analysis-grid { grid-template-columns: 1fr; }
+      .ticker-factor { grid-template-columns: 80px 1fr; }
       .footer { flex-direction: column; }
       .footer-build { text-align: left; }
+      .mood-top { flex-direction: column; }
     }
+
   </style>
 </head>
 <body>
@@ -349,122 +563,453 @@
 
     <!-- ── Masthead ──────────────────────────────────────────────────── -->
     <header class="masthead">
-      <div class="masthead-left">
+      <div>
         <div class="masthead-eyebrow">Private Daily Brief</div>
         <h1 class="masthead-title">Morning Brief</h1>
       </div>
       <div class="masthead-right">
         <div class="masthead-date">Monday, June 8, 2026</div>
-        <div class="masthead-generated">Generated 7:52 AM ET</div>
+        <div class="masthead-generated">Generated 8:00 AM ET</div>
         <div id="market-status-live" class="market-status"></div>
       </div>
     </header>
 
-    <!-- ── Economic indicators ───────────────────────────────────────── -->
+    <!-- ── Market Mood card ──────────────────────────────────────────── -->
     <!--
-      FUTURE — ADDITIONAL MACRO DATA
-      Add more FRED series IDs to FRED_SERIES in build_brief.py.
-      Each entry auto-generates a new card here.
+      Generated by Claude. Positioned above economic data so you know
+      the overall tone before drilling into numbers.
     -->
+    <div class="mood-card mood-cautious">
+  <div class="mood-top">
+    <div class="mood-label-group">
+      <span class="mood-eyebrow">Market Mood</span>
+      <span class="mood-indicator">Cautious</span>
+    </div>
+    <span class="mood-disclaimer">Research only — not investment advice</span>
+  </div>
+  <div class="mood-summary">Tech and semiconductor sectors face near-term headwinds from rate hike expectations and profit-taking, despite robust AI demand fundamentals and record backlog visibility.</div>
+  <ul class="mood-drivers">
+    <li class="mood-driver"><span class="driver-dot"></span>Stronger-than-expected jobs data (172k adds) signals Federal Reserve may extend higher rate regime, pressuring growth equities and rate-sensitive valuations</li>
+    <li class="mood-driver"><span class="driver-dot"></span>Semiconductor sector correction (SOX down >10% Friday) suggests overextension concerns amid peak AI capex cycle positioning</li>
+    <li class="mood-driver"><span class="driver-dot"></span>Geopolitical volatility (Iran-Israel tensions, Hormuz strait transit concerns) adding risk premium to oil and broad equities; SpaceX IPO and potential mega-listings creating portfolio reallocation pressure</li>
+  </ul>
+</div>
+
+    <!-- ── Economic indicators ───────────────────────────────────────── -->
     <section class="section">
       <div class="section-label">Economic Indicators</div>
-      <div class="macro-grid"><div class="macro-card">  <div class="macro-card-label">Unemployment Rate</div>  <div class="macro-card-value">4.30% </div>  <div class="macro-card-date">2026-05-01 </div></div><div class="macro-card">  <div class="macro-card-label">Fed Funds Rate</div>  <div class="macro-card-value">3.63% <span class="down">&#9660;</span></div>  <div class="macro-card-date">2026-05-01 </div></div><div class="macro-card">  <div class="macro-card-label">10-Yr Treasury</div>  <div class="macro-card-value">4.47% <span class="down">&#9660;</span></div>  <div class="macro-card-date">2026-06-04 </div></div><div class="macro-card">  <div class="macro-card-label">CPI (YoY %)</div>  <div class="macro-card-value">0.6% <span class="up">&#9650;</span></div>  <div class="macro-card-date">2026-04-01 <span class="stale-badge">stale</span></div></div><div class="macro-card">  <div class="macro-card-label">GDP</div>  <div class="macro-card-value">$31.8T <span class="up">&#9650;</span></div>  <div class="macro-card-date">2026-01-01 <span class="stale-badge">stale</span></div></div></div>
+      <div class="macro-grid"><div class="macro-card"><div class="macro-card-label">Unemployment Rate</div><div class="macro-card-value">4.30% </div><div class="macro-card-date">2026-05-01</div></div><div class="macro-card"><div class="macro-card-label">Fed Funds Rate</div><div class="macro-card-value">3.63% <span class="down">&#9660;</span></div><div class="macro-card-date">2026-05-01</div></div><div class="macro-card"><div class="macro-card-label">10-Yr Treasury</div><div class="macro-card-value">4.47% <span class="down">&#9660;</span></div><div class="macro-card-date">2026-06-04</div></div><div class="macro-card"><div class="macro-card-label">CPI (YoY %)</div><div class="macro-card-value">0.6% <span class="up">&#9650;</span></div><div class="macro-card-date">2026-04-01<span class="stale-badge">stale</span></div></div><div class="macro-card"><div class="macro-card-label">GDP</div><div class="macro-card-value">$31.8T <span class="up">&#9650;</span></div><div class="macro-card-date">2026-01-01<span class="stale-badge">stale</span></div></div></div>
     </section>
 
-    <!-- ── Claude AI summary ─────────────────────────────────────────── -->
+    <!-- ── Signal cards + Ticker cards + Macro read ──────────────────── -->
     <!--
       FUTURE — CLAUDE SUMMARY
-      This section is populated by Claude when ANTHROPIC_API_KEY is set.
-      Claude writes structured HTML (h2/h3/ul/li) into <h2>What Matters Most Today</h2>
+      Claude writes structured HTML into xml
+<mood>
+<div class="mood-card mood-cautious">
+  <div class="mood-top">
+    <div class="mood-label-group">
+      <span class="mood-eyebrow">Market Mood</span>
+      <span class="mood-indicator">Cautious</span>
+    </div>
+    <span class="mood-disclaimer">Research only — not investment advice</span>
+  </div>
+  <div class="mood-summary">Tech and semiconductor sectors face near-term headwinds from rate hike expectations and profit-taking, despite robust AI demand fundamentals and record backlog visibility.</div>
+  <ul class="mood-drivers">
+    <li class="mood-driver"><span class="driver-dot"></span>Stronger-than-expected jobs data (172k adds) signals Federal Reserve may extend higher rate regime, pressuring growth equities and rate-sensitive valuations</li>
+    <li class="mood-driver"><span class="driver-dot"></span>Semiconductor sector correction (SOX down >10% Friday) suggests overextension concerns amid peak AI capex cycle positioning</li>
+    <li class="mood-driver"><span class="driver-dot"></span>Geopolitical volatility (Iran-Israel tensions, Hormuz strait transit concerns) adding risk premium to oil and broad equities; SpaceX IPO and potential mega-listings creating portfolio reallocation pressure</li>
+  </ul>
+</div>
+</mood>
 
-<ul>
-<li><strong>Semiconductor sector in freefall:</strong> <span class="ticker">AVGO</span> down ~20% after Q2 guidance miss; <span class="ticker">SOX</span> dropped 10%+ Friday on profit-taking fears and weaker-than-expected earnings. Asian chip stocks (Samsung, KOSPI) plunged 4–6% overnight. This is a potential capitulation signal or deeper demand concern—watch for follow-through selling.</li>
+<brief>
+<div class="section-label">What Matters Most Today</div>
+<div class="signal-grid">
 
-<li><strong>Rate-hike risk suddenly elevated:</strong> Blowout jobs report (172k adds, 4 of last 5 months positive) has wiped out Fed cut expectations for 2026. Gold hit 2-month lows; <span class="ticker">NOW</span> fell 5% on rate fears. Higher rates hit multiple valuations hard, especially unprofitable SaaS and AI plays.</li>
+<div class="signal-card">
+  <div class="signal-meta">
+    <span class="impact-badge impact-high">High Impact</span>
+    <div class="signal-cats">
+      <span class="signal-cat">Rates</span>
+      <span class="signal-cat">Economy</span>
+    </div>
+  </div>
+  <div class="signal-headline">Jobs Data Tilts Rate Outlook, Crushes Nasdaq</div>
+  <div class="signal-explanation">Last week's blowout employment report (172k adds, positive 4 of last 5 months) doubled Fed rate-hike odds and wiped out prior expectations for rate cuts in 2026. The Nasdaq fell 4.2% Friday—its worst day in over a year—with semiconductor exposure hardest hit as investors repriced duration risk. Unemployment remains flat at 4.3% and 10-Yr Treasury at 4.47%, signaling a more hawkish hold stance ahead.</div>
+  <div class="source-placeholder"><span class="source-label">Source</span><span class="source-value">— SeekingAlpha, ChartMill, Reuters</span></div>
+</div>
 
-<li><strong>Geopolitical oil tail-risk:</strong> Iran retaliatory strikes on Israel; Brent crude up 3% toward $100/bbl. Middle East escalation is live. OPEC+ output boost insufficient to calm nerves. Watch for energy volatility to seep into broader risk sentiment.</li>
+<div class="signal-card">
+  <div class="signal-meta">
+    <span class="impact-badge impact-high">High Impact</span>
+    <div class="signal-cats">
+      <span class="signal-cat">Semis</span>
+      <span class="signal-cat">Tech</span>
+    </div>
+  </div>
+  <div class="signal-headline">Semiconductor Sector Correction: Overextension vs. Fundamentals</div>
+  <div class="signal-explanation">The PHLX Semiconductor Index (SOX) declined over 10% Friday following reported weaker guidance from chipmakers amid concerns of profit-taking after a strong AI rally run. However, underlying demand from hyperscaler AI capex remains robust, with multi-year backlog commitments and visibility through 2028 intact in key players. The sell-off appears driven by valuation reset and rotation risk rather than demand destruction.</div>
+  <div class="source-placeholder"><span class="source-label">Source</span><span class="source-label">— Yahoo Finance, SeekingAlpha, ChartMill</span></div>
+</div>
 
-<li><strong>Mega-cap IPO capital drain:</strong> SpaceX listing Friday at $1.75T valuation; OpenAI, others queued. Brokers flagging liquidity concerns—retail money may rotate out of established holdings into new issues, creating dislocation risk.</li>
+<div class="signal-card">
+  <div class="signal-meta">
+    <span class="impact-badge impact-high">High Impact</span>
+    <div class="signal-cats">
+      <span class="signal-cat">Macro</span>
+    </div>
+  </div>
+  <div class="signal-headline">SpaceX Record IPO & Mega-Listing Pipeline Pressures Capital Flows</div>
+  <div class="signal-explanation">SpaceX is set to debut Friday with an expected $1.75 trillion valuation—a record for the space sector. Broker concerns have surfaced regarding potential capital reallocation away from other assets toward this and future mega-listings (OpenAI, Anthropic). Private jet market activity and ultra-high-net-worth positioning suggest wealth is flowing toward concentrated, high-growth bets, creating headwinds for traditional equity markets.</div>
+  <div class="source-placeholder"><span class="source-label">Source</span><span class="source-value">— Reuters, Yahoo Finance</span></div>
+</div>
 
-<li><strong>Tech earnings credibility cracked:</strong> <span class="ticker">MSFT</span> noted for Azure strength ($75B+ revenue, $37B AI run-rate), but broader SaaS cohort sentiment has soured. <span class="ticker">NOW</span> flagged as "great entry" but market says otherwise. Sentiment shift from growth-at-any-price to profitable growth only.</li>
-</ul>
+<div class="signal-card">
+  <div class="signal-meta">
+    <span class="impact-badge impact-high">High Impact</span>
+    <div class="signal-cats">
+      <span class="signal-cat">Macro</span>
+    </div>
+  </div>
+  <div class="signal-headline">Iran-Israel Escalation: Oil Volatility, Transit Risk Resurface</div>
+  <div class="signal-explanation">Escalating Middle East tensions (Israeli strikes on Lebanon, Iranian retaliatory strikes on Israel) have driven Brent Crude up ~3% toward $100/barrel and triggered geopolitical risk premium across equities. Iran's envoy suggested Hormuz strait would remain open but subject to transit fees, adding uncertainty to oil shipping costs. This dynamic is pressuring margin-sensitive sectors and raising uncertainty around Fed rate trajectory.</div>
+  <div class="source-placeholder"><span class="source-label">Source</span><span class="source-value">— Reuters, CNBC</span></div>
+</div>
 
-<h2>Per-Ticker Analysis</h2>
+<div class="signal-card">
+  <div class="signal-meta">
+    <span class="impact-badge impact-medium">Medium Impact</span>
+    <div class="signal-cats">
+      <span class="signal-cat">Tech</span>
+      <span class="signal-cat">Watchlist</span>
+    </div>
+  </div>
+  <div class="signal-headline">OpenAI ChatGPT Overhaul: Shift Toward AI Agents, Coding Tools</div>
+  <div class="signal-explanation">Microsoft-backed OpenAI is preparing a major product overhaul moving beyond chatbot interfaces toward AI agents and coding-focused tools. This signals a shift in the AI stack from consumer chat interfaces to enterprise-grade autonomous workflows, with potential upstream implications for infrastructure (chips, memory) and software workflow integration platforms.</div>
+  <div class="source-placeholder"><span class="source-label">Source</span><span class="source-value">— Yahoo Finance</span></div>
+</div>
 
-<h3><span class="ticker">AVGO</span> (Broadcom)</h3>
-<p><strong>Bearish near-term, structural hold.</strong> Down ~20% post-Q2 on guidance optics, but underlying story intact: record profitability, massive AI backlog, multi-year hyperscaler commitments through 2028. Market overreacted on near-term optics. However, Friday's 10%+ chip-sector selloff on profit-taking and sector overextension concerns is real—support levels critical today. Watch for institutional capitulation as hedge funds de-gross.</p>
+</div>
 
-<h3><span class="ticker">MSFT</span> (Microsoft)</h3>
-<p><strong>Hold on strength; hedge geopolitical / rate risk.</strong> Azure at $75B+ revenue, AI run-rate at $37B demonstrate durability. OpenAI overhaul (shift to agents, coding tools) is positive longer-term. However, Billionaire David Tepper trimmed Appaloosa's MSFT stake significantly and rotated into AI memory plays—early signal that mega-cap AI optionality may be getting priced in. Rate-hike scenario is headwind; watch quarterly guidance for enterprise spend slowdown signals.</p>
+<div class="section-label">Ticker Watch</div>
+<div class="ticker-analysis-grid">
 
-<h3><span class="ticker">NOW</span> (ServiceNow)</h3>
-<p><strong>Bearish on rate shock; avoid bottom-fishing.</strong> Fell 5% on jobs-report-driven rate-hike bets. Positioned as "critical control tower" in AI future and called a "strong buy" on valuation, but market is punishing SaaS multiples in higher-rate regime. Enterprise budget caution incoming as CFOs reassess capex. Better entry points likely if rate expectations stabilize or earnings accelerate visibly.</p>
+<div class="ticker-card tone-mixed">
+  <div class="ticker-card-header">
+    <div class="ticker-card-id">
+      <span class="ticker">AVGO</span>
+      <span class="ticker-fullname">Broadcom Inc</span>
+    </div>
+    <span class="tone-badge tone-mixed">Mixed</span>
+  </div>
+  <div class="ticker-card-body">
+    <div class="ticker-why">Broadcom shares down ~20% post-Q2 following weaker-than-expected guidance, but underlying AI backlog and multi-year hyperscaler commitments remain intact, creating a potential setup for mean-reversion research.</div>
+    <div class="ticker-factors">
+      <div class="ticker-factor">
+        <span class="factor-label bull-label">Possible Setup</span>
+        <span class="factor-text">Record profitability, massive AI backlog with multi-year customer commitments, and visibility through 2028; selloff appears driven by near-term guidance optics rather than structural demand destruction in AI infrastructure.</span>
+      </div>
+      <div class="ticker-factor">
+        <span class="factor-label bear-label">Risk to Verify</span>
+        <span class="factor-text">Rate hike expectations may compress semiconductor valuations further; near-term margin pressure from weaker guidance; competitive intensity from Marvell and other custom AI chipmakers; geopolitical supply-chain risks if Iran tensions escalate.</span>
+      </div>
+      <div class="ticker-factor">
+        <span class="factor-label verify-label">Worth Monitoring</span>
+        <span class="factor-text">Quarterly earnings guidance revisions for FY2026–2027; customer spending trends from hyperscaler earnings calls; Federal Reserve commentary on rate trajectory; relative strength vs. Marvell (MRVL) and broader SOX index recovery.</span>
+      </div>
+    </div>
+    <div class="ticker-source"><div class="source-placeholder"><span class="source-label">Source</span><span class="source-value">— SeekingAlpha, Yahoo Finance, ChartMill</span></div></div>
+  </div>
+</div>
 
-<h2>Macro Read</h2>
+<div class="ticker-card tone-mixed">
+  <div class="ticker-card-header">
+    <div class="ticker-card-id">
+      <span class="ticker">MSFT</span>
+      <span class="ticker-fullname">Microsoft Corp</span>
+    </div>
+    <span class="tone-badge tone-mixed">Mixed</span>
+  </div>
+  <div class="ticker-card-body">
+    <div class="ticker-why">Microsoft faces near-term valuation headwinds from rate hikes and semiconductor sector pullback, yet Azure AI revenue momentum ($37B run rate) and OpenAI product overhaul signal continued enterprise workflow automation opportunity.</div>
+    <div class="ticker-factors">
+      <div class="ticker-factor">
+        <span class="factor-label bull-label">Possible Setup</span>
+        <span class="factor-text">Azure surpassing $75B annual revenue with accelerating AI component; $37B AI run rate demonstrates embedded adoption; OpenAI's shift toward agents and coding tools plays directly to Microsoft's enterprise workflow strength; dividend growth positioning on market weakness.</span>
+      </div>
+      <div class="ticker-factor">
+        <span class="factor-label bear-label">Risk to Verify</span>
+        <span class="factor-text">Billionaire David Tepper (Appaloosa) sold most MSFT position recently, suggesting hedge fund repositioning away from mega-cap tech; rate hike regime pressures duration-heavy software valuations; semiconductor supply constraints could limit AI infrastructure capex.</span>
+      </div>
+      <div class="ticker-factor">
+        <span class="factor-label verify-label">Worth Monitoring</span>
+        <span class="factor-text">Enterprise software margin trends and Azure growth acceleration in next earnings; Fed rate guidance and Treasury yield trajectory; competitive positioning vs. AWS/Google Cloud on AI agent workflows; insider buying/selling activity following Tepper's exit.</span>
+      </div>
+    </div>
+    <div class="ticker-source"><div class="source-placeholder"><span class="source-label">Source</span><span class="source-value">— SeekingAlpha, Yahoo Finance</span></div></div>
+  </div>
+</div>
 
-<p>Unemployment flat at 4.3% with 172k job adds last month has killed Fed-cut narratives entirely. Strong labor data + CPI still running (up 2.11% YoY) means rates stay sticky higher for longer. 10-Yr Treasury still at 4.47% is a ceiling on growth-stock multiples, particularly unprofitable SaaS and pre-revenue AI plays. Iran escalation (oil creeping toward $100/bbl) adds macro tail-risk and volatility premium; if geopolitical fears spike or supply shocks materialize, energy rallies and growth rotates uglier. Mega-IPO calendar (SpaceX $1.75T Friday, OpenAI TBD) will absorb significant retail/institutional capital and may exacerbate dislocation in mature tech. Semiconductor sector correction now appears structural (profit-taking + demand rationality check), not cyclical.</p>
-<div class="section-label">Watchlist News</div>
-<div class="ticker-block">  <div class="ticker-block-header">    <span class="ticker">VOO</span>  </div>  <div class="news-list"><div class="news-item">  <div class="news-item-source">SeekingAlpha</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=9b26f1068dd9fb66f18d13f55f2d8210b0d86e570e86df3b68cfe4c17b96b2f9" target="_blank" rel="noopener">Monthly Macro Monitor: Nothing To See Here</a></div>  <div class="news-item-summary">The employment report last week was also fairly positive, with the economy adding 172k jobs. That makes 4 of the last 5 months positive.</div></div><div class="news-item">  <div class="news-item-source">Yahoo</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=35911a9b3fd1a2059a75aac81214b7ba312ded6eca14a2116e3a00c3956bb340" target="_blank" rel="noopener">VOO vs. SPY: Which ETF Is the Best Way to Buy the S&P 500?</a></div>  <div class="news-item-summary">These ETFs will never beat the S&P 500 -- instead, they let you buy it.</div></div><div class="news-item">  <div class="news-item-source">Yahoo</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=7a38b1217760b5d5e04d63a8f6e880000c3064547802970514f9023b88dd68c0" target="_blank" rel="noopener">Investors: This Might Be the Easiest Way to Buy SpaceX, OpenAI, and Anthropic After Their IPOs</a></div>  <div class="news-item-summary">You can check off multiple boxes with one investment by going this route.</div></div><div class="news-item">  <div class="news-item-source">SeekingAlpha</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=f59db508576fedf0ea9d5fcccafe19d79069d23471bd16217a55c0bbadce709d" target="_blank" rel="noopener">A Critical Week For The Markets Ahead</a></div>  <div class="news-item-summary">Semiconductors, previously market leaders, saw the SOX drop over 10% Friday amid concerns of overextension and profit taking. Read why markets face a pivotal week.</div></div><div class="news-item">  <div class="news-item-source">SeekingAlpha</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=a1a17a90c7d1f89ad3122b675f535b3613ae48af2c73396e8846a052fde207ea" target="_blank" rel="noopener">What Do ETFs In Asia Mean For Investors In Today's Markets?</a></div>  <div class="news-item-summary">ETFs are no longer just entry points into markets. They're becoming tools investors are using to build portfolios, manage risk, and navigate increasingly complex conditions.</div></div><div class="news-item">  <div class="news-item-source">Yahoo</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=c58c40d42b582cceeeacdfa62f20df577b5f39c2a62878dc9dee35ad1b320dad" target="_blank" rel="noopener">1 Costly Mistake Too Many Investors Make With the Vanguard S&P 500 ETF (VOO)</a></div>  <div class="news-item-summary">Investors in the S&P 500 might not be getting quite what they think they are.</div></div><div class="news-item">  <div class="news-item-source">Yahoo</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=367f65f287a9e630bdcef5187b972b9932d17298364278f440bf481c4a413cda" target="_blank" rel="noopener">Is VEA the Smartest Investment You Can Make Right Now?</a></div>  <div class="news-item-summary">Your best long-term investment may not include U.S. stocks.</div></div><div class="news-item">  <div class="news-item-source">Yahoo</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=8ed7babe7184c506f8d3b4d73305781b68ea8d0717105b364e90e5255bb56f20" target="_blank" rel="noopener">This Vanguard ETF Just Made Stock Market History. Here's Why It's Still a Fantastic Investment in 2026.</a></div>  <div class="news-item-summary">Instead of trying to beat the market, this trillion-dollar ETF offers the same returns as the S&P 500 index.</div></div></div></div>
-<div class="ticker-block">  <div class="ticker-block-header">    <span class="ticker">RDW</span>  </div>  <div class="news-list"><div class="news-item">  <div class="news-item-source">Benzinga</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=cbfc451bc648fb0ad552105e2abb48802288bde0fc64541cdbfc8d18cb095060" target="_blank" rel="noopener">Benzinga's 'Stock Whisper' Index: 5 Stocks Investors Secretly Monitor But Don't Talk About Yet</a></div>  <div class="news-item-summary">The Benzinga Stock Whisper Index highlights five stocks seeing increased investor interest during the week and looks at the catalysts driving attention.</div></div><div class="news-item">  <div class="news-item-source">Benzinga</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=c43a3bf00396f51b8e93e372e37fbebb8d6382863b29ae59ae704e72349bac73" target="_blank" rel="noopener">Benzinga Bulls And Bears: Dell, GameStop, Lululemon — And Stocks Take A Hit On Interest Rate Hike Fears</a></div>  <div class="news-item-summary">Benzinga examined the prospects for many investors&#39; favorite stocks over the last week — here&#39;s a look at some of our top stories.</div></div></div></div>
-<div class="ticker-block">  <div class="ticker-block-header">    <span class="ticker">MSFT</span>  </div>  <div class="news-list"><div class="news-item">  <div class="news-item-source">Yahoo</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=1a00782186f9db882a57fb50a7cb22a225ae79825326f3a46ad2a83f369f0728" target="_blank" rel="noopener">Market Chatter: Microsoft-Backed OpenAI Plans Major ChatGPT Overhaul as It Expands Focus Beyond Chatbots</a></div>  <div class="news-item-summary">Microsoft-backed (MSFT) OpenAI is preparing to shift its focus toward AI agents, coding tools and bu</div></div><div class="news-item">  <div class="news-item-source">Yahoo</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=5d96c4dcd4d171cc0bb93ea551ca202ebda993cb614a136b4b2cf23436701310" target="_blank" rel="noopener">SOXQ Semiconductor ETF Surges 181.74% as AI Chip Boom Lifts NVIDIA, Broadcom, AMD</a></div>  <div class="news-item-summary">The Invesco PHLX Semiconductor ETF (NASDAQ:SOXQ) has emerged as one of the cleanest, lowest-cost vehicles for direct semiconductor exposure during the AI capex cycle. The fund tracks the PHLX Semiconductor Sector Index, …</div></div><div class="news-item">  <div class="news-item-source">Yahoo</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=b8a1e4b3760a0aa3165e926ef8b89e2aa62316c9abe25375b85fe799f94a4c42" target="_blank" rel="noopener">Billionaire David Tepper Sold Most of Appaloosa's Position in Microsoft and Initiated a New Stake in an Artificial Intelligence (AI) Memory Stock Up Over 4,100% in the Past Year</a></div>  <div class="news-item-summary">Tepper is considered one of the best hedge fund managers and investors ever.</div></div><div class="news-item">  <div class="news-item-source">SeekingAlpha</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=c407ca52afb4c552a50c2c8387daa63fd3f54fca92d08a2c558be6fba9cb3e63" target="_blank" rel="noopener">3 AI Bottleneck Stocks I'm Buying As Markets Sell Off</a></div>  <div class="news-item-summary">AI infrastructure demand remains robust, driving hyperscalers to increase capex and fueling bottlenecks in CPUs, memory, and energy supply. Read what investors need to know.</div></div><div class="news-item">  <div class="news-item-source">SeekingAlpha</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=7a32764fb4acf1d498da125b42b132e0f0997704d3bc990fd8a9d65d7101b189" target="_blank" rel="noopener">Microsoft: The $37 Billion AI Question Investors Can't Ignore</a></div>  <div class="news-item-summary">Microsoft is well-positioned in the AI era, with Azure surpassing $75B annual revenue and an AI run rate at $37B. Learn why MSFT stock is a hold.</div></div><div class="news-item">  <div class="news-item-source">SeekingAlpha</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=ff7bc405867f5d2d57afcfe438453133658c30769539900c2f89015433e6159e" target="_blank" rel="noopener">Top 50 High-Quality Dividend Growth Stocks For June 2026</a></div>  <div class="news-item-summary">A curated universe of 50 high-quality dividend growth stocks identifies attractive entry points based on valuation and forward return potential. Check out the list here.</div></div><div class="news-item">  <div class="news-item-source">SeekingAlpha</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=43d2b746b07d37f09f750598fe01ec802ad1a7840036e1a14b559f5cf32c5a4c" target="_blank" rel="noopener">Alger AI Enablers & Adopters ETF Q1 2026 Portfolio Update</a></div>  <div class="news-item-summary">The Alger AI Enablers & Adopters ETF reported Q1 2026 performance, highlighting Western Digital and Nebius Group. Read the full analysis for more details.</div></div><div class="news-item">  <div class="news-item-source">Yahoo</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=25c969635d079f0a72345686832eaca2c49dcb7cf867b635974204d0bce38521" target="_blank" rel="noopener">Why Is NBIS Stock Rising Over 1% In Overnight Trading?</a></div>  <div class="news-item-summary">A few months ago, Nebius announced a $10 billion data center project in Finland that, when completed, would be Europe's largest.</div></div></div></div>
-<div class="ticker-block">  <div class="ticker-block-header">    <span class="ticker">AVGO</span>  </div>  <div class="news-list"><div class="news-item">  <div class="news-item-source">Yahoo</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=5d96c4dcd4d171cc0bb93ea551ca202ebda993cb614a136b4b2cf23436701310" target="_blank" rel="noopener">SOXQ Semiconductor ETF Surges 181.74% as AI Chip Boom Lifts NVIDIA, Broadcom, AMD</a></div>  <div class="news-item-summary">The Invesco PHLX Semiconductor ETF (NASDAQ:SOXQ) has emerged as one of the cleanest, lowest-cost vehicles for direct semiconductor exposure during the AI capex cycle. The fund tracks the PHLX Semiconductor Sector Index, …</div></div><div class="news-item">  <div class="news-item-source">Yahoo</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=ebf3755cac05d616ad578edaaa36a00a51e179e79a0c015216283d208bba309b" target="_blank" rel="noopener">SMCX Sank 67% in a Year While the Underlying Stock Rose 2%</a></div>  <div class="news-item-summary">A 2x daily leveraged ETF that owns nothing but swaps on a single AI server stock did what 2x daily leveraged ETFs on single AI server stocks do when the AI server trade breaks. Defiance Daily Target 2X Long SMCI ETF (NAS…</div></div><div class="news-item">  <div class="news-item-source">SeekingAlpha</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=c4e77ef6fc77c187ee6495ec405bde8032673f93f157878f574e214cda0f7455" target="_blank" rel="noopener">Broadcom's Selloff Misses The Bigger Story</a></div>  <div class="news-item-summary">Broadcom combines record profitability, a massive AI backlog, multi-year hyperscaler commitments, and visibility through 2028. Learn more about AVGO stock here.</div></div><div class="news-item">  <div class="news-item-source">ChartMill</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=fea71b83251297a46139608a57760cb1c4bf2df6536777aa7809d8e2e2d37fef" target="_blank" rel="noopener">The Nasdaq Just Had Its Worst Day In Over A Year. The Jobs Market Lit The Fuse.</a></div>  <div class="news-item-summary">The Nasdaq lost 4.2% in its worst day since April 2025 after a blowout jobs report doubled rate hike odds. Chips got crushed, Meta reportedly eyes a massive equity raise, and SpaceX's record $75B IPO is days away.</div></div><div class="news-item">  <div class="news-item-source">Yahoo</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=2321e595e6e4e4e36fd0def90d23e4b2e4bd55de84fe4a202bf3d239e6682518" target="_blank" rel="noopener">‘Yet another way in which 2026 is looking like 1999’: Top analyst fears bubble popping with investors and Wall Street out over their skis</a></div>  <div class="news-item-summary">The Nasdaq's sudden lurch lower on Friday looked like a crack in a story that had seemed, until recently, almost bulletproof.</div></div><div class="news-item">  <div class="news-item-source">Yahoo</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=d7ebf57cdeac048add122273f15f98794b2cd49f536b4fd309b73833ebcc2f02" target="_blank" rel="noopener">Stocks tumble, oil jumps amid tech rout, Iran tensions</a></div>  <div class="news-item-summary">STORY: Asian stocks plunged on Monday morning as investors hit the brakes on the red-hot AI rally.South Korea’s tech-heavy KOSPI index took the heaviest beating.It was down around 6% by late-morning after volatile trade …</div></div><div class="news-item">  <div class="news-item-source">SeekingAlpha</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=ebefca251ba3d629699c8f044dba2bd160be0df8e140f92135c1f47c9cba3ade" target="_blank" rel="noopener">Broadcom: The Market Overreacted To The AI Guidance Optics</a></div>  <div class="news-item-summary">Broadcom is down ~20% after Q2, creating a potential buy-the-dip setup as AI revenue surged. Click here to read on the AVGO stock.</div></div><div class="news-item">  <div class="news-item-source">Yahoo</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=1bbce07cd5a3f7c50e88e3da67142ddaf3ffc84a9dafb4399cba3ca920cd8a80" target="_blank" rel="noopener">MRVL Vs AVGO: Which Custom AI Chipmaker Has Bigger Upside Potential?</a></div>  <div class="news-item-summary">Broadcom and Marvell are both key AI infrastructure chipmakers in the market, but Broadcom operates on a much larger scale.</div></div></div></div>
-<div class="ticker-block">  <div class="ticker-block-header">    <span class="ticker">NOW</span>  </div>  <div class="news-list"><div class="news-item">  <div class="news-item-source">SeekingAlpha</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=cdbdcb37b51facc06f37b23c7d6d383b154305c49350f6a9a4477a8b2d78f576" target="_blank" rel="noopener">ServiceNow: SaaS Fears Have Created A Great Entry Point</a></div>  <div class="news-item-summary">ServiceNow's deep enterprise integration and trusted workflow position it as a critical control tower in an AI-augmented future. See why NOW stock is a strong buy.</div></div><div class="news-item">  <div class="news-item-source">Yahoo</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=fdc305a23976f8d22daeb078aec750df50f28e92eeb03b50057f1d59198522f7" target="_blank" rel="noopener">AI stock mania is taking over the markets in 2026</a></div>  <div class="news-item-summary">It was a mind-blowing week for the AI trade, with only one reasonable conclusion.</div></div><div class="news-item">  <div class="news-item-source">Yahoo</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=0bae35ff05844523e801f8c640c03551df37f2caa40d4290b61a67cd95608c29" target="_blank" rel="noopener">Is Salesforce or ServiceNow a Better Stock to Buy Right Now?</a></div>  <div class="news-item-summary">Both enterprise software stocks have been beaten down this year, but only one pairs that discount with accelerating growth</div></div><div class="news-item">  <div class="news-item-source">Benzinga</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=c43a3bf00396f51b8e93e372e37fbebb8d6382863b29ae59ae704e72349bac73" target="_blank" rel="noopener">Benzinga Bulls And Bears: Dell, GameStop, Lululemon — And Stocks Take A Hit On Interest Rate Hike Fears</a></div>  <div class="news-item-summary">Benzinga examined the prospects for many investors&#39; favorite stocks over the last week — here&#39;s a look at some of our top stories.</div></div><div class="news-item">  <div class="news-item-source">Yahoo</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=0914cce1db9050cbb452b2368e9a23da822e547bb33f8ba91a79449b0be8c0a0" target="_blank" rel="noopener">Why ServiceNow (NOW) Shares Are Falling Today</a></div>  <div class="news-item-summary">Shares of enterprise workflow automation company ServiceNow (NYSE:NOW) fell 5% in the afternoon session after a stronger-than-expected jobs report signaled that the Federal Reserve may keep interest rates higher for long…</div></div></div></div>
-<div class="section-label" style="margin-top:32px">General Market News</div>
-<div class="news-list"><div class="news-item">  <div class="news-item-source">CNBC</div>  <div class="news-item-headline"><a href="https://www.cnbc.com/2026/06/08/usaa-to-return-nearly-1-billion-to-florida-members-as-legal-reforms-help-lower-insurance-costs.html" target="_blank" rel="noopener">USAA to return nearly $1 billion to Florida members as legal reforms help lower insurance costs</a></div>  <div class="news-item-summary">USAA said it will deliver nearly $1 billion in combined savings and returns to eligible Florida members, including a $500 million dividend, CNBC can exclusively report.</div></div><div class="news-item">  <div class="news-item-source">CNBC</div>  <div class="news-item-headline"><a href="https://www.cnbc.com/2026/06/08/weight-loss-drug-stock-zealand-pharma-data-ada.html" target="_blank" rel="noopener">Weight loss drug maker sinks 25% after new safety data spooks investors</a></div>  <div class="news-item-summary">While the experimental drug met its key targets, analysts are concerned over the commercial opportunity due to side effects.</div></div><div class="news-item">  <div class="news-item-source">Reuters</div>  <div class="news-item-headline"><a href="https://news.google.com/rss/articles/CBMisAFBVV95cUxOMWJFcGZpeExSNGRHQXFXUmtzZ3RfVWg1Wnp5VDROODRub2JGVnpQNWRaeFN1dkdTTl9FZUc0RUNWOXkxWWRtY0Mxb20yYzBQdFcyWVlYc0FnQUZwVExYaGpLM0lQeGM4VDVTTkJ0bjZMV0xBR3JXZjRMeW4wNUE2NFpYWFJlSVJ5dHRhdE9pSjdzZ1I1Nld1UnVnaUxrZ0FmRW91bmRSSVg4OVMyR0NKdQ?oc=5" target="_blank" rel="noopener">Private jet market defies Iran war gloom as rich flock to Monaco GP, Cannes - Reuters</a></div>  <div class="news-item-summary">Private jet market defies Iran war gloom as rich flock to Monaco GP, Cannes  Reuters</div></div><div class="news-item">  <div class="news-item-source">Reuters</div>  <div class="news-item-headline"><a href="https://news.google.com/rss/articles/CBMipAFBVV95cUxNZWhTUXlxMHY0ZC1tTERXbkpUZ2NWUlRjSDVWQlBtVEw3SHV5S2RhV2sxakpIUWUzNzVZZnpBcUhaWjVvVnNZWXQtaFBkNXBSVldCNG9OTW5DdHo0c2tKR0VLWlVTbTJ0dHVZbzVLa0VMR2dha0ZDc0pLQkY0UWtMMnVoM29raUI4ZURlLUh3b1ZkN0xxZVQ1WGFxN1dhWFMzZHNiZQ?oc=5" target="_blank" rel="noopener">Iran blames US for latest exchanges of fire with Israel - Reuters</a></div>  <div class="news-item-summary">Iran blames US for latest exchanges of fire with Israel  Reuters</div></div><div class="news-item">  <div class="news-item-source">Reuters</div>  <div class="news-item-headline"><a href="https://news.google.com/rss/articles/CBMipwFBVV95cUxOY3Q3T2xKWFI3bFdfMUZtUTBjVmlKT3B3elNTaWlpNGtfUFFQWW92RDBsRjh2NndOMjhBVWc2TGZHeTlQNkR4Z0FHMDlIWVVVd2w4eEJ2RUFMVjAzV0RGV3FBdVpXUjdacFc5UHdWaVdPTExIN3hfeHZVdl92ektkbGY2YmtINFltQ0s1NE9ZWjNDVmxJbjc1YVJIWmZRQ0pVdng4dV9uMA?oc=5" target="_blank" rel="noopener">Oil market calm masks a host of unknowns - Reuters</a></div>  <div class="news-item-summary">Oil market calm masks a host of unknowns  Reuters</div></div><div class="news-item">  <div class="news-item-source">Reuters</div>  <div class="news-item-headline"><a href="https://news.google.com/rss/articles/CBMizAFBVV95cUxPVGtkUzZLTTYtZTBCYkJxWnBRc19MTXFOUDEwZ0FqclJuM3lyOHBkZjE5SXgtWkYxTjVBRlhoQ2FidTlRNEZDQnRRaTF6NXB2bWZpRVRubkFZX29qWHJ4MUtUbnprVVZRNmtxb0NPYW0yVE01SDdKR21idUFlV2FHdXBJMXlycTNxalVGVU1ucDZsZ3V6bi0zb3psaTRFRlZQeW1SS0RtQVpIQnc2MkFpN1dFVDh1QVRsUXFKb2pPZ3pzcWZwUFA0Q3FFWVk?oc=5" target="_blank" rel="noopener">Vietnam cbank vice governor says country will lean towards fiscal policy to meet growth target - Reuters</a></div>  <div class="news-item-summary">Vietnam cbank vice governor says country will lean towards fiscal policy to meet growth target  Reuters</div></div><div class="news-item">  <div class="news-item-source">Reuters</div>  <div class="news-item-headline"><a href="https://news.google.com/rss/articles/CBMirgFBVV95cUxQbXVNMEwtRjhrdXRXX1dQZXhzVklwR0gycXdSM1plSUxBa1Fkb0hlRlBMbURlYVhqUzBUN3Zaa3NZNVF4eGliYjgxQlJJZXZfdFBjX210c1BnVGJqdUh0eW5VOFVQZ3NHXzJkZGk1b2ZUVWRHTWJ1RlBKWjFJOTZLN1pTSGpydU9IaWFTS2lrNW9fcFg3SWRpdzNzcjZyT1RqeFFZNEs1a3hrTml0bkE?oc=5" target="_blank" rel="noopener">Bank of England's Taylor sees rates on hold barring worst-case scenario - Reuters</a></div>  <div class="news-item-summary">Bank of England's Taylor sees rates on hold barring worst-case scenario  Reuters</div></div><div class="news-item">  <div class="news-item-source">Reuters</div>  <div class="news-item-headline"><a href="https://news.google.com/rss/articles/CBMivgFBVV95cUxNZjVSOTNvREwzVnhncmx3eVFGWTFBNU1ocGtIbmhOSXhDdTVqNVNLek0xaS1EWVhfNURyU0lXSWRUV0ZfZ0RJSVhNaTdOc2V6SlNrQll2SkpNZHBGYWtObkdTOHdpRmRhMGVXdmdGejZ4clNoQlBYbVJqbTBsTGMwNFhwMTlpZ1ZSZ2ZIdm5hQ0t1VUo1cWxSeFdITU9lV1ZXLS10SEh2elREdDNTUkMwTTBMdDdMR0hqVlNYVDhn?oc=5" target="_blank" rel="noopener">Hormuz strait will be open but with transit fees, Iran envoy to Moscow quoted - Reuters</a></div>  <div class="news-item-summary">Hormuz strait will be open but with transit fees, Iran envoy to Moscow quoted  Reuters</div></div><div class="news-item">  <div class="news-item-source">Reuters</div>  <div class="news-item-headline"><a href="https://news.google.com/rss/articles/CBMi1AFBVV95cUxPMVVScGhlUWlOQl9KZk9nY2dHdV96RG9VWFVPSW9jaU80R3ZxQnlXTV84OVNldmtSQWpIZEFaNGhvYzljWVB1ajdWV01ueWVEY2JyaURkNnVxc0RBQl9NN2c5X2o1RWlGdzhiS1o2VVNnSzJ3a0lLYjQ3clRySG9pczJLLWg5WnFzOFZNbld1ZGZHYkFmNUFYVE9RazZxVTZXaDJrMU9aeDdxTUJqeXpKb1RVS01pdkI2OXM3NkcyNzNNZlJDU09aVkt2ai1UMTkxa3pWLQ?oc=5" target="_blank" rel="noopener">China's global e-commerce push stalls as Iran war lifts costs, dampens demand - Reuters</a></div>  <div class="news-item-summary">China's global e-commerce push stalls as Iran war lifts costs, dampens demand  Reuters</div></div><div class="news-item">  <div class="news-item-source">Reuters</div>  <div class="news-item-headline"><a href="https://news.google.com/rss/articles/CBMisAFBVV95cUxNRVc2R0NiNjh6dTIxSmR0OFdMaE1MRXAteVZWRVRRWXo2M1RnVHZRSFRPTEh5aXhreHlHZmdGeWRCRThLTUs1MWhGcUhJSmQxYjU2dWlGcmtzNEVxU1lDRVZlNUNHdG9VTDBFTEJkYkdpU2ZiZGdmUnhRYy1RNnN6U2lYMkFyOVYxdVpqWkFOQjFydFgzRi1ZTmNoLXFzUWpVTUJjNU1wU01VUVpPc0JaTw?oc=5" target="_blank" rel="noopener">Rupee slumps as elevated crude, Treasury yields support dollar - Reuters</a></div>  <div class="news-item-summary">Rupee slumps as elevated crude, Treasury yields support dollar  Reuters</div></div><div class="news-item">  <div class="news-item-source">Reuters</div>  <div class="news-item-headline"><a href="https://news.google.com/rss/articles/CBMitAFBVV95cUxQamkxU3JDUHZmTU8tdE05NUJXUFNyNm5WaWZJNFlLLUYxWjhyVXg1XzI2ZnRkZTFKV0IwVXBzR1JKdmVmX3BySVktZnlmVW5SeTE1Y0RaZW1rV2tuX3M4ZkMwVlA2SWcxck9ObkdPLTQweHNvRW53dnZhZlAwMHlvMGIwMHM0UG00UUxXdThMektUUHNBdFFlZXl1bjFNUGYyNmhzeS1mY04tZ25oMFAzM1l0eWE?oc=5" target="_blank" rel="noopener">Israeli military says it struck targets in western and central Iran - Reuters</a></div>  <div class="news-item-summary">Israeli military says it struck targets in western and central Iran  Reuters</div></div><div class="news-item">  <div class="news-item-source">Reuters</div>  <div class="news-item-headline"><a href="https://news.google.com/rss/articles/CBMimwFBVV95cUxPVjd4bHo0Sk1fN3U4OWtieHFoRkgxT0Y4OGxpa3lyc1RGb0MtaVNXVFlmRW1OQlNPaEZpVGFvUEtxUlFhUDJnMVNhNkpOOE52YmJQTUZNYjktTGk2R0FMc0VNTHpmNTFDbUk0RC1iUzVLMzR4eElLQk9icU1nWGRRRU8wYlgwMEpoQ1VKSTdyd185cWJ2cUlXdFpvOA?oc=5" target="_blank" rel="noopener">Gold hits over two-month low as strong US jobs data boosts rate-hike bets - Reuters</a></div>  <div class="news-item-summary">Gold hits over two-month low as strong US jobs data boosts rate-hike bets  Reuters</div></div><div class="news-item">  <div class="news-item-source">Reuters</div>  <div class="news-item-headline"><a href="https://news.google.com/rss/articles/CBMisAFBVV95cUxNbTR6aGlfWGhCWWdKS05SWUxZSDk0RU0zcVRxSDEzM3dYcWVubTExaTE4cTRpb3VnS2IxVFoyRUpqLTVhMEhXWkpCUjNDTmpCZUpra1lVMWY2X0xjel9xQmtIdnhMX1hWRmk1d09oZHd2MnlBNDhfaktHNEFRa1RqWmFZaW1aTlo1Sk8yM3NMaFYzeFNkRHU0aHlMRTU3RVBPOUlLVW9ydGY1ZEdxaHg5ZQ?oc=5" target="_blank" rel="noopener">Trump says Israel, Iran must 'stop shooting' after flurry of attacks - Reuters</a></div>  <div class="news-item-summary">Trump says Israel, Iran must 'stop shooting' after flurry of attacks  Reuters</div></div><div class="news-item">  <div class="news-item-source">Reuters</div>  <div class="news-item-headline"><a href="https://news.google.com/rss/articles/CBMirwFBVV95cUxOVTFEdmNLQllMX21mYlVVMTNLMG9rbWVPczRLT0REWFB5QUtFMXpRNnJaVXZ4T2JObXBMMXV6OXI4V09hOHdGdVpKT0RIZF8yX1RBN09QanpnNWYzaEZrSjYzWno0MW53aGszamNEM2ctZGdkYVlCekFhLU0zUVQzVXhHZVpRdmFHbTRvbVFTaWNGV2xyN19PdVB0N1hLbEdlQ05xREdDYVNXdHJHejRJ?oc=5" target="_blank" rel="noopener">India Inc hikes prices, shrinks packs as Iran war squeezes margins - Reuters</a></div>  <div class="news-item-summary">India Inc hikes prices, shrinks packs as Iran war squeezes margins  Reuters</div></div><div class="news-item">  <div class="news-item-source">CNBC</div>  <div class="news-item-headline"><a href="https://www.cnbc.com/2026/06/07/cramer-hyperscalers-are-now-the-epicenter-of-a-bear-case-for-stocks.html" target="_blank" rel="noopener">Why AI hyperscalers are now the epicenter of a bear case for stocks</a></div>  <div class="news-item-summary">In the near term, there are many mouths to feed and not enough to eat.</div></div></div>.
-      To disable: remove ANTHROPIC_API_KEY from GitHub secrets.
+<div class="ticker-card tone-watch">
+  <div class="ticker-card-header">
+    <div class="ticker-card-id">
+      <span class="ticker">NOW</span>
+      <span class="ticker-fullname">ServiceNow Inc</span>
+    </div>
+    <span class="tone-badge tone-watch">Watch</span>
+  </div>
+  <div class="ticker-card-body">
+    <div class="ticker-why">ServiceNow shares fell 5% following stronger-than-expected jobs data, creating near-term rate sensitivity, yet enterprise workflow automation positioning aligns with OpenAI's pivot toward AI agents and enterprise control towers.</div>
+    <div class="ticker-factors">
+      <div class="ticker-factor">
+        <span class="factor-label bull-label">Possible Setup</span>
+        <span class="factor-text">Deep enterprise integration and workflow automation place NOW as critical control tower in AI-augmented future; beaten-down valuation now paired with accelerating growth narrative; OpenAI's agent-focused overhaul directly supports enterprise process automation demand.</span>
+      </div>
+      <div class="ticker-factor">
+        <span class="factor-label bear-label">Risk to Verify</span>
+        <span class="factor-text">Near-term rate hike expectations pressure SaaS valuations broadly; recent 5% pullback on rate signals suggests duration sensitivity; competitive dynamics with Salesforce and other enterprise software vendors; customer spending hesitation if recession fears resurface.</span>
+      </div>
+      <div class="ticker-factor">
+        <span class="factor-label verify-label">Worth Monitoring</span>
+        <span class="factor-text">Next earnings cycle for AI workflow adoption metrics and customer expansion rates; Fed rate guidance shifts; comparative valuation recovery vs. Salesforce; enterprise software sector rotation patterns as rate regime stabilizes; OpenAI partnership announcements or workflow integrations.</span>
+      </div>
+    </div>
+    <div class="ticker-source"><div class="source-placeholder"><span class="source-label">Source</span><span class="source-value">— SeekingAlpha, Yahoo Finance</span></div></div>
+  </div>
+</div>
+
+<div class="ticker-card tone-neutral">
+  <div class="ticker-card-header">
+    <div class="ticker-card-id">
+      <span class="ticker">VOO</span>
+      <span class="ticker-fullname">Vanguard S&P 500 ETF</span>
+    </div>
+    <span class="tone-badge tone-neutral">Neutral</span>
+  </div>
+  <div class="ticker-card-body">
+    <div class="ticker-why">VOO tracks broad-market S&P 500 exposure; currently navigating pivotal week of rate sensitivity and sector rotation as semiconductor weakness and mega-IPO capital flows pressure large-cap tech concentration.</div>
+    <div class="ticker-factors">
+      <div class="ticker-factor">
+        <span class="factor-label bull-label">Possible Setup</span>
+        <span class="factor-text"> using the component
+      classes defined above. Each section uses a specific CSS class.
     -->
-    <section class="section brief">
-      <h2>What Matters Most Today</h2>
+    <section class="section">
+      xml
+<mood>
+<div class="mood-card mood-cautious">
+  <div class="mood-top">
+    <div class="mood-label-group">
+      <span class="mood-eyebrow">Market Mood</span>
+      <span class="mood-indicator">Cautious</span>
+    </div>
+    <span class="mood-disclaimer">Research only — not investment advice</span>
+  </div>
+  <div class="mood-summary">Tech and semiconductor sectors face near-term headwinds from rate hike expectations and profit-taking, despite robust AI demand fundamentals and record backlog visibility.</div>
+  <ul class="mood-drivers">
+    <li class="mood-driver"><span class="driver-dot"></span>Stronger-than-expected jobs data (172k adds) signals Federal Reserve may extend higher rate regime, pressuring growth equities and rate-sensitive valuations</li>
+    <li class="mood-driver"><span class="driver-dot"></span>Semiconductor sector correction (SOX down >10% Friday) suggests overextension concerns amid peak AI capex cycle positioning</li>
+    <li class="mood-driver"><span class="driver-dot"></span>Geopolitical volatility (Iran-Israel tensions, Hormuz strait transit concerns) adding risk premium to oil and broad equities; SpaceX IPO and potential mega-listings creating portfolio reallocation pressure</li>
+  </ul>
+</div>
+</mood>
 
-<ul>
-<li><strong>Semiconductor sector in freefall:</strong> <span class="ticker">AVGO</span> down ~20% after Q2 guidance miss; <span class="ticker">SOX</span> dropped 10%+ Friday on profit-taking fears and weaker-than-expected earnings. Asian chip stocks (Samsung, KOSPI) plunged 4–6% overnight. This is a potential capitulation signal or deeper demand concern—watch for follow-through selling.</li>
+<brief>
+<div class="section-label">What Matters Most Today</div>
+<div class="signal-grid">
 
-<li><strong>Rate-hike risk suddenly elevated:</strong> Blowout jobs report (172k adds, 4 of last 5 months positive) has wiped out Fed cut expectations for 2026. Gold hit 2-month lows; <span class="ticker">NOW</span> fell 5% on rate fears. Higher rates hit multiple valuations hard, especially unprofitable SaaS and AI plays.</li>
+<div class="signal-card">
+  <div class="signal-meta">
+    <span class="impact-badge impact-high">High Impact</span>
+    <div class="signal-cats">
+      <span class="signal-cat">Rates</span>
+      <span class="signal-cat">Economy</span>
+    </div>
+  </div>
+  <div class="signal-headline">Jobs Data Tilts Rate Outlook, Crushes Nasdaq</div>
+  <div class="signal-explanation">Last week's blowout employment report (172k adds, positive 4 of last 5 months) doubled Fed rate-hike odds and wiped out prior expectations for rate cuts in 2026. The Nasdaq fell 4.2% Friday—its worst day in over a year—with semiconductor exposure hardest hit as investors repriced duration risk. Unemployment remains flat at 4.3% and 10-Yr Treasury at 4.47%, signaling a more hawkish hold stance ahead.</div>
+  <div class="source-placeholder"><span class="source-label">Source</span><span class="source-value">— SeekingAlpha, ChartMill, Reuters</span></div>
+</div>
 
-<li><strong>Geopolitical oil tail-risk:</strong> Iran retaliatory strikes on Israel; Brent crude up 3% toward $100/bbl. Middle East escalation is live. OPEC+ output boost insufficient to calm nerves. Watch for energy volatility to seep into broader risk sentiment.</li>
+<div class="signal-card">
+  <div class="signal-meta">
+    <span class="impact-badge impact-high">High Impact</span>
+    <div class="signal-cats">
+      <span class="signal-cat">Semis</span>
+      <span class="signal-cat">Tech</span>
+    </div>
+  </div>
+  <div class="signal-headline">Semiconductor Sector Correction: Overextension vs. Fundamentals</div>
+  <div class="signal-explanation">The PHLX Semiconductor Index (SOX) declined over 10% Friday following reported weaker guidance from chipmakers amid concerns of profit-taking after a strong AI rally run. However, underlying demand from hyperscaler AI capex remains robust, with multi-year backlog commitments and visibility through 2028 intact in key players. The sell-off appears driven by valuation reset and rotation risk rather than demand destruction.</div>
+  <div class="source-placeholder"><span class="source-label">Source</span><span class="source-label">— Yahoo Finance, SeekingAlpha, ChartMill</span></div>
+</div>
 
-<li><strong>Mega-cap IPO capital drain:</strong> SpaceX listing Friday at $1.75T valuation; OpenAI, others queued. Brokers flagging liquidity concerns—retail money may rotate out of established holdings into new issues, creating dislocation risk.</li>
+<div class="signal-card">
+  <div class="signal-meta">
+    <span class="impact-badge impact-high">High Impact</span>
+    <div class="signal-cats">
+      <span class="signal-cat">Macro</span>
+    </div>
+  </div>
+  <div class="signal-headline">SpaceX Record IPO & Mega-Listing Pipeline Pressures Capital Flows</div>
+  <div class="signal-explanation">SpaceX is set to debut Friday with an expected $1.75 trillion valuation—a record for the space sector. Broker concerns have surfaced regarding potential capital reallocation away from other assets toward this and future mega-listings (OpenAI, Anthropic). Private jet market activity and ultra-high-net-worth positioning suggest wealth is flowing toward concentrated, high-growth bets, creating headwinds for traditional equity markets.</div>
+  <div class="source-placeholder"><span class="source-label">Source</span><span class="source-value">— Reuters, Yahoo Finance</span></div>
+</div>
 
-<li><strong>Tech earnings credibility cracked:</strong> <span class="ticker">MSFT</span> noted for Azure strength ($75B+ revenue, $37B AI run-rate), but broader SaaS cohort sentiment has soured. <span class="ticker">NOW</span> flagged as "great entry" but market says otherwise. Sentiment shift from growth-at-any-price to profitable growth only.</li>
-</ul>
+<div class="signal-card">
+  <div class="signal-meta">
+    <span class="impact-badge impact-high">High Impact</span>
+    <div class="signal-cats">
+      <span class="signal-cat">Macro</span>
+    </div>
+  </div>
+  <div class="signal-headline">Iran-Israel Escalation: Oil Volatility, Transit Risk Resurface</div>
+  <div class="signal-explanation">Escalating Middle East tensions (Israeli strikes on Lebanon, Iranian retaliatory strikes on Israel) have driven Brent Crude up ~3% toward $100/barrel and triggered geopolitical risk premium across equities. Iran's envoy suggested Hormuz strait would remain open but subject to transit fees, adding uncertainty to oil shipping costs. This dynamic is pressuring margin-sensitive sectors and raising uncertainty around Fed rate trajectory.</div>
+  <div class="source-placeholder"><span class="source-label">Source</span><span class="source-value">— Reuters, CNBC</span></div>
+</div>
 
-<h2>Per-Ticker Analysis</h2>
+<div class="signal-card">
+  <div class="signal-meta">
+    <span class="impact-badge impact-medium">Medium Impact</span>
+    <div class="signal-cats">
+      <span class="signal-cat">Tech</span>
+      <span class="signal-cat">Watchlist</span>
+    </div>
+  </div>
+  <div class="signal-headline">OpenAI ChatGPT Overhaul: Shift Toward AI Agents, Coding Tools</div>
+  <div class="signal-explanation">Microsoft-backed OpenAI is preparing a major product overhaul moving beyond chatbot interfaces toward AI agents and coding-focused tools. This signals a shift in the AI stack from consumer chat interfaces to enterprise-grade autonomous workflows, with potential upstream implications for infrastructure (chips, memory) and software workflow integration platforms.</div>
+  <div class="source-placeholder"><span class="source-label">Source</span><span class="source-value">— Yahoo Finance</span></div>
+</div>
 
-<h3><span class="ticker">AVGO</span> (Broadcom)</h3>
-<p><strong>Bearish near-term, structural hold.</strong> Down ~20% post-Q2 on guidance optics, but underlying story intact: record profitability, massive AI backlog, multi-year hyperscaler commitments through 2028. Market overreacted on near-term optics. However, Friday's 10%+ chip-sector selloff on profit-taking and sector overextension concerns is real—support levels critical today. Watch for institutional capitulation as hedge funds de-gross.</p>
+</div>
 
-<h3><span class="ticker">MSFT</span> (Microsoft)</h3>
-<p><strong>Hold on strength; hedge geopolitical / rate risk.</strong> Azure at $75B+ revenue, AI run-rate at $37B demonstrate durability. OpenAI overhaul (shift to agents, coding tools) is positive longer-term. However, Billionaire David Tepper trimmed Appaloosa's MSFT stake significantly and rotated into AI memory plays—early signal that mega-cap AI optionality may be getting priced in. Rate-hike scenario is headwind; watch quarterly guidance for enterprise spend slowdown signals.</p>
+<div class="section-label">Ticker Watch</div>
+<div class="ticker-analysis-grid">
 
-<h3><span class="ticker">NOW</span> (ServiceNow)</h3>
-<p><strong>Bearish on rate shock; avoid bottom-fishing.</strong> Fell 5% on jobs-report-driven rate-hike bets. Positioned as "critical control tower" in AI future and called a "strong buy" on valuation, but market is punishing SaaS multiples in higher-rate regime. Enterprise budget caution incoming as CFOs reassess capex. Better entry points likely if rate expectations stabilize or earnings accelerate visibly.</p>
+<div class="ticker-card tone-mixed">
+  <div class="ticker-card-header">
+    <div class="ticker-card-id">
+      <span class="ticker">AVGO</span>
+      <span class="ticker-fullname">Broadcom Inc</span>
+    </div>
+    <span class="tone-badge tone-mixed">Mixed</span>
+  </div>
+  <div class="ticker-card-body">
+    <div class="ticker-why">Broadcom shares down ~20% post-Q2 following weaker-than-expected guidance, but underlying AI backlog and multi-year hyperscaler commitments remain intact, creating a potential setup for mean-reversion research.</div>
+    <div class="ticker-factors">
+      <div class="ticker-factor">
+        <span class="factor-label bull-label">Possible Setup</span>
+        <span class="factor-text">Record profitability, massive AI backlog with multi-year customer commitments, and visibility through 2028; selloff appears driven by near-term guidance optics rather than structural demand destruction in AI infrastructure.</span>
+      </div>
+      <div class="ticker-factor">
+        <span class="factor-label bear-label">Risk to Verify</span>
+        <span class="factor-text">Rate hike expectations may compress semiconductor valuations further; near-term margin pressure from weaker guidance; competitive intensity from Marvell and other custom AI chipmakers; geopolitical supply-chain risks if Iran tensions escalate.</span>
+      </div>
+      <div class="ticker-factor">
+        <span class="factor-label verify-label">Worth Monitoring</span>
+        <span class="factor-text">Quarterly earnings guidance revisions for FY2026–2027; customer spending trends from hyperscaler earnings calls; Federal Reserve commentary on rate trajectory; relative strength vs. Marvell (MRVL) and broader SOX index recovery.</span>
+      </div>
+    </div>
+    <div class="ticker-source"><div class="source-placeholder"><span class="source-label">Source</span><span class="source-value">— SeekingAlpha, Yahoo Finance, ChartMill</span></div></div>
+  </div>
+</div>
 
-<h2>Macro Read</h2>
+<div class="ticker-card tone-mixed">
+  <div class="ticker-card-header">
+    <div class="ticker-card-id">
+      <span class="ticker">MSFT</span>
+      <span class="ticker-fullname">Microsoft Corp</span>
+    </div>
+    <span class="tone-badge tone-mixed">Mixed</span>
+  </div>
+  <div class="ticker-card-body">
+    <div class="ticker-why">Microsoft faces near-term valuation headwinds from rate hikes and semiconductor sector pullback, yet Azure AI revenue momentum ($37B run rate) and OpenAI product overhaul signal continued enterprise workflow automation opportunity.</div>
+    <div class="ticker-factors">
+      <div class="ticker-factor">
+        <span class="factor-label bull-label">Possible Setup</span>
+        <span class="factor-text">Azure surpassing $75B annual revenue with accelerating AI component; $37B AI run rate demonstrates embedded adoption; OpenAI's shift toward agents and coding tools plays directly to Microsoft's enterprise workflow strength; dividend growth positioning on market weakness.</span>
+      </div>
+      <div class="ticker-factor">
+        <span class="factor-label bear-label">Risk to Verify</span>
+        <span class="factor-text">Billionaire David Tepper (Appaloosa) sold most MSFT position recently, suggesting hedge fund repositioning away from mega-cap tech; rate hike regime pressures duration-heavy software valuations; semiconductor supply constraints could limit AI infrastructure capex.</span>
+      </div>
+      <div class="ticker-factor">
+        <span class="factor-label verify-label">Worth Monitoring</span>
+        <span class="factor-text">Enterprise software margin trends and Azure growth acceleration in next earnings; Fed rate guidance and Treasury yield trajectory; competitive positioning vs. AWS/Google Cloud on AI agent workflows; insider buying/selling activity following Tepper's exit.</span>
+      </div>
+    </div>
+    <div class="ticker-source"><div class="source-placeholder"><span class="source-label">Source</span><span class="source-value">— SeekingAlpha, Yahoo Finance</span></div></div>
+  </div>
+</div>
 
-<p>Unemployment flat at 4.3% with 172k job adds last month has killed Fed-cut narratives entirely. Strong labor data + CPI still running (up 2.11% YoY) means rates stay sticky higher for longer. 10-Yr Treasury still at 4.47% is a ceiling on growth-stock multiples, particularly unprofitable SaaS and pre-revenue AI plays. Iran escalation (oil creeping toward $100/bbl) adds macro tail-risk and volatility premium; if geopolitical fears spike or supply shocks materialize, energy rallies and growth rotates uglier. Mega-IPO calendar (SpaceX $1.75T Friday, OpenAI TBD) will absorb significant retail/institutional capital and may exacerbate dislocation in mature tech. Semiconductor sector correction now appears structural (profit-taking + demand rationality check), not cyclical.</p>
-<div class="section-label">Watchlist News</div>
-<div class="ticker-block">  <div class="ticker-block-header">    <span class="ticker">VOO</span>  </div>  <div class="news-list"><div class="news-item">  <div class="news-item-source">SeekingAlpha</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=9b26f1068dd9fb66f18d13f55f2d8210b0d86e570e86df3b68cfe4c17b96b2f9" target="_blank" rel="noopener">Monthly Macro Monitor: Nothing To See Here</a></div>  <div class="news-item-summary">The employment report last week was also fairly positive, with the economy adding 172k jobs. That makes 4 of the last 5 months positive.</div></div><div class="news-item">  <div class="news-item-source">Yahoo</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=35911a9b3fd1a2059a75aac81214b7ba312ded6eca14a2116e3a00c3956bb340" target="_blank" rel="noopener">VOO vs. SPY: Which ETF Is the Best Way to Buy the S&P 500?</a></div>  <div class="news-item-summary">These ETFs will never beat the S&P 500 -- instead, they let you buy it.</div></div><div class="news-item">  <div class="news-item-source">Yahoo</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=7a38b1217760b5d5e04d63a8f6e880000c3064547802970514f9023b88dd68c0" target="_blank" rel="noopener">Investors: This Might Be the Easiest Way to Buy SpaceX, OpenAI, and Anthropic After Their IPOs</a></div>  <div class="news-item-summary">You can check off multiple boxes with one investment by going this route.</div></div><div class="news-item">  <div class="news-item-source">SeekingAlpha</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=f59db508576fedf0ea9d5fcccafe19d79069d23471bd16217a55c0bbadce709d" target="_blank" rel="noopener">A Critical Week For The Markets Ahead</a></div>  <div class="news-item-summary">Semiconductors, previously market leaders, saw the SOX drop over 10% Friday amid concerns of overextension and profit taking. Read why markets face a pivotal week.</div></div><div class="news-item">  <div class="news-item-source">SeekingAlpha</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=a1a17a90c7d1f89ad3122b675f535b3613ae48af2c73396e8846a052fde207ea" target="_blank" rel="noopener">What Do ETFs In Asia Mean For Investors In Today's Markets?</a></div>  <div class="news-item-summary">ETFs are no longer just entry points into markets. They're becoming tools investors are using to build portfolios, manage risk, and navigate increasingly complex conditions.</div></div><div class="news-item">  <div class="news-item-source">Yahoo</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=c58c40d42b582cceeeacdfa62f20df577b5f39c2a62878dc9dee35ad1b320dad" target="_blank" rel="noopener">1 Costly Mistake Too Many Investors Make With the Vanguard S&P 500 ETF (VOO)</a></div>  <div class="news-item-summary">Investors in the S&P 500 might not be getting quite what they think they are.</div></div><div class="news-item">  <div class="news-item-source">Yahoo</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=367f65f287a9e630bdcef5187b972b9932d17298364278f440bf481c4a413cda" target="_blank" rel="noopener">Is VEA the Smartest Investment You Can Make Right Now?</a></div>  <div class="news-item-summary">Your best long-term investment may not include U.S. stocks.</div></div><div class="news-item">  <div class="news-item-source">Yahoo</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=8ed7babe7184c506f8d3b4d73305781b68ea8d0717105b364e90e5255bb56f20" target="_blank" rel="noopener">This Vanguard ETF Just Made Stock Market History. Here's Why It's Still a Fantastic Investment in 2026.</a></div>  <div class="news-item-summary">Instead of trying to beat the market, this trillion-dollar ETF offers the same returns as the S&P 500 index.</div></div></div></div>
-<div class="ticker-block">  <div class="ticker-block-header">    <span class="ticker">RDW</span>  </div>  <div class="news-list"><div class="news-item">  <div class="news-item-source">Benzinga</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=cbfc451bc648fb0ad552105e2abb48802288bde0fc64541cdbfc8d18cb095060" target="_blank" rel="noopener">Benzinga's 'Stock Whisper' Index: 5 Stocks Investors Secretly Monitor But Don't Talk About Yet</a></div>  <div class="news-item-summary">The Benzinga Stock Whisper Index highlights five stocks seeing increased investor interest during the week and looks at the catalysts driving attention.</div></div><div class="news-item">  <div class="news-item-source">Benzinga</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=c43a3bf00396f51b8e93e372e37fbebb8d6382863b29ae59ae704e72349bac73" target="_blank" rel="noopener">Benzinga Bulls And Bears: Dell, GameStop, Lululemon — And Stocks Take A Hit On Interest Rate Hike Fears</a></div>  <div class="news-item-summary">Benzinga examined the prospects for many investors&#39; favorite stocks over the last week — here&#39;s a look at some of our top stories.</div></div></div></div>
-<div class="ticker-block">  <div class="ticker-block-header">    <span class="ticker">MSFT</span>  </div>  <div class="news-list"><div class="news-item">  <div class="news-item-source">Yahoo</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=1a00782186f9db882a57fb50a7cb22a225ae79825326f3a46ad2a83f369f0728" target="_blank" rel="noopener">Market Chatter: Microsoft-Backed OpenAI Plans Major ChatGPT Overhaul as It Expands Focus Beyond Chatbots</a></div>  <div class="news-item-summary">Microsoft-backed (MSFT) OpenAI is preparing to shift its focus toward AI agents, coding tools and bu</div></div><div class="news-item">  <div class="news-item-source">Yahoo</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=5d96c4dcd4d171cc0bb93ea551ca202ebda993cb614a136b4b2cf23436701310" target="_blank" rel="noopener">SOXQ Semiconductor ETF Surges 181.74% as AI Chip Boom Lifts NVIDIA, Broadcom, AMD</a></div>  <div class="news-item-summary">The Invesco PHLX Semiconductor ETF (NASDAQ:SOXQ) has emerged as one of the cleanest, lowest-cost vehicles for direct semiconductor exposure during the AI capex cycle. The fund tracks the PHLX Semiconductor Sector Index, …</div></div><div class="news-item">  <div class="news-item-source">Yahoo</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=b8a1e4b3760a0aa3165e926ef8b89e2aa62316c9abe25375b85fe799f94a4c42" target="_blank" rel="noopener">Billionaire David Tepper Sold Most of Appaloosa's Position in Microsoft and Initiated a New Stake in an Artificial Intelligence (AI) Memory Stock Up Over 4,100% in the Past Year</a></div>  <div class="news-item-summary">Tepper is considered one of the best hedge fund managers and investors ever.</div></div><div class="news-item">  <div class="news-item-source">SeekingAlpha</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=c407ca52afb4c552a50c2c8387daa63fd3f54fca92d08a2c558be6fba9cb3e63" target="_blank" rel="noopener">3 AI Bottleneck Stocks I'm Buying As Markets Sell Off</a></div>  <div class="news-item-summary">AI infrastructure demand remains robust, driving hyperscalers to increase capex and fueling bottlenecks in CPUs, memory, and energy supply. Read what investors need to know.</div></div><div class="news-item">  <div class="news-item-source">SeekingAlpha</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=7a32764fb4acf1d498da125b42b132e0f0997704d3bc990fd8a9d65d7101b189" target="_blank" rel="noopener">Microsoft: The $37 Billion AI Question Investors Can't Ignore</a></div>  <div class="news-item-summary">Microsoft is well-positioned in the AI era, with Azure surpassing $75B annual revenue and an AI run rate at $37B. Learn why MSFT stock is a hold.</div></div><div class="news-item">  <div class="news-item-source">SeekingAlpha</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=ff7bc405867f5d2d57afcfe438453133658c30769539900c2f89015433e6159e" target="_blank" rel="noopener">Top 50 High-Quality Dividend Growth Stocks For June 2026</a></div>  <div class="news-item-summary">A curated universe of 50 high-quality dividend growth stocks identifies attractive entry points based on valuation and forward return potential. Check out the list here.</div></div><div class="news-item">  <div class="news-item-source">SeekingAlpha</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=43d2b746b07d37f09f750598fe01ec802ad1a7840036e1a14b559f5cf32c5a4c" target="_blank" rel="noopener">Alger AI Enablers & Adopters ETF Q1 2026 Portfolio Update</a></div>  <div class="news-item-summary">The Alger AI Enablers & Adopters ETF reported Q1 2026 performance, highlighting Western Digital and Nebius Group. Read the full analysis for more details.</div></div><div class="news-item">  <div class="news-item-source">Yahoo</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=25c969635d079f0a72345686832eaca2c49dcb7cf867b635974204d0bce38521" target="_blank" rel="noopener">Why Is NBIS Stock Rising Over 1% In Overnight Trading?</a></div>  <div class="news-item-summary">A few months ago, Nebius announced a $10 billion data center project in Finland that, when completed, would be Europe's largest.</div></div></div></div>
-<div class="ticker-block">  <div class="ticker-block-header">    <span class="ticker">AVGO</span>  </div>  <div class="news-list"><div class="news-item">  <div class="news-item-source">Yahoo</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=5d96c4dcd4d171cc0bb93ea551ca202ebda993cb614a136b4b2cf23436701310" target="_blank" rel="noopener">SOXQ Semiconductor ETF Surges 181.74% as AI Chip Boom Lifts NVIDIA, Broadcom, AMD</a></div>  <div class="news-item-summary">The Invesco PHLX Semiconductor ETF (NASDAQ:SOXQ) has emerged as one of the cleanest, lowest-cost vehicles for direct semiconductor exposure during the AI capex cycle. The fund tracks the PHLX Semiconductor Sector Index, …</div></div><div class="news-item">  <div class="news-item-source">Yahoo</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=ebf3755cac05d616ad578edaaa36a00a51e179e79a0c015216283d208bba309b" target="_blank" rel="noopener">SMCX Sank 67% in a Year While the Underlying Stock Rose 2%</a></div>  <div class="news-item-summary">A 2x daily leveraged ETF that owns nothing but swaps on a single AI server stock did what 2x daily leveraged ETFs on single AI server stocks do when the AI server trade breaks. Defiance Daily Target 2X Long SMCI ETF (NAS…</div></div><div class="news-item">  <div class="news-item-source">SeekingAlpha</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=c4e77ef6fc77c187ee6495ec405bde8032673f93f157878f574e214cda0f7455" target="_blank" rel="noopener">Broadcom's Selloff Misses The Bigger Story</a></div>  <div class="news-item-summary">Broadcom combines record profitability, a massive AI backlog, multi-year hyperscaler commitments, and visibility through 2028. Learn more about AVGO stock here.</div></div><div class="news-item">  <div class="news-item-source">ChartMill</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=fea71b83251297a46139608a57760cb1c4bf2df6536777aa7809d8e2e2d37fef" target="_blank" rel="noopener">The Nasdaq Just Had Its Worst Day In Over A Year. The Jobs Market Lit The Fuse.</a></div>  <div class="news-item-summary">The Nasdaq lost 4.2% in its worst day since April 2025 after a blowout jobs report doubled rate hike odds. Chips got crushed, Meta reportedly eyes a massive equity raise, and SpaceX's record $75B IPO is days away.</div></div><div class="news-item">  <div class="news-item-source">Yahoo</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=2321e595e6e4e4e36fd0def90d23e4b2e4bd55de84fe4a202bf3d239e6682518" target="_blank" rel="noopener">‘Yet another way in which 2026 is looking like 1999’: Top analyst fears bubble popping with investors and Wall Street out over their skis</a></div>  <div class="news-item-summary">The Nasdaq's sudden lurch lower on Friday looked like a crack in a story that had seemed, until recently, almost bulletproof.</div></div><div class="news-item">  <div class="news-item-source">Yahoo</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=d7ebf57cdeac048add122273f15f98794b2cd49f536b4fd309b73833ebcc2f02" target="_blank" rel="noopener">Stocks tumble, oil jumps amid tech rout, Iran tensions</a></div>  <div class="news-item-summary">STORY: Asian stocks plunged on Monday morning as investors hit the brakes on the red-hot AI rally.South Korea’s tech-heavy KOSPI index took the heaviest beating.It was down around 6% by late-morning after volatile trade …</div></div><div class="news-item">  <div class="news-item-source">SeekingAlpha</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=ebefca251ba3d629699c8f044dba2bd160be0df8e140f92135c1f47c9cba3ade" target="_blank" rel="noopener">Broadcom: The Market Overreacted To The AI Guidance Optics</a></div>  <div class="news-item-summary">Broadcom is down ~20% after Q2, creating a potential buy-the-dip setup as AI revenue surged. Click here to read on the AVGO stock.</div></div><div class="news-item">  <div class="news-item-source">Yahoo</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=1bbce07cd5a3f7c50e88e3da67142ddaf3ffc84a9dafb4399cba3ca920cd8a80" target="_blank" rel="noopener">MRVL Vs AVGO: Which Custom AI Chipmaker Has Bigger Upside Potential?</a></div>  <div class="news-item-summary">Broadcom and Marvell are both key AI infrastructure chipmakers in the market, but Broadcom operates on a much larger scale.</div></div></div></div>
-<div class="ticker-block">  <div class="ticker-block-header">    <span class="ticker">NOW</span>  </div>  <div class="news-list"><div class="news-item">  <div class="news-item-source">SeekingAlpha</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=cdbdcb37b51facc06f37b23c7d6d383b154305c49350f6a9a4477a8b2d78f576" target="_blank" rel="noopener">ServiceNow: SaaS Fears Have Created A Great Entry Point</a></div>  <div class="news-item-summary">ServiceNow's deep enterprise integration and trusted workflow position it as a critical control tower in an AI-augmented future. See why NOW stock is a strong buy.</div></div><div class="news-item">  <div class="news-item-source">Yahoo</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=fdc305a23976f8d22daeb078aec750df50f28e92eeb03b50057f1d59198522f7" target="_blank" rel="noopener">AI stock mania is taking over the markets in 2026</a></div>  <div class="news-item-summary">It was a mind-blowing week for the AI trade, with only one reasonable conclusion.</div></div><div class="news-item">  <div class="news-item-source">Yahoo</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=0bae35ff05844523e801f8c640c03551df37f2caa40d4290b61a67cd95608c29" target="_blank" rel="noopener">Is Salesforce or ServiceNow a Better Stock to Buy Right Now?</a></div>  <div class="news-item-summary">Both enterprise software stocks have been beaten down this year, but only one pairs that discount with accelerating growth</div></div><div class="news-item">  <div class="news-item-source">Benzinga</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=c43a3bf00396f51b8e93e372e37fbebb8d6382863b29ae59ae704e72349bac73" target="_blank" rel="noopener">Benzinga Bulls And Bears: Dell, GameStop, Lululemon — And Stocks Take A Hit On Interest Rate Hike Fears</a></div>  <div class="news-item-summary">Benzinga examined the prospects for many investors&#39; favorite stocks over the last week — here&#39;s a look at some of our top stories.</div></div><div class="news-item">  <div class="news-item-source">Yahoo</div>  <div class="news-item-headline"><a href="https://finnhub.io/api/news?id=0914cce1db9050cbb452b2368e9a23da822e547bb33f8ba91a79449b0be8c0a0" target="_blank" rel="noopener">Why ServiceNow (NOW) Shares Are Falling Today</a></div>  <div class="news-item-summary">Shares of enterprise workflow automation company ServiceNow (NYSE:NOW) fell 5% in the afternoon session after a stronger-than-expected jobs report signaled that the Federal Reserve may keep interest rates higher for long…</div></div></div></div>
-<div class="section-label" style="margin-top:32px">General Market News</div>
-<div class="news-list"><div class="news-item">  <div class="news-item-source">CNBC</div>  <div class="news-item-headline"><a href="https://www.cnbc.com/2026/06/08/usaa-to-return-nearly-1-billion-to-florida-members-as-legal-reforms-help-lower-insurance-costs.html" target="_blank" rel="noopener">USAA to return nearly $1 billion to Florida members as legal reforms help lower insurance costs</a></div>  <div class="news-item-summary">USAA said it will deliver nearly $1 billion in combined savings and returns to eligible Florida members, including a $500 million dividend, CNBC can exclusively report.</div></div><div class="news-item">  <div class="news-item-source">CNBC</div>  <div class="news-item-headline"><a href="https://www.cnbc.com/2026/06/08/weight-loss-drug-stock-zealand-pharma-data-ada.html" target="_blank" rel="noopener">Weight loss drug maker sinks 25% after new safety data spooks investors</a></div>  <div class="news-item-summary">While the experimental drug met its key targets, analysts are concerned over the commercial opportunity due to side effects.</div></div><div class="news-item">  <div class="news-item-source">Reuters</div>  <div class="news-item-headline"><a href="https://news.google.com/rss/articles/CBMisAFBVV95cUxOMWJFcGZpeExSNGRHQXFXUmtzZ3RfVWg1Wnp5VDROODRub2JGVnpQNWRaeFN1dkdTTl9FZUc0RUNWOXkxWWRtY0Mxb20yYzBQdFcyWVlYc0FnQUZwVExYaGpLM0lQeGM4VDVTTkJ0bjZMV0xBR3JXZjRMeW4wNUE2NFpYWFJlSVJ5dHRhdE9pSjdzZ1I1Nld1UnVnaUxrZ0FmRW91bmRSSVg4OVMyR0NKdQ?oc=5" target="_blank" rel="noopener">Private jet market defies Iran war gloom as rich flock to Monaco GP, Cannes - Reuters</a></div>  <div class="news-item-summary">Private jet market defies Iran war gloom as rich flock to Monaco GP, Cannes  Reuters</div></div><div class="news-item">  <div class="news-item-source">Reuters</div>  <div class="news-item-headline"><a href="https://news.google.com/rss/articles/CBMipAFBVV95cUxNZWhTUXlxMHY0ZC1tTERXbkpUZ2NWUlRjSDVWQlBtVEw3SHV5S2RhV2sxakpIUWUzNzVZZnpBcUhaWjVvVnNZWXQtaFBkNXBSVldCNG9OTW5DdHo0c2tKR0VLWlVTbTJ0dHVZbzVLa0VMR2dha0ZDc0pLQkY0UWtMMnVoM29raUI4ZURlLUh3b1ZkN0xxZVQ1WGFxN1dhWFMzZHNiZQ?oc=5" target="_blank" rel="noopener">Iran blames US for latest exchanges of fire with Israel - Reuters</a></div>  <div class="news-item-summary">Iran blames US for latest exchanges of fire with Israel  Reuters</div></div><div class="news-item">  <div class="news-item-source">Reuters</div>  <div class="news-item-headline"><a href="https://news.google.com/rss/articles/CBMipwFBVV95cUxOY3Q3T2xKWFI3bFdfMUZtUTBjVmlKT3B3elNTaWlpNGtfUFFQWW92RDBsRjh2NndOMjhBVWc2TGZHeTlQNkR4Z0FHMDlIWVVVd2w4eEJ2RUFMVjAzV0RGV3FBdVpXUjdacFc5UHdWaVdPTExIN3hfeHZVdl92ektkbGY2YmtINFltQ0s1NE9ZWjNDVmxJbjc1YVJIWmZRQ0pVdng4dV9uMA?oc=5" target="_blank" rel="noopener">Oil market calm masks a host of unknowns - Reuters</a></div>  <div class="news-item-summary">Oil market calm masks a host of unknowns  Reuters</div></div><div class="news-item">  <div class="news-item-source">Reuters</div>  <div class="news-item-headline"><a href="https://news.google.com/rss/articles/CBMizAFBVV95cUxPVGtkUzZLTTYtZTBCYkJxWnBRc19MTXFOUDEwZ0FqclJuM3lyOHBkZjE5SXgtWkYxTjVBRlhoQ2FidTlRNEZDQnRRaTF6NXB2bWZpRVRubkFZX29qWHJ4MUtUbnprVVZRNmtxb0NPYW0yVE01SDdKR21idUFlV2FHdXBJMXlycTNxalVGVU1ucDZsZ3V6bi0zb3psaTRFRlZQeW1SS0RtQVpIQnc2MkFpN1dFVDh1QVRsUXFKb2pPZ3pzcWZwUFA0Q3FFWVk?oc=5" target="_blank" rel="noopener">Vietnam cbank vice governor says country will lean towards fiscal policy to meet growth target - Reuters</a></div>  <div class="news-item-summary">Vietnam cbank vice governor says country will lean towards fiscal policy to meet growth target  Reuters</div></div><div class="news-item">  <div class="news-item-source">Reuters</div>  <div class="news-item-headline"><a href="https://news.google.com/rss/articles/CBMirgFBVV95cUxQbXVNMEwtRjhrdXRXX1dQZXhzVklwR0gycXdSM1plSUxBa1Fkb0hlRlBMbURlYVhqUzBUN3Zaa3NZNVF4eGliYjgxQlJJZXZfdFBjX210c1BnVGJqdUh0eW5VOFVQZ3NHXzJkZGk1b2ZUVWRHTWJ1RlBKWjFJOTZLN1pTSGpydU9IaWFTS2lrNW9fcFg3SWRpdzNzcjZyT1RqeFFZNEs1a3hrTml0bkE?oc=5" target="_blank" rel="noopener">Bank of England's Taylor sees rates on hold barring worst-case scenario - Reuters</a></div>  <div class="news-item-summary">Bank of England's Taylor sees rates on hold barring worst-case scenario  Reuters</div></div><div class="news-item">  <div class="news-item-source">Reuters</div>  <div class="news-item-headline"><a href="https://news.google.com/rss/articles/CBMivgFBVV95cUxNZjVSOTNvREwzVnhncmx3eVFGWTFBNU1ocGtIbmhOSXhDdTVqNVNLek0xaS1EWVhfNURyU0lXSWRUV0ZfZ0RJSVhNaTdOc2V6SlNrQll2SkpNZHBGYWtObkdTOHdpRmRhMGVXdmdGejZ4clNoQlBYbVJqbTBsTGMwNFhwMTlpZ1ZSZ2ZIdm5hQ0t1VUo1cWxSeFdITU9lV1ZXLS10SEh2elREdDNTUkMwTTBMdDdMR0hqVlNYVDhn?oc=5" target="_blank" rel="noopener">Hormuz strait will be open but with transit fees, Iran envoy to Moscow quoted - Reuters</a></div>  <div class="news-item-summary">Hormuz strait will be open but with transit fees, Iran envoy to Moscow quoted  Reuters</div></div><div class="news-item">  <div class="news-item-source">Reuters</div>  <div class="news-item-headline"><a href="https://news.google.com/rss/articles/CBMi1AFBVV95cUxPMVVScGhlUWlOQl9KZk9nY2dHdV96RG9VWFVPSW9jaU80R3ZxQnlXTV84OVNldmtSQWpIZEFaNGhvYzljWVB1ajdWV01ueWVEY2JyaURkNnVxc0RBQl9NN2c5X2o1RWlGdzhiS1o2VVNnSzJ3a0lLYjQ3clRySG9pczJLLWg5WnFzOFZNbld1ZGZHYkFmNUFYVE9RazZxVTZXaDJrMU9aeDdxTUJqeXpKb1RVS01pdkI2OXM3NkcyNzNNZlJDU09aVkt2ai1UMTkxa3pWLQ?oc=5" target="_blank" rel="noopener">China's global e-commerce push stalls as Iran war lifts costs, dampens demand - Reuters</a></div>  <div class="news-item-summary">China's global e-commerce push stalls as Iran war lifts costs, dampens demand  Reuters</div></div><div class="news-item">  <div class="news-item-source">Reuters</div>  <div class="news-item-headline"><a href="https://news.google.com/rss/articles/CBMisAFBVV95cUxNRVc2R0NiNjh6dTIxSmR0OFdMaE1MRXAteVZWRVRRWXo2M1RnVHZRSFRPTEh5aXhreHlHZmdGeWRCRThLTUs1MWhGcUhJSmQxYjU2dWlGcmtzNEVxU1lDRVZlNUNHdG9VTDBFTEJkYkdpU2ZiZGdmUnhRYy1RNnN6U2lYMkFyOVYxdVpqWkFOQjFydFgzRi1ZTmNoLXFzUWpVTUJjNU1wU01VUVpPc0JaTw?oc=5" target="_blank" rel="noopener">Rupee slumps as elevated crude, Treasury yields support dollar - Reuters</a></div>  <div class="news-item-summary">Rupee slumps as elevated crude, Treasury yields support dollar  Reuters</div></div><div class="news-item">  <div class="news-item-source">Reuters</div>  <div class="news-item-headline"><a href="https://news.google.com/rss/articles/CBMitAFBVV95cUxQamkxU3JDUHZmTU8tdE05NUJXUFNyNm5WaWZJNFlLLUYxWjhyVXg1XzI2ZnRkZTFKV0IwVXBzR1JKdmVmX3BySVktZnlmVW5SeTE1Y0RaZW1rV2tuX3M4ZkMwVlA2SWcxck9ObkdPLTQweHNvRW53dnZhZlAwMHlvMGIwMHM0UG00UUxXdThMektUUHNBdFFlZXl1bjFNUGYyNmhzeS1mY04tZ25oMFAzM1l0eWE?oc=5" target="_blank" rel="noopener">Israeli military says it struck targets in western and central Iran - Reuters</a></div>  <div class="news-item-summary">Israeli military says it struck targets in western and central Iran  Reuters</div></div><div class="news-item">  <div class="news-item-source">Reuters</div>  <div class="news-item-headline"><a href="https://news.google.com/rss/articles/CBMimwFBVV95cUxPVjd4bHo0Sk1fN3U4OWtieHFoRkgxT0Y4OGxpa3lyc1RGb0MtaVNXVFlmRW1OQlNPaEZpVGFvUEtxUlFhUDJnMVNhNkpOOE52YmJQTUZNYjktTGk2R0FMc0VNTHpmNTFDbUk0RC1iUzVLMzR4eElLQk9icU1nWGRRRU8wYlgwMEpoQ1VKSTdyd185cWJ2cUlXdFpvOA?oc=5" target="_blank" rel="noopener">Gold hits over two-month low as strong US jobs data boosts rate-hike bets - Reuters</a></div>  <div class="news-item-summary">Gold hits over two-month low as strong US jobs data boosts rate-hike bets  Reuters</div></div><div class="news-item">  <div class="news-item-source">Reuters</div>  <div class="news-item-headline"><a href="https://news.google.com/rss/articles/CBMisAFBVV95cUxNbTR6aGlfWGhCWWdKS05SWUxZSDk0RU0zcVRxSDEzM3dYcWVubTExaTE4cTRpb3VnS2IxVFoyRUpqLTVhMEhXWkpCUjNDTmpCZUpra1lVMWY2X0xjel9xQmtIdnhMX1hWRmk1d09oZHd2MnlBNDhfaktHNEFRa1RqWmFZaW1aTlo1Sk8yM3NMaFYzeFNkRHU0aHlMRTU3RVBPOUlLVW9ydGY1ZEdxaHg5ZQ?oc=5" target="_blank" rel="noopener">Trump says Israel, Iran must 'stop shooting' after flurry of attacks - Reuters</a></div>  <div class="news-item-summary">Trump says Israel, Iran must 'stop shooting' after flurry of attacks  Reuters</div></div><div class="news-item">  <div class="news-item-source">Reuters</div>  <div class="news-item-headline"><a href="https://news.google.com/rss/articles/CBMirwFBVV95cUxOVTFEdmNLQllMX21mYlVVMTNLMG9rbWVPczRLT0REWFB5QUtFMXpRNnJaVXZ4T2JObXBMMXV6OXI4V09hOHdGdVpKT0RIZF8yX1RBN09QanpnNWYzaEZrSjYzWno0MW53aGszamNEM2ctZGdkYVlCekFhLU0zUVQzVXhHZVpRdmFHbTRvbVFTaWNGV2xyN19PdVB0N1hLbEdlQ05xREdDYVNXdHJHejRJ?oc=5" target="_blank" rel="noopener">India Inc hikes prices, shrinks packs as Iran war squeezes margins - Reuters</a></div>  <div class="news-item-summary">India Inc hikes prices, shrinks packs as Iran war squeezes margins  Reuters</div></div><div class="news-item">  <div class="news-item-source">CNBC</div>  <div class="news-item-headline"><a href="https://www.cnbc.com/2026/06/07/cramer-hyperscalers-are-now-the-epicenter-of-a-bear-case-for-stocks.html" target="_blank" rel="noopener">Why AI hyperscalers are now the epicenter of a bear case for stocks</a></div>  <div class="news-item-summary">In the near term, there are many mouths to feed and not enough to eat.</div></div></div>
+<div class="ticker-card tone-watch">
+  <div class="ticker-card-header">
+    <div class="ticker-card-id">
+      <span class="ticker">NOW</span>
+      <span class="ticker-fullname">ServiceNow Inc</span>
+    </div>
+    <span class="tone-badge tone-watch">Watch</span>
+  </div>
+  <div class="ticker-card-body">
+    <div class="ticker-why">ServiceNow shares fell 5% following stronger-than-expected jobs data, creating near-term rate sensitivity, yet enterprise workflow automation positioning aligns with OpenAI's pivot toward AI agents and enterprise control towers.</div>
+    <div class="ticker-factors">
+      <div class="ticker-factor">
+        <span class="factor-label bull-label">Possible Setup</span>
+        <span class="factor-text">Deep enterprise integration and workflow automation place NOW as critical control tower in AI-augmented future; beaten-down valuation now paired with accelerating growth narrative; OpenAI's agent-focused overhaul directly supports enterprise process automation demand.</span>
+      </div>
+      <div class="ticker-factor">
+        <span class="factor-label bear-label">Risk to Verify</span>
+        <span class="factor-text">Near-term rate hike expectations pressure SaaS valuations broadly; recent 5% pullback on rate signals suggests duration sensitivity; competitive dynamics with Salesforce and other enterprise software vendors; customer spending hesitation if recession fears resurface.</span>
+      </div>
+      <div class="ticker-factor">
+        <span class="factor-label verify-label">Worth Monitoring</span>
+        <span class="factor-text">Next earnings cycle for AI workflow adoption metrics and customer expansion rates; Fed rate guidance shifts; comparative valuation recovery vs. Salesforce; enterprise software sector rotation patterns as rate regime stabilizes; OpenAI partnership announcements or workflow integrations.</span>
+      </div>
+    </div>
+    <div class="ticker-source"><div class="source-placeholder"><span class="source-label">Source</span><span class="source-value">— SeekingAlpha, Yahoo Finance</span></div></div>
+  </div>
+</div>
+
+<div class="ticker-card tone-neutral">
+  <div class="ticker-card-header">
+    <div class="ticker-card-id">
+      <span class="ticker">VOO</span>
+      <span class="ticker-fullname">Vanguard S&P 500 ETF</span>
+    </div>
+    <span class="tone-badge tone-neutral">Neutral</span>
+  </div>
+  <div class="ticker-card-body">
+    <div class="ticker-why">VOO tracks broad-market S&P 500 exposure; currently navigating pivotal week of rate sensitivity and sector rotation as semiconductor weakness and mega-IPO capital flows pressure large-cap tech concentration.</div>
+    <div class="ticker-factors">
+      <div class="ticker-factor">
+        <span class="factor-label bull-label">Possible Setup</span>
+        <span class="factor-text">
+    </section>
+
+    <!-- ── Raw news feed ─────────────────────────────────────────────── -->
+    <!--
+      FUTURE — ADDITIONAL SOURCES
+      Connect earnings calendar, options flow, X posts here.
+    -->
+    <section class="section">
+      <div class="section-label">Watchlist News</div>
+<div class="ticker-block"><div class="ticker-block-header"><span class="ticker">VOO</span></div><div class="news-list"><div class="news-item"><div class="news-item-source">SeekingAlpha</div><div class="news-item-headline"><a href="https://finnhub.io/api/news?id=088376983f8d147f774f8160056778e8c67d2883b589c63d313eeb4dd6088c51" target="_blank" rel="noopener">Chart Of The Day: Here's Why 'Everything' Just Tanked</a></div><div class="news-item-summary">The MoneyShow Chart of the Day shows what interest rate futures markets have been pricing in for the likely level of the federal funds rate as of the Fedâs September meeting. Read more here.</div></div><div class="news-item"><div class="news-item-source">SeekingAlpha</div><div class="news-item-headline"><a href="https://finnhub.io/api/news?id=9b26f1068dd9fb66f18d13f55f2d8210b0d86e570e86df3b68cfe4c17b96b2f9" target="_blank" rel="noopener">Monthly Macro Monitor: Nothing To See Here</a></div><div class="news-item-summary">The employment report last week was also fairly positive, with the economy adding 172k jobs. That makes 4 of the last 5 months positive.</div></div><div class="news-item"><div class="news-item-source">Yahoo</div><div class="news-item-headline"><a href="https://finnhub.io/api/news?id=35911a9b3fd1a2059a75aac81214b7ba312ded6eca14a2116e3a00c3956bb340" target="_blank" rel="noopener">VOO vs. SPY: Which ETF Is the Best Way to Buy the S&P 500?</a></div><div class="news-item-summary">These ETFs will never beat the S&P 500 -- instead, they let you buy it.</div></div><div class="news-item"><div class="news-item-source">Yahoo</div><div class="news-item-headline"><a href="https://finnhub.io/api/news?id=7a38b1217760b5d5e04d63a8f6e880000c3064547802970514f9023b88dd68c0" target="_blank" rel="noopener">Investors: This Might Be the Easiest Way to Buy SpaceX, OpenAI, and Anthropic After Their IPOs</a></div><div class="news-item-summary">You can check off multiple boxes with one investment by going this route.</div></div><div class="news-item"><div class="news-item-source">SeekingAlpha</div><div class="news-item-headline"><a href="https://finnhub.io/api/news?id=f59db508576fedf0ea9d5fcccafe19d79069d23471bd16217a55c0bbadce709d" target="_blank" rel="noopener">A Critical Week For The Markets Ahead</a></div><div class="news-item-summary">Semiconductors, previously market leaders, saw the SOX drop over 10% Friday amid concerns of overextension and profit taking. Read why markets face a pivotal week.</div></div><div class="news-item"><div class="news-item-source">SeekingAlpha</div><div class="news-item-headline"><a href="https://finnhub.io/api/news?id=a1a17a90c7d1f89ad3122b675f535b3613ae48af2c73396e8846a052fde207ea" target="_blank" rel="noopener">What Do ETFs In Asia Mean For Investors In Today's Markets?</a></div><div class="news-item-summary">ETFs are no longer just entry points into markets. They're becoming tools investors are using to build portfolios, manage risk, and navigate increasingly complex conditions.</div></div><div class="news-item"><div class="news-item-source">Yahoo</div><div class="news-item-headline"><a href="https://finnhub.io/api/news?id=c58c40d42b582cceeeacdfa62f20df577b5f39c2a62878dc9dee35ad1b320dad" target="_blank" rel="noopener">1 Costly Mistake Too Many Investors Make With the Vanguard S&P 500 ETF (VOO)</a></div><div class="news-item-summary">Investors in the S&P 500 might not be getting quite what they think they are.</div></div><div class="news-item"><div class="news-item-source">Yahoo</div><div class="news-item-headline"><a href="https://finnhub.io/api/news?id=367f65f287a9e630bdcef5187b972b9932d17298364278f440bf481c4a413cda" target="_blank" rel="noopener">Is VEA the Smartest Investment You Can Make Right Now?</a></div><div class="news-item-summary">Your best long-term investment may not include U.S. stocks.</div></div></div></div>
+<div class="ticker-block"><div class="ticker-block-header"><span class="ticker">RDW</span></div><div class="news-list"><div class="news-item"><div class="news-item-source">Benzinga</div><div class="news-item-headline"><a href="https://finnhub.io/api/news?id=cbfc451bc648fb0ad552105e2abb48802288bde0fc64541cdbfc8d18cb095060" target="_blank" rel="noopener">Benzinga's 'Stock Whisper' Index: 5 Stocks Investors Secretly Monitor But Don't Talk About Yet</a></div><div class="news-item-summary">The Benzinga Stock Whisper Index highlights five stocks seeing increased investor interest during the week and looks at the catalysts driving attention.</div></div><div class="news-item"><div class="news-item-source">Benzinga</div><div class="news-item-headline"><a href="https://finnhub.io/api/news?id=c43a3bf00396f51b8e93e372e37fbebb8d6382863b29ae59ae704e72349bac73" target="_blank" rel="noopener">Benzinga Bulls And Bears: Dell, GameStop, Lululemon — And Stocks Take A Hit On Interest Rate Hike Fears</a></div><div class="news-item-summary">Benzinga examined the prospects for many investors&#39; favorite stocks over the last week — here&#39;s a look at some of our top stories.</div></div></div></div>
+<div class="ticker-block"><div class="ticker-block-header"><span class="ticker">MSFT</span></div><div class="news-list"><div class="news-item"><div class="news-item-source">Yahoo</div><div class="news-item-headline"><a href="https://finnhub.io/api/news?id=1a00782186f9db882a57fb50a7cb22a225ae79825326f3a46ad2a83f369f0728" target="_blank" rel="noopener">Market Chatter: Microsoft-Backed OpenAI Plans Major ChatGPT Overhaul as It Expands Focus Beyond Chatbots</a></div><div class="news-item-summary">Microsoft-backed (MSFT) OpenAI is preparing to shift its focus toward AI agents, coding tools and bu</div></div><div class="news-item"><div class="news-item-source">Yahoo</div><div class="news-item-headline"><a href="https://finnhub.io/api/news?id=5d96c4dcd4d171cc0bb93ea551ca202ebda993cb614a136b4b2cf23436701310" target="_blank" rel="noopener">SOXQ Semiconductor ETF Surges 181.74% as AI Chip Boom Lifts NVIDIA, Broadcom, AMD</a></div><div class="news-item-summary">The Invesco PHLX Semiconductor ETF (NASDAQ:SOXQ) has emerged as one of the cleanest, lowest-cost vehicles for direct semiconductor exposure during the AI capex cycle. The fund tracks the PHLX Semiconductor Sector Index, …</div></div><div class="news-item"><div class="news-item-source">Yahoo</div><div class="news-item-headline"><a href="https://finnhub.io/api/news?id=b8a1e4b3760a0aa3165e926ef8b89e2aa62316c9abe25375b85fe799f94a4c42" target="_blank" rel="noopener">Billionaire David Tepper Sold Most of Appaloosa's Position in Microsoft and Initiated a New Stake in an Artificial Intelligence (AI) Memory Stock Up Over 4,100% in the Past Year</a></div><div class="news-item-summary">Tepper is considered one of the best hedge fund managers and investors ever.</div></div><div class="news-item"><div class="news-item-source">SeekingAlpha</div><div class="news-item-headline"><a href="https://finnhub.io/api/news?id=c407ca52afb4c552a50c2c8387daa63fd3f54fca92d08a2c558be6fba9cb3e63" target="_blank" rel="noopener">3 AI Bottleneck Stocks I'm Buying As Markets Sell Off</a></div><div class="news-item-summary">AI infrastructure demand remains robust, driving hyperscalers to increase capex and fueling bottlenecks in CPUs, memory, and energy supply. Read what investors need to know.</div></div><div class="news-item"><div class="news-item-source">SeekingAlpha</div><div class="news-item-headline"><a href="https://finnhub.io/api/news?id=7a32764fb4acf1d498da125b42b132e0f0997704d3bc990fd8a9d65d7101b189" target="_blank" rel="noopener">Microsoft: The $37 Billion AI Question Investors Can't Ignore</a></div><div class="news-item-summary">Microsoft is well-positioned in the AI era, with Azure surpassing $75B annual revenue and an AI run rate at $37B. Learn why MSFT stock is a hold.</div></div><div class="news-item"><div class="news-item-source">SeekingAlpha</div><div class="news-item-headline"><a href="https://finnhub.io/api/news?id=ff7bc405867f5d2d57afcfe438453133658c30769539900c2f89015433e6159e" target="_blank" rel="noopener">Top 50 High-Quality Dividend Growth Stocks For June 2026</a></div><div class="news-item-summary">A curated universe of 50 high-quality dividend growth stocks identifies attractive entry points based on valuation and forward return potential. Check out the list here.</div></div><div class="news-item"><div class="news-item-source">SeekingAlpha</div><div class="news-item-headline"><a href="https://finnhub.io/api/news?id=43d2b746b07d37f09f750598fe01ec802ad1a7840036e1a14b559f5cf32c5a4c" target="_blank" rel="noopener">Alger AI Enablers & Adopters ETF Q1 2026 Portfolio Update</a></div><div class="news-item-summary">The Alger AI Enablers & Adopters ETF reported Q1 2026 performance, highlighting Western Digital and Nebius Group. Read the full analysis for more details.</div></div><div class="news-item"><div class="news-item-source">Yahoo</div><div class="news-item-headline"><a href="https://finnhub.io/api/news?id=25c969635d079f0a72345686832eaca2c49dcb7cf867b635974204d0bce38521" target="_blank" rel="noopener">Why Is NBIS Stock Rising Over 1% In Overnight Trading?</a></div><div class="news-item-summary">A few months ago, Nebius announced a $10 billion data center project in Finland that, when completed, would be Europe's largest.</div></div></div></div>
+<div class="ticker-block"><div class="ticker-block-header"><span class="ticker">AVGO</span></div><div class="news-list"><div class="news-item"><div class="news-item-source">Yahoo</div><div class="news-item-headline"><a href="https://finnhub.io/api/news?id=5d96c4dcd4d171cc0bb93ea551ca202ebda993cb614a136b4b2cf23436701310" target="_blank" rel="noopener">SOXQ Semiconductor ETF Surges 181.74% as AI Chip Boom Lifts NVIDIA, Broadcom, AMD</a></div><div class="news-item-summary">The Invesco PHLX Semiconductor ETF (NASDAQ:SOXQ) has emerged as one of the cleanest, lowest-cost vehicles for direct semiconductor exposure during the AI capex cycle. The fund tracks the PHLX Semiconductor Sector Index, …</div></div><div class="news-item"><div class="news-item-source">Yahoo</div><div class="news-item-headline"><a href="https://finnhub.io/api/news?id=ebf3755cac05d616ad578edaaa36a00a51e179e79a0c015216283d208bba309b" target="_blank" rel="noopener">SMCX Sank 67% in a Year While the Underlying Stock Rose 2%</a></div><div class="news-item-summary">A 2x daily leveraged ETF that owns nothing but swaps on a single AI server stock did what 2x daily leveraged ETFs on single AI server stocks do when the AI server trade breaks. Defiance Daily Target 2X Long SMCI ETF (NAS…</div></div><div class="news-item"><div class="news-item-source">SeekingAlpha</div><div class="news-item-headline"><a href="https://finnhub.io/api/news?id=c4e77ef6fc77c187ee6495ec405bde8032673f93f157878f574e214cda0f7455" target="_blank" rel="noopener">Broadcom's Selloff Misses The Bigger Story</a></div><div class="news-item-summary">Broadcom combines record profitability, a massive AI backlog, multi-year hyperscaler commitments, and visibility through 2028. Learn more about AVGO stock here.</div></div><div class="news-item"><div class="news-item-source">ChartMill</div><div class="news-item-headline"><a href="https://finnhub.io/api/news?id=fea71b83251297a46139608a57760cb1c4bf2df6536777aa7809d8e2e2d37fef" target="_blank" rel="noopener">The Nasdaq Just Had Its Worst Day In Over A Year. The Jobs Market Lit The Fuse.</a></div><div class="news-item-summary">The Nasdaq lost 4.2% in its worst day since April 2025 after a blowout jobs report doubled rate hike odds. Chips got crushed, Meta reportedly eyes a massive equity raise, and SpaceX's record $75B IPO is days away.</div></div><div class="news-item"><div class="news-item-source">Yahoo</div><div class="news-item-headline"><a href="https://finnhub.io/api/news?id=2321e595e6e4e4e36fd0def90d23e4b2e4bd55de84fe4a202bf3d239e6682518" target="_blank" rel="noopener">‘Yet another way in which 2026 is looking like 1999’: Top analyst fears bubble popping with investors and Wall Street out over their skis</a></div><div class="news-item-summary">The Nasdaq's sudden lurch lower on Friday looked like a crack in a story that had seemed, until recently, almost bulletproof.</div></div><div class="news-item"><div class="news-item-source">Yahoo</div><div class="news-item-headline"><a href="https://finnhub.io/api/news?id=d7ebf57cdeac048add122273f15f98794b2cd49f536b4fd309b73833ebcc2f02" target="_blank" rel="noopener">Stocks tumble, oil jumps amid tech rout, Iran tensions</a></div><div class="news-item-summary">STORY: Asian stocks plunged on Monday morning as investors hit the brakes on the red-hot AI rally.South Korea’s tech-heavy KOSPI index took the heaviest beating.It was down around 6% by late-morning after volatile trade …</div></div><div class="news-item"><div class="news-item-source">SeekingAlpha</div><div class="news-item-headline"><a href="https://finnhub.io/api/news?id=ebefca251ba3d629699c8f044dba2bd160be0df8e140f92135c1f47c9cba3ade" target="_blank" rel="noopener">Broadcom: The Market Overreacted To The AI Guidance Optics</a></div><div class="news-item-summary">Broadcom is down ~20% after Q2, creating a potential buy-the-dip setup as AI revenue surged. Click here to read on the AVGO stock.</div></div><div class="news-item"><div class="news-item-source">Yahoo</div><div class="news-item-headline"><a href="https://finnhub.io/api/news?id=1bbce07cd5a3f7c50e88e3da67142ddaf3ffc84a9dafb4399cba3ca920cd8a80" target="_blank" rel="noopener">MRVL Vs AVGO: Which Custom AI Chipmaker Has Bigger Upside Potential?</a></div><div class="news-item-summary">Broadcom and Marvell are both key AI infrastructure chipmakers in the market, but Broadcom operates on a much larger scale.</div></div></div></div>
+<div class="ticker-block"><div class="ticker-block-header"><span class="ticker">NOW</span></div><div class="news-list"><div class="news-item"><div class="news-item-source">SeekingAlpha</div><div class="news-item-headline"><a href="https://finnhub.io/api/news?id=cdbdcb37b51facc06f37b23c7d6d383b154305c49350f6a9a4477a8b2d78f576" target="_blank" rel="noopener">ServiceNow: SaaS Fears Have Created A Great Entry Point</a></div><div class="news-item-summary">ServiceNow's deep enterprise integration and trusted workflow position it as a critical control tower in an AI-augmented future. See why NOW stock is a strong buy.</div></div><div class="news-item"><div class="news-item-source">Yahoo</div><div class="news-item-headline"><a href="https://finnhub.io/api/news?id=fdc305a23976f8d22daeb078aec750df50f28e92eeb03b50057f1d59198522f7" target="_blank" rel="noopener">AI stock mania is taking over the markets in 2026</a></div><div class="news-item-summary">It was a mind-blowing week for the AI trade, with only one reasonable conclusion.</div></div><div class="news-item"><div class="news-item-source">Yahoo</div><div class="news-item-headline"><a href="https://finnhub.io/api/news?id=0bae35ff05844523e801f8c640c03551df37f2caa40d4290b61a67cd95608c29" target="_blank" rel="noopener">Is Salesforce or ServiceNow a Better Stock to Buy Right Now?</a></div><div class="news-item-summary">Both enterprise software stocks have been beaten down this year, but only one pairs that discount with accelerating growth</div></div><div class="news-item"><div class="news-item-source">Benzinga</div><div class="news-item-headline"><a href="https://finnhub.io/api/news?id=c43a3bf00396f51b8e93e372e37fbebb8d6382863b29ae59ae704e72349bac73" target="_blank" rel="noopener">Benzinga Bulls And Bears: Dell, GameStop, Lululemon — And Stocks Take A Hit On Interest Rate Hike Fears</a></div><div class="news-item-summary">Benzinga examined the prospects for many investors&#39; favorite stocks over the last week — here&#39;s a look at some of our top stories.</div></div><div class="news-item"><div class="news-item-source">Yahoo</div><div class="news-item-headline"><a href="https://finnhub.io/api/news?id=0914cce1db9050cbb452b2368e9a23da822e547bb33f8ba91a79449b0be8c0a0" target="_blank" rel="noopener">Why ServiceNow (NOW) Shares Are Falling Today</a></div><div class="news-item-summary">Shares of enterprise workflow automation company ServiceNow (NYSE:NOW) fell 5% in the afternoon session after a stronger-than-expected jobs report signaled that the Federal Reserve may keep interest rates higher for long…</div></div></div></div>
+<div class="section-label" style="margin-top:24px">General Market News</div>
+<div class="news-list"><div class="news-item"><div class="news-item-source">CNBC</div><div class="news-item-headline"><a href="https://www.cnbc.com/2026/06/08/usaa-to-return-nearly-1-billion-to-florida-members-as-legal-reforms-help-lower-insurance-costs.html" target="_blank" rel="noopener">USAA to return nearly $1 billion to Florida members as legal reforms help lower insurance costs</a></div><div class="news-item-summary">USAA said it will deliver nearly $1 billion in combined savings and returns to eligible Florida members, including a $500 million dividend, CNBC can exclusively report.</div></div><div class="news-item"><div class="news-item-source">CNBC</div><div class="news-item-headline"><a href="https://www.cnbc.com/2026/06/08/weight-loss-drug-stock-zealand-pharma-data-ada.html" target="_blank" rel="noopener">Weight loss drug maker sinks 25% after new safety data spooks investors</a></div><div class="news-item-summary">While the experimental drug met its key targets, analysts are concerned over the commercial opportunity due to side effects.</div></div><div class="news-item"><div class="news-item-source">Reuters</div><div class="news-item-headline"><a href="https://news.google.com/rss/articles/CBMisAFBVV95cUxOMWJFcGZpeExSNGRHQXFXUmtzZ3RfVWg1Wnp5VDROODRub2JGVnpQNWRaeFN1dkdTTl9FZUc0RUNWOXkxWWRtY0Mxb20yYzBQdFcyWVlYc0FnQUZwVExYaGpLM0lQeGM4VDVTTkJ0bjZMV0xBR3JXZjRMeW4wNUE2NFpYWFJlSVJ5dHRhdE9pSjdzZ1I1Nld1UnVnaUxrZ0FmRW91bmRSSVg4OVMyR0NKdQ?oc=5" target="_blank" rel="noopener">Private jet market defies Iran war gloom as rich flock to Monaco GP, Cannes - Reuters</a></div><div class="news-item-summary">Private jet market defies Iran war gloom as rich flock to Monaco GP, Cannes  Reuters</div></div><div class="news-item"><div class="news-item-source">Reuters</div><div class="news-item-headline"><a href="https://news.google.com/rss/articles/CBMipAFBVV95cUxNZWhTUXlxMHY0ZC1tTERXbkpUZ2NWUlRjSDVWQlBtVEw3SHV5S2RhV2sxakpIUWUzNzVZZnpBcUhaWjVvVnNZWXQtaFBkNXBSVldCNG9OTW5DdHo0c2tKR0VLWlVTbTJ0dHVZbzVLa0VMR2dha0ZDc0pLQkY0UWtMMnVoM29raUI4ZURlLUh3b1ZkN0xxZVQ1WGFxN1dhWFMzZHNiZQ?oc=5" target="_blank" rel="noopener">Iran blames US for latest exchanges of fire with Israel - Reuters</a></div><div class="news-item-summary">Iran blames US for latest exchanges of fire with Israel  Reuters</div></div><div class="news-item"><div class="news-item-source">Reuters</div><div class="news-item-headline"><a href="https://news.google.com/rss/articles/CBMipwFBVV95cUxOY3Q3T2xKWFI3bFdfMUZtUTBjVmlKT3B3elNTaWlpNGtfUFFQWW92RDBsRjh2NndOMjhBVWc2TGZHeTlQNkR4Z0FHMDlIWVVVd2w4eEJ2RUFMVjAzV0RGV3FBdVpXUjdacFc5UHdWaVdPTExIN3hfeHZVdl92ektkbGY2YmtINFltQ0s1NE9ZWjNDVmxJbjc1YVJIWmZRQ0pVdng4dV9uMA?oc=5" target="_blank" rel="noopener">Oil market calm masks a host of unknowns - Reuters</a></div><div class="news-item-summary">Oil market calm masks a host of unknowns  Reuters</div></div><div class="news-item"><div class="news-item-source">Reuters</div><div class="news-item-headline"><a href="https://news.google.com/rss/articles/CBMizAFBVV95cUxPVGtkUzZLTTYtZTBCYkJxWnBRc19MTXFOUDEwZ0FqclJuM3lyOHBkZjE5SXgtWkYxTjVBRlhoQ2FidTlRNEZDQnRRaTF6NXB2bWZpRVRubkFZX29qWHJ4MUtUbnprVVZRNmtxb0NPYW0yVE01SDdKR21idUFlV2FHdXBJMXlycTNxalVGVU1ucDZsZ3V6bi0zb3psaTRFRlZQeW1SS0RtQVpIQnc2MkFpN1dFVDh1QVRsUXFKb2pPZ3pzcWZwUFA0Q3FFWVk?oc=5" target="_blank" rel="noopener">Vietnam cbank vice governor says country will lean towards fiscal policy to meet growth target - Reuters</a></div><div class="news-item-summary">Vietnam cbank vice governor says country will lean towards fiscal policy to meet growth target  Reuters</div></div><div class="news-item"><div class="news-item-source">Reuters</div><div class="news-item-headline"><a href="https://news.google.com/rss/articles/CBMirgFBVV95cUxQbXVNMEwtRjhrdXRXX1dQZXhzVklwR0gycXdSM1plSUxBa1Fkb0hlRlBMbURlYVhqUzBUN3Zaa3NZNVF4eGliYjgxQlJJZXZfdFBjX210c1BnVGJqdUh0eW5VOFVQZ3NHXzJkZGk1b2ZUVWRHTWJ1RlBKWjFJOTZLN1pTSGpydU9IaWFTS2lrNW9fcFg3SWRpdzNzcjZyT1RqeFFZNEs1a3hrTml0bkE?oc=5" target="_blank" rel="noopener">Bank of England's Taylor sees rates on hold barring worst-case scenario - Reuters</a></div><div class="news-item-summary">Bank of England's Taylor sees rates on hold barring worst-case scenario  Reuters</div></div><div class="news-item"><div class="news-item-source">Reuters</div><div class="news-item-headline"><a href="https://news.google.com/rss/articles/CBMivgFBVV95cUxNZjVSOTNvREwzVnhncmx3eVFGWTFBNU1ocGtIbmhOSXhDdTVqNVNLek0xaS1EWVhfNURyU0lXSWRUV0ZfZ0RJSVhNaTdOc2V6SlNrQll2SkpNZHBGYWtObkdTOHdpRmRhMGVXdmdGejZ4clNoQlBYbVJqbTBsTGMwNFhwMTlpZ1ZSZ2ZIdm5hQ0t1VUo1cWxSeFdITU9lV1ZXLS10SEh2elREdDNTUkMwTTBMdDdMR0hqVlNYVDhn?oc=5" target="_blank" rel="noopener">Hormuz strait will be open but with transit fees, Iran envoy to Moscow quoted - Reuters</a></div><div class="news-item-summary">Hormuz strait will be open but with transit fees, Iran envoy to Moscow quoted  Reuters</div></div><div class="news-item"><div class="news-item-source">Reuters</div><div class="news-item-headline"><a href="https://news.google.com/rss/articles/CBMi1AFBVV95cUxPMVVScGhlUWlOQl9KZk9nY2dHdV96RG9VWFVPSW9jaU80R3ZxQnlXTV84OVNldmtSQWpIZEFaNGhvYzljWVB1ajdWV01ueWVEY2JyaURkNnVxc0RBQl9NN2c5X2o1RWlGdzhiS1o2VVNnSzJ3a0lLYjQ3clRySG9pczJLLWg5WnFzOFZNbld1ZGZHYkFmNUFYVE9RazZxVTZXaDJrMU9aeDdxTUJqeXpKb1RVS01pdkI2OXM3NkcyNzNNZlJDU09aVkt2ai1UMTkxa3pWLQ?oc=5" target="_blank" rel="noopener">China's global e-commerce push stalls as Iran war lifts costs, dampens demand - Reuters</a></div><div class="news-item-summary">China's global e-commerce push stalls as Iran war lifts costs, dampens demand  Reuters</div></div><div class="news-item"><div class="news-item-source">Reuters</div><div class="news-item-headline"><a href="https://news.google.com/rss/articles/CBMisAFBVV95cUxNRVc2R0NiNjh6dTIxSmR0OFdMaE1MRXAteVZWRVRRWXo2M1RnVHZRSFRPTEh5aXhreHlHZmdGeWRCRThLTUs1MWhGcUhJSmQxYjU2dWlGcmtzNEVxU1lDRVZlNUNHdG9VTDBFTEJkYkdpU2ZiZGdmUnhRYy1RNnN6U2lYMkFyOVYxdVpqWkFOQjFydFgzRi1ZTmNoLXFzUWpVTUJjNU1wU01VUVpPc0JaTw?oc=5" target="_blank" rel="noopener">Rupee slumps as elevated crude, Treasury yields support dollar - Reuters</a></div><div class="news-item-summary">Rupee slumps as elevated crude, Treasury yields support dollar  Reuters</div></div><div class="news-item"><div class="news-item-source">Reuters</div><div class="news-item-headline"><a href="https://news.google.com/rss/articles/CBMitAFBVV95cUxQamkxU3JDUHZmTU8tdE05NUJXUFNyNm5WaWZJNFlLLUYxWjhyVXg1XzI2ZnRkZTFKV0IwVXBzR1JKdmVmX3BySVktZnlmVW5SeTE1Y0RaZW1rV2tuX3M4ZkMwVlA2SWcxck9ObkdPLTQweHNvRW53dnZhZlAwMHlvMGIwMHM0UG00UUxXdThMektUUHNBdFFlZXl1bjFNUGYyNmhzeS1mY04tZ25oMFAzM1l0eWE?oc=5" target="_blank" rel="noopener">Israeli military says it struck targets in western and central Iran - Reuters</a></div><div class="news-item-summary">Israeli military says it struck targets in western and central Iran  Reuters</div></div><div class="news-item"><div class="news-item-source">Reuters</div><div class="news-item-headline"><a href="https://news.google.com/rss/articles/CBMimwFBVV95cUxPVjd4bHo0Sk1fN3U4OWtieHFoRkgxT0Y4OGxpa3lyc1RGb0MtaVNXVFlmRW1OQlNPaEZpVGFvUEtxUlFhUDJnMVNhNkpOOE52YmJQTUZNYjktTGk2R0FMc0VNTHpmNTFDbUk0RC1iUzVLMzR4eElLQk9icU1nWGRRRU8wYlgwMEpoQ1VKSTdyd185cWJ2cUlXdFpvOA?oc=5" target="_blank" rel="noopener">Gold hits over two-month low as strong US jobs data boosts rate-hike bets - Reuters</a></div><div class="news-item-summary">Gold hits over two-month low as strong US jobs data boosts rate-hike bets  Reuters</div></div><div class="news-item"><div class="news-item-source">Reuters</div><div class="news-item-headline"><a href="https://news.google.com/rss/articles/CBMisAFBVV95cUxNbTR6aGlfWGhCWWdKS05SWUxZSDk0RU0zcVRxSDEzM3dYcWVubTExaTE4cTRpb3VnS2IxVFoyRUpqLTVhMEhXWkpCUjNDTmpCZUpra1lVMWY2X0xjel9xQmtIdnhMX1hWRmk1d09oZHd2MnlBNDhfaktHNEFRa1RqWmFZaW1aTlo1Sk8yM3NMaFYzeFNkRHU0aHlMRTU3RVBPOUlLVW9ydGY1ZEdxaHg5ZQ?oc=5" target="_blank" rel="noopener">Trump says Israel, Iran must 'stop shooting' after flurry of attacks - Reuters</a></div><div class="news-item-summary">Trump says Israel, Iran must 'stop shooting' after flurry of attacks  Reuters</div></div><div class="news-item"><div class="news-item-source">Reuters</div><div class="news-item-headline"><a href="https://news.google.com/rss/articles/CBMirwFBVV95cUxOVTFEdmNLQllMX21mYlVVMTNLMG9rbWVPczRLT0REWFB5QUtFMXpRNnJaVXZ4T2JObXBMMXV6OXI4V09hOHdGdVpKT0RIZF8yX1RBN09QanpnNWYzaEZrSjYzWno0MW53aGszamNEM2ctZGdkYVlCekFhLU0zUVQzVXhHZVpRdmFHbTRvbVFTaWNGV2xyN19PdVB0N1hLbEdlQ05xREdDYVNXdHJHejRJ?oc=5" target="_blank" rel="noopener">India Inc hikes prices, shrinks packs as Iran war squeezes margins - Reuters</a></div><div class="news-item-summary">India Inc hikes prices, shrinks packs as Iran war squeezes margins  Reuters</div></div><div class="news-item"><div class="news-item-source">CNBC</div><div class="news-item-headline"><a href="https://www.cnbc.com/2026/06/07/cramer-hyperscalers-are-now-the-epicenter-of-a-bear-case-for-stocks.html" target="_blank" rel="noopener">Why AI hyperscalers are now the epicenter of a bear case for stocks</a></div><div class="news-item-summary">In the near term, there are many mouths to feed and not enough to eat.</div></div></div>
     </section>
 
     <!-- ── Footer ────────────────────────────────────────────────────── -->
-    <!--
-      FUTURE — NEWSLETTER INPUT
-      Replace the static disclaimer with a subscribe form here.
-    -->
     <footer class="footer">
       <div class="footer-disclaimer">
-        Auto-generated from public news feeds and FRED economic data.<br>
-        For personal use only &mdash; not investment advice.
+        Research purposes only &mdash; not investment advice.<br>
+        Auto-generated from public news feeds and FRED economic data.
       </div>
-      <div class="footer-build">
-        morning-brief &middot; Monday, June 8, 2026
-      </div>
+      <div class="footer-build">morning-brief &middot; Monday, June 8, 2026</div>
     </footer>
 
   </div>
@@ -481,19 +1026,21 @@
 
     function getMarketStatus() {
       const now = new Date();
-      // Convert to US/Eastern
-      const et = new Date(now.toLocaleString("en-US", { timeZone: "America/New_York" }));
+      const et  = new Date(now.toLocaleString("en-US", { timeZone: "America/New_York" }));
       const h = et.getHours(), m = et.getMinutes(), s = et.getSeconds();
-      const dow = et.getDay(); // 0=Sun, 6=Sat
-      const dateStr = et.toISOString().slice(0, 10);
+      const dow = et.getDay();
+      const dateStr = [
+        et.getFullYear(),
+        pad(et.getMonth() + 1),
+        pad(et.getDate())
+      ].join("-");
 
       const totalSec = h * 3600 + m * 60 + s;
       const openSec  = 9 * 3600 + 30 * 60;
       const closeSec = 16 * 3600;
       const preSec   = 4 * 3600;
 
-      function countdown(targetSec) {
-        const diff = targetSec - totalSec;
+      function fmt(diff) {
         const hh = Math.floor(diff / 3600);
         const mm = Math.floor((diff % 3600) / 60);
         const ss = diff % 60;
@@ -505,9 +1052,9 @@
       if (dow === 0 || dow === 6)
         return { label: "Weekend — market closed", color: "var(--down)" };
       if (totalSec >= openSec && totalSec < closeSec)
-        return { label: `Market Open — closes in ${countdown(closeSec)}`, color: "var(--up)" };
+        return { label: `Market Open — closes in ${fmt(closeSec - totalSec)}`, color: "var(--up)" };
       if (totalSec >= preSec && totalSec < openSec)
-        return { label: `Pre-Market — opens in ${countdown(openSec)}`, color: "#f0b429" };
+        return { label: `Pre-Market — opens in ${fmt(openSec - totalSec)}`, color: "var(--warn)" };
       return { label: "Market Closed", color: "var(--down)" };
     }
 
@@ -515,8 +1062,7 @@
       const el = document.getElementById("market-status-live");
       if (!el) return;
       const { label, color } = getMarketStatus();
-      el.innerHTML =
-        `<span class="status-dot" style="background:${color}"></span>${label}`;
+      el.innerHTML = `<span class="status-dot" style="background:${color}"></span>${label}`;
       el.style.color = color;
     }
 
